@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "guido-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/guido/GuidoWebPart.js",
+          "manifest": "./src/webparts/guido/GuidoWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "GuidoWebPartStrings": "lib/webparts/guido/loc/{locale}.js"
+  }
+}
