@@ -1,25 +1,20 @@
 import * as React from 'react';
 import styles from './Guido.module.scss';
-import { IGuidoProps } from './IGuidoProps';
+import { IGuidoWebPartProps } from '../GuidoWebPart';
 import { escape } from '@microsoft/sp-lodash-subset';
+import * as Fabric from 'office-ui-fabric-react';
 
-export default class Guido extends React.Component<IGuidoProps, {}> {
-  public render(): React.ReactElement<IGuidoProps> {
-    return (
-      <div className={ styles.guido }>
-        <div className={ styles.container }>
-          <div className={ styles.row }>
-            <div className={ styles.column }>
-              <span className={ styles.title }>Welcome to SharePoint!</span>
-              <p className={ styles.subTitle }>Customize SharePoint experiences using Web Parts.</p>
-              <p className={ styles.description }>{escape(this.props.description)}</p>
-              <a href="https://aka.ms/spfx" className={ styles.button }>
-                <span className={ styles.label }>Learn more</span>
-              </a>
-            </div>
-          </div>
+export default function GuidoWebPart(props: IGuidoWebPartProps) {
+  return (
+    <div className={styles.container}>
+      <div className={styles.row}>
+        <div className={styles.column}>
+          <span className={styles.title}>Welcome to SharePoint!</span>
+          <p>Customize SharePoint experiences using Web Parts.</p>
+          <p>{escape(props.description)}</p>
+          <Fabric.PrimaryButton href="https://aka.ms/spfx">Learn more</Fabric.PrimaryButton>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
