@@ -12,37 +12,37 @@ import "@pnp/sp/lists";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
-  const [paramsParsed, setParamsParsed] = useState(null);
+    const [paramsParsed, setParamsParsed] = useState(null);
 
-  useEffect(() => {
-    if (!paramsParsed) {
-      let parsed = parse(location.search);
-      console.log("URL params: ", parsed);
-      setParamsParsed(parsed);
-    }
-  });
+    useEffect(() => {
+        if (!paramsParsed) {
+            let parsed = parse(location.search);
+            console.log("URL params: ", parsed);
+            setParamsParsed(parsed);
+        }
+    });
 
-  const listsTest = async() => {
-    console.log(sp.web.lists);
-    console.log(sp.web.lists.length);
-    const listAddResult = await sp.web.lists.add("My new list");
-  };
+    const listsTest = async() => {
+        console.log(sp.web.lists);
+        console.log(sp.web.lists.length);
+        const listAddResult = await sp.web.lists.add("My new list");
+    };
 
-  const dev = () => {
-    console.log("nanoid: ", nanoid(5));
-    // listsTest();
-  };
+    const dev = () => {
+        console.log("nanoid: ", nanoid(5));
+        // listsTest();
+    };
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.row}>
-        <div className={styles.column}>
-          <span className={styles.title}>Welcome to SharePoint!</span>
-          <p>Customize SharePoint experiences using Web Parts.</p>
-          <p>{escape(props.description)}</p>
-          <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+    return (
+        <div className={styles.container}>
+            <div className={styles.row}>
+                <div className={styles.column}>
+                    <span className={styles.title}>Welcome to SharePoint!</span>
+                    <p>Customize SharePoint experiences using Web Parts.</p>
+                    <p>{escape(props.description)}</p>
+                    <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
