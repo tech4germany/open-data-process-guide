@@ -5,13 +5,24 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import * as Fabric from 'office-ui-fabric-react';
 import { nanoid } from 'nanoid';
 import { parse } from 'query-string';
+import { sp } from "@pnp/sp";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
+
+  const listsTest = async() => {
+    console.log(sp.web.lists);
+    console.log(sp.web.lists.length);
+    const listAddResult = await sp.web.lists.add("My new list");
+  };
 
   const dev = () => {
     console.log("nanoid: ", nanoid(5));
     let parsed = parse(location.search);
     console.log("URL params: ", parsed);
+
+    listsTest();
   };
 
   return (
