@@ -9,6 +9,7 @@ import { parse } from 'query-string';
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
+import TestComponent from './TestComponent';
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -41,6 +42,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     <p>Customize SharePoint experiences using Web Parts.</p>
                     <p>{escape(props.description)}</p>
                     <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+                    <br/>
+                    <TestComponent/>
                 </div>
             </div>
         </div>
