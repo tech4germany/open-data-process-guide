@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from "react";
 import styles from './Guido.module.scss';
 import { IGuidoWebPartProps } from '../GuidoWebPart';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -11,6 +12,16 @@ import "@pnp/sp/lists";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
+  const [paramsParsed, setParamsParsed] = useState(null);
+
+  useEffect(() => {
+    if (!paramsParsed) {
+      let parsed = parse(location.search);
+      console.log("URL params: ", parsed);
+      setParamsParsed(parsed);
+    }
+  });
+
   const listsTest = async() => {
     console.log(sp.web.lists);
     console.log(sp.web.lists.length);
@@ -19,10 +30,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
   const dev = () => {
     console.log("nanoid: ", nanoid(5));
-    let parsed = parse(location.search);
-    console.log("URL params: ", parsed);
-
-    listsTest();
+    // listsTest();
   };
 
   return (
