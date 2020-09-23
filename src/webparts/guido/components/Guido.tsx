@@ -10,6 +10,7 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import TestComponent from './TestComponent';
+import { Process } from "../model/Process";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -32,6 +33,9 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
+        let process: Process = new Process("proc");
+        console.log(process.func());
+        console.log(process.name);
     };
 
     return (
