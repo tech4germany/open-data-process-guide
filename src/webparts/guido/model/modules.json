@@ -1,0 +1,27 @@
+{
+    "fields": {
+        "responsible": {
+            "title": "Person responsible",
+            "type": "string"
+        }
+    },
+    "modules": {
+        "publish-data": {
+            "name": "Publish Data",
+            "description": "The data needs to be permanently and publicly accessible via an URL",
+            "fields": {
+                "ref": "responsible",
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "license": {
+            "name": "Determine license",
+            "description": "",
+            "fields": {
+                "ref": "responsible"
+            }
+        }
+    }
+}
