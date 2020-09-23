@@ -1,10 +1,10 @@
-import * as modulesConfig from './modules.json';
+import * as config from './config.json';
 
 export class Module {
     public config: any;
 
     constructor(public id: string) {
-        this.config = modulesConfig.modules[id];
+        this.config = config.modules[id];
 
         let fieldsUncompressed = {};
         let fieldKeys = Object.keys(this.config.fields);
@@ -12,7 +12,7 @@ export class Module {
             let key = fieldKeys[i];
             let val = this.config.fields[key];
             if (key === 'ref') {
-                fieldsUncompressed[val] = modulesConfig.fields[val];
+                fieldsUncompressed[val] = config.fields[val];
             } else {
                 fieldsUncompressed[key] = val;
             }
