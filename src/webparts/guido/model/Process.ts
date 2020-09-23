@@ -1,10 +1,12 @@
+import {Module} from "./Module";
+
 export class Process {
 
-    public something: string = null;
+    public modules: Module[] = [];
 
     constructor(public name: string) {}
 
-    public func(): string {
-        return "foo";
+    public setModules(moduleIDs: string[]): void {
+        this.modules = moduleIDs.map(id => new Module(id));
     }
 }

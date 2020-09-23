@@ -33,9 +33,9 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
-        let process: Process = new Process("proc");
-        console.log(process.func());
-        console.log(process.name);
+        let process: Process = new Process("OpenDataProzessAA");
+        process.setModules(['publish-data', 'license']);
+        console.log(process);
     };
 
     return (
