@@ -10,7 +10,7 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import TestComponent from './TestComponent';
-import { Process } from "../model/Process";
+import {Model} from "../model/Model";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -33,9 +33,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
-        let process: Process = new Process("OpenDataProzessAA");
-        process.setModules(['publish-data', 'license']);
-        console.log(process);
+        let model: Model = new Model();
     };
 
     return (

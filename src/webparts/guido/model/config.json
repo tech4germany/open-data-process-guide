@@ -23,5 +23,15 @@
                 "ref": "responsible"
             }
         }
+    },
+    "processes": {
+        "GuidoAA": {
+            "name": "Open Data Process Guide AA",
+            "description": "The process of publishing Open Data in the Federal Foreign Office",
+            "modules": [
+                "publish-data",
+                "license"
+            ]
+        }
     }
 }
