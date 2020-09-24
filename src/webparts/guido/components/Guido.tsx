@@ -24,8 +24,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             setParamsParsed(parsed);
         }
         if (!model) {
-            let model: Model = new Model()
-            setModel(model);
+            // let model: Model = new Model();
+            setModel(new Model());
         }
     });
 

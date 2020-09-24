@@ -18,7 +18,7 @@ export class Module {
             }
         }
 
-        this.config.fields = fieldsUncompressed
+        this.config.fields = fieldsUncompressed;
     }
 
 }
