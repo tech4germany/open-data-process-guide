@@ -12,7 +12,13 @@
             "fields": {
                 "ref": "responsible",
                 "url": {
+                    "title": "URL to published data",
                     "type": "string"
+                },
+                "url-accessibility": {
+                    "title": "Is the URL publicly accessible?",
+                    "type": "boolean",
+                    "hint": "If unsure, see if you can download it when opening the URL in an incognito browser window while being connected through a mobile hotspot"
                 }
             }
         },
