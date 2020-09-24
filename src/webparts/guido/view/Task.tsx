@@ -23,7 +23,7 @@ export default function Task(props: ITaskProps) {
                 <b>{module.config.name}</b>
                 <br/>
                 {module.config.description}
-                <br/>
+                <br/><br/>
                 {Object.keys(module.config.fields).map(fieldKey => <Field key={'field_' + fieldKey} details={module.config.fields[fieldKey]}/>)}
             </>
         )
