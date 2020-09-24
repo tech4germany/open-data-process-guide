@@ -10,6 +10,7 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import {Model} from "../model/Model";
+import Case from "../view/Case";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -49,6 +50,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
                     <br/>
                     <br/>
+                    {model && <Case process={model.processes[0]}/>}
                 </div>
             </div>
         </div>
