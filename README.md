@@ -27,3 +27,12 @@ npm install
 gulp serve
 ```
 
+---
+
+<details>
+
+<summary>fold out example</summary>
+
+Cool right?! :sunglasses:
+
+</details>
