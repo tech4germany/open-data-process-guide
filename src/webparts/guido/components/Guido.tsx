@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import styles from './Guido.module.scss';
 import { IGuidoWebPartProps } from '../GuidoWebPart';
 import { escape } from '@microsoft/sp-lodash-subset';
-import * as Fabric from 'office-ui-fabric-react';
 import { nanoid } from 'nanoid';
 import { parse } from 'query-string';
 import { sp } from "@pnp/sp";
@@ -38,6 +37,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
+        // <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
     };
 
     return (
@@ -46,7 +46,6 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <div className={styles.column}>
                     <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                     &nbsp;&nbsp;
-                    <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
                     <br/><br/><br/>
                     {model && <Case process={model.processes[0]}/>}
                 </div>
