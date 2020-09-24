@@ -9,7 +9,6 @@ import { parse } from 'query-string';
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
-import TestComponent from './TestComponent';
 import {Model} from "../model/Model";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
@@ -45,7 +44,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     <p>{escape(props.description)}</p>
                     <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
                     <br/>
-                    <TestComponent/>
+                    <br/>
                 </div>
             </div>
         </div>
