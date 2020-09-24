@@ -44,12 +44,10 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         <div className={styles.container}>
             <div className={styles.row}>
                 <div className={styles.column}>
-                    <span className={styles.title}>Welcome to SharePoint!</span>
-                    <p>Customize SharePoint experiences using Web Parts.</p>
-                    <p>{escape(props.description)}</p>
+                    <span className={styles.title}>Welcome to {escape(props.description)}!</span>
+                    <br/>
                     <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
-                    <br/>
-                    <br/>
+                    <br/><br/><br/>
                     {model && <Case process={model.processes[0]}/>}
                 </div>
             </div>
