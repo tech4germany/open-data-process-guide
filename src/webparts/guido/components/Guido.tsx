@@ -14,12 +14,17 @@ import {Model} from "../model/Model";
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     const [paramsParsed, setParamsParsed] = useState(null);
+    const [model, setModel] = useState(null);
 
     useEffect(() => {
         if (!paramsParsed) {
             let parsed = parse(location.search);
             console.log("URL params: ", parsed);
             setParamsParsed(parsed);
+        }
+        if (!model) {
+            let model: Model = new Model()
+            setModel(model);
         }
     });
 
@@ -32,7 +37,6 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
-        let model: Model = new Model();
     };
 
     return (
