@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import {Process} from "../model/Process";
 import Task from "./Task";
+import * as Fabric from "office-ui-fabric-react";
 
 export interface ICaseProps {
     process: Process;
@@ -11,21 +12,29 @@ export default function Case(props: ICaseProps) {
 
     const [process, setProcess] = useState(null);
     const [step, setStep] = useState(0);
-    const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         if (!process) {
             setProcess(props.process);
-            setTasks(props.process.modules.map(module => <Task module={module}/>))
         }
     });
 
+    const nextStep = () => {
+        if (step < process.modules.length - 1) {
+            setStep(step + 1);
+        }
+    };
+
     return (
-        tasks.length > 0 && (
+        process && (
             <>
-                <i>Step: {step + 1}/{tasks.length}</i>
+                <i>Step: {step + 1}/{process.modules.length}</i>
                 <br/><br/>
-                {tasks[step]}
+                <Task module={process.modules[step]}/>
+                <br/><br/>
+                <div style={{ textAlign: 'right' }}>
+                    <Fabric.PrimaryButton onClick={nextStep}>Next</Fabric.PrimaryButton>
+                </div>
             </>
         )
     );

@@ -45,7 +45,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             <div className={styles.row}>
                 <div className={styles.column}>
                     <span className={styles.title}>Welcome to {escape(props.description)}!</span>
-                    <br/>
+                    &nbsp;&nbsp;
                     <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
                     <br/><br/><br/>
                     {model && <Case process={model.processes[0]}/>}

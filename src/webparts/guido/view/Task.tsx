@@ -11,7 +11,7 @@ export default function Task(props: ITaskProps) {
     const [module, setModule] = useState(null);
 
     useEffect(() => {
-        if (!module) {
+        if (props.module !== module) {
             setModule(props.module);
         }
     });
