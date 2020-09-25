@@ -24,7 +24,6 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         }
         if (!model) {
             // let model: Model = new Model();
-            setModel(new Model());
         }
     });
 
@@ -40,12 +39,25 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         // <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
     };
 
+    const handleChange = (file: File) => {
+        let reader = new FileReader();
+        reader.onload = e => {
+            // setModel(new Model(reader.result.toString()));
+            setModel(new Model());
+        }
+        reader.readAsText(file);
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.row}>
                 <div className={styles.column}>
                     <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                     &nbsp;&nbsp;
+                    <br/><br/><br/>
+                    {!model &&
+                        <input type="file" onChange={e => handleChange(e.target.files[0])}/>
+                    }
                     <br/><br/><br/>
                     {model && <Case process={model.processes[0]}/>}
                 </div>
