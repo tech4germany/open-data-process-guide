@@ -30,8 +30,9 @@
             }
         }
     },
-    "processes": {
-        "GuidoAA": {
+    "processes": [
+        {
+            "id": "GuidoAA",
             "name": "Open Data Process Guide AA",
             "description": "The process of publishing Open Data in the Federal Foreign Office",
             "modules": [
@@ -39,5 +40,5 @@
                 "license"
             ]
         }
-    }
+    ]
 }

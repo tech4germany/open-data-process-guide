@@ -14,15 +14,13 @@ export class Model {
 
     constructor() {
         // import processes defined in config.json
-        let processIDs = Object.keys(config.processes);
-        for (let i = 0; i < processIDs.length; i++) {
-            this.importFromJSON(config.processes[processIDs[i]]);
+        for (let i = 0; i < config.processes.length; i++) {
+            this.importFromJSON(config.processes[i]);
         }
     }
 
     public importFromJSON(processConfig: any): void {
-        let process: Process = new Process(processConfig.name);
-        process.setModules(processConfig.modules);
+        let process: Process = new Process(processConfig);
         this.processes.push(process);
     }
 
