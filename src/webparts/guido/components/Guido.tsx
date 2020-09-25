@@ -43,7 +43,13 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const handleChange = (file: File) => {
         let reader = new FileReader();
         reader.onload = e => {
-            // reader.result.toString()
+            let content = reader.result.toString();
+            if (addingProcessVia === 'json') {
+                model.importFromJSON(JSON.parse(content));
+            }
+            if (addingProcessVia === 'bpmn') {
+                model.importFromBPMN(content);
+            }
             setAddingProcessVia(null);
         }
         reader.readAsText(file);

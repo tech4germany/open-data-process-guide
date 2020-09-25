@@ -13,14 +13,20 @@ export class Model {
     public processes: Process[] = [];
 
     constructor() {
+        // import processes defined in config.json
         let processIDs = Object.keys(config.processes);
         for (let i = 0; i < processIDs.length; i++) {
-            let processConfig = config.processes[processIDs[i]];
-            let process: Process = new Process(processConfig.name);
-            process.setModules(processConfig.modules);
-            this.processes.push(process);
+            this.importFromJSON(config.processes[processIDs[i]]);
         }
-        console.log(this.processes);
     }
 
+    public importFromJSON(processConfig: any): void {
+        let process: Process = new Process(processConfig.name);
+        process.setModules(processConfig.modules);
+        this.processes.push(process);
+    }
+
+    public importFromBPMN(xml: any): void {
+        // TODO
+    }
 }
