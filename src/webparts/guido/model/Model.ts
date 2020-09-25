@@ -1,5 +1,6 @@
 import * as config from './config.json';
 import { Process } from "./Process";
+import BpmnModdle from 'bpmn-moddle';
 
 export class Model {
 
@@ -24,7 +25,16 @@ export class Model {
         this.processes.push(process);
     }
 
-    public importFromBPMN(xml: any): void {
-        // TODO
+    public importFromBPMN(xmlStr: string): void {
+        this.BPMNfromXML(xmlStr);
     }
+
+    public BPMNfromXML = async(xmlStr: string) => {
+        const moddle = new BpmnModdle();
+        const { rootElement: definitions } = await moddle.fromXML(xmlStr);
+        let elements = definitions.rootElements[0].flowElements;
+        console.log("elements", elements);
+        // elements[0]['$type']
+    };
+
 }
