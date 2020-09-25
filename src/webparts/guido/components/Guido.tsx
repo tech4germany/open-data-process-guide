@@ -15,6 +15,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     const [paramsParsed, setParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
+    const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
 
     useEffect(() => {
         if (!paramsParsed) {
@@ -23,7 +24,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             setParamsParsed(parsed);
         }
         if (!model) {
-            // let model: Model = new Model();
+            setModel(new Model());
         }
     });
 
@@ -42,8 +43,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const handleChange = (file: File) => {
         let reader = new FileReader();
         reader.onload = e => {
-            // setModel(new Model(reader.result.toString()));
-            setModel(new Model());
+            // reader.result.toString()
+            setAddingProcessVia(null);
         }
         reader.readAsText(file);
     }
@@ -55,11 +56,20 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                     &nbsp;&nbsp;
                     <br/><br/><br/>
-                    {!model &&
-                        <input type="file" onChange={e => handleChange(e.target.files[0])}/>
+                    {model &&
+                        <>
+                            <b>Processes</b>:<br/>
+                            {model.processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
+                            <br/>
+                            Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or <a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
+                            <br/><br/>
+                            {addingProcessVia &&
+                                <input type="file" onChange={e => handleChange(e.target.files[0])}/>
+                            }
+                        </>
                     }
-                    <br/><br/><br/>
-                    {model && <Case process={model.processes[0]}/>}
+                    <hr/>
+                    {/*model && <Case process={model.processes[0]}/>*/}
                 </div>
             </div>
         </div>
