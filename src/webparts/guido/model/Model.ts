@@ -26,11 +26,11 @@ export class Model {
         this.processes.push(process);
     }
 
-    public importFromBPMN(xmlStr: string): void {
-        this.BPMNfromXML(xmlStr);
+    public importFromBPMN(xmlStr: string, fileName: string): void {
+        this.BPMNfromXML(xmlStr, fileName);
     }
 
-    public BPMNfromXML = async(xmlStr: string) => {
+    public BPMNfromXML = async(xmlStr: string, fileName: string) => {
         const moddle = new BpmnModdle();
         const { rootElement: definitions } = await moddle.fromXML(xmlStr);
         let process = definitions.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process

@@ -48,7 +48,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 model.importFromJSON(JSON.parse(content));
             }
             if (addingProcessVia === 'bpmn') {
-                model.importFromBPMN(content);
+                model.importFromBPMN(content, file.name);
             }
             setAddingProcessVia(null);
         }
