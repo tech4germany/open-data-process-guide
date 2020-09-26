@@ -35,10 +35,16 @@ export default function Dashboard(props: IDashboardProps) {
         reader.readAsText(file);
     };
 
+    const startCase = procId => {
+        // TODO
+    };
+
     return (
         props.model && <>
             <b>Processes</b>:<br/>
-            {processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
+            {processes.map((proc, idx) =>
+                <li key={'proc_' + idx}>{proc.name} <a href='#' onClick={() => startCase(proc.id)}>start case</a></li>)
+            }
             <br/>
             Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
             {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
