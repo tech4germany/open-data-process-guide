@@ -32,9 +32,33 @@ export class Model {
     public BPMNfromXML = async(xmlStr: string) => {
         const moddle = new BpmnModdle();
         const { rootElement: definitions } = await moddle.fromXML(xmlStr);
-        let elements = definitions.rootElements[0].flowElements;
-        console.log("elements", elements);
-        // elements[0]['$type']
+        let process = definitions.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
+        let lanesEl = process.laneSets[0].lanes;
+
+        let elements = {};
+        let startEvent;
+        let lanes = {};
+        lanesEl.map(laneEl => {
+            lanes[laneEl.id] = laneEl;
+            laneEl.flowNodeRef.map(el => {
+                el.inLane = laneEl.id;
+                elements[el.id] = el;
+                if (el['$type'] === 'bpmn:StartEvent') {
+                    startEvent = el;
+                }
+            });
+        });
+
+        let orderedTasks = [];
+        let currentElement = startEvent;
+        while (currentElement['$type'] !== 'bpmn:EndEvent') {
+            let sequenceFlow = currentElement.outgoing[0]; // = "edge" = "arrow"
+            currentElement = elements[sequenceFlow.targetRef.id];
+            orderedTasks.push(currentElement);
+        }
+        orderedTasks.pop(); // remove EndEvent
+
+        // TODO
     };
 
 }
