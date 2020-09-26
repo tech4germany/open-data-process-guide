@@ -9,13 +9,12 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import {Model} from "../model/Model";
-import Case from "../view/Case";
+import Dashboard from "../view/Dashboard";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     const [paramsParsed, setParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
-    const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
 
     useEffect(() => {
         if (!paramsParsed) {
@@ -40,39 +39,13 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         // <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
     };
 
-    const handleChange = (file: File) => {
-        let reader = new FileReader();
-        reader.onload = e => {
-            let content = reader.result.toString();
-            if (addingProcessVia === 'json') {
-                model.importFromJSON(JSON.parse(content));
-            }
-            if (addingProcessVia === 'bpmn') {
-                model.importFromBPMN(content, file.name);
-            }
-            setAddingProcessVia(null);
-        }
-        reader.readAsText(file);
-    }
-
     return (
         <div className={styles.container}>
             <div className={styles.row}>
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                 &nbsp;&nbsp;
                 <br/><br/><br/>
-                {model &&
-                    <>
-                        <b>Processes</b>:<br/>
-                        {model.processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
-                        <br/>
-                        Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or <a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
-                        <br/><br/>
-                        {addingProcessVia &&
-                            <input type="file" onChange={e => handleChange(e.target.files[0])}/>
-                        }
-                    </>
-                }
+                {model && <Dashboard model={model}/>}
                 <hr/>
                 {/*model && <Case process={model.processes[0]}/>*/}
             </div>
