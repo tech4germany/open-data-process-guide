@@ -8,6 +8,7 @@ export interface IDashboardProps {
 
 export default function Dashboard(props: IDashboardProps) {
 
+    const [processes, setProcesses] = useState([]);
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
 
     const handleChange = (file: File) => {
@@ -15,10 +16,13 @@ export default function Dashboard(props: IDashboardProps) {
         reader.onload = e => {
             let content = reader.result.toString();
             if (addingProcessVia === 'json') {
-                props.model.importFromJSON(JSON.parse(content));
+                let proc = props.model.importFromJSON(JSON.parse(content));
+                setProcesses([...processes, proc]);
             }
             if (addingProcessVia === 'bpmn') {
-                props.model.importFromBPMN(content, file.name);
+                props.model.importFromBPMN(content, file.name).then(proc => {
+                    setProcesses([...processes, proc]);
+                });
             }
             setAddingProcessVia(null);
         }
@@ -28,7 +32,7 @@ export default function Dashboard(props: IDashboardProps) {
     return (
         props.model && <>
             <b>Processes</b>:<br/>
-            {props.model.processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
+            {processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
             <br/>
             Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or <a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
             <br/><br/>

@@ -11,7 +11,7 @@ export class Model {
      An instantiated process we call "case" containing instantiated modules we call "tasks".
      */
 
-    public processes: Process[] = [];
+    // public processes: Process[] = [];
 
     constructor() {
         // import processes defined in config.json
@@ -20,15 +20,15 @@ export class Model {
         }
     }
 
-    public importFromJSON(processConfig: any): void {
+    public importFromJSON(processConfig: any): Process {
         let process: Process = new Process(processConfig.id, processConfig.name);
         process.setModules(processConfig.modules);
-        this.processes.push(process);
+        return process;
     }
 
-    public importFromBPMN(xmlStr: string, fileName: string): void {
+    public importFromBPMN(xmlStr: string, fileName: string): Promise<Process> {
         const moddle = new BpmnModdle();
-        moddle.fromXML(xmlStr).then(parsed => {
+        return moddle.fromXML(xmlStr).then(parsed => {
             let processEl = parsed.rootElement.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
             let lanesEl = processEl.laneSets[0].lanes;
 
@@ -57,8 +57,7 @@ export class Model {
 
             let process: Process = new Process(fileName, fileName);
             process.setModules(orderedTasks.map(task => task.name));
-            this.processes.push(process);
-            console.log(process);
+            return process;
         });
     };
 
