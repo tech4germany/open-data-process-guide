@@ -45,7 +45,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                 &nbsp;&nbsp;
                 <br/><br/><br/>
-                {model && <Dashboard model={model}/>}
+                <Dashboard model={model}/>
                 <hr/>
                 {/*model && <Case process={model.processes[0]}/>*/}
             </div>

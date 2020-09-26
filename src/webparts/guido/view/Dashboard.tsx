@@ -26,7 +26,7 @@ export default function Dashboard(props: IDashboardProps) {
     }
 
     return (
-        <>
+        props.model && <>
             <b>Processes</b>:<br/>
             {props.model.processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
             <br/>
