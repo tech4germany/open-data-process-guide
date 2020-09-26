@@ -27,14 +27,15 @@ export default function Dashboard(props: IDashboardProps) {
             setAddingProcessVia(null);
         }
         reader.readAsText(file);
-    }
+    };
 
     return (
         props.model && <>
             <b>Processes</b>:<br/>
             {processes.map((proc, idx) => <li key={'proc_' + idx}>{proc.name}</li>)}
             <br/>
-            Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or <a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
+            Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
+            {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
             <br/><br/>
             {addingProcessVia &&
                 <input type="file" onChange={e => handleChange(e.target.files[0])}/>
