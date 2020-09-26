@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {Model} from "../model/Model";
 
 export interface IDashboardProps {
@@ -10,6 +10,12 @@ export default function Dashboard(props: IDashboardProps) {
 
     const [processes, setProcesses] = useState([]);
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
+
+    useEffect(() => {
+        if (props.model && processes.length === 0) {
+            setProcesses(props.model.importFromConfig());
+        }
+    });
 
     const handleChange = (file: File) => {
         let reader = new FileReader();

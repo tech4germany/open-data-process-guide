@@ -13,11 +13,11 @@ export class Model {
 
     // public processes: Process[] = [];
 
-    constructor() {
+    constructor() {}
+
+    public importFromConfig(): Process[] {
         // import processes defined in config.json
-        for (let i = 0; i < config.processes.length; i++) {
-            this.importFromJSON(config.processes[i]);
-        }
+        return config.processes.map(processConfig => this.importFromJSON(processConfig));
     }
 
     public importFromJSON(processConfig: any): Process {
