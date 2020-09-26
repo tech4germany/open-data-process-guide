@@ -33,8 +33,8 @@ export class Model {
     public BPMNfromXML = async(xmlStr: string, fileName: string) => {
         const moddle = new BpmnModdle();
         const { rootElement: definitions } = await moddle.fromXML(xmlStr);
-        let process = definitions.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
-        let lanesEl = process.laneSets[0].lanes;
+        let processEl = definitions.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
+        let lanesEl = processEl.laneSets[0].lanes;
 
         let elements = {};
         let startEvent;
@@ -59,7 +59,9 @@ export class Model {
         }
         orderedTasks.pop(); // remove EndEvent
 
-        // TODO
+        let process: Process = new Process(fileName, fileName);
+        process.setModules(orderedTasks.map(task => task.name));
+        this.processes.push(process);
     };
 
 }
