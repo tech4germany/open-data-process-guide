@@ -21,7 +21,8 @@ export class Model {
     }
 
     public importFromJSON(processConfig: any): void {
-        let process: Process = new Process(processConfig);
+        let process: Process = new Process(processConfig.id, processConfig.name);
+        process.setModules(processConfig.modules);
         this.processes.push(process);
     }
 
