@@ -27,41 +27,39 @@ export class Model {
     }
 
     public importFromBPMN(xmlStr: string, fileName: string): void {
-        this.BPMNfromXML(xmlStr, fileName);
-    }
-
-    public BPMNfromXML = async(xmlStr: string, fileName: string) => {
         const moddle = new BpmnModdle();
-        const { rootElement: definitions } = await moddle.fromXML(xmlStr);
-        let processEl = definitions.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
-        let lanesEl = processEl.laneSets[0].lanes;
+        moddle.fromXML(xmlStr).then(parsed => {
+            let processEl = parsed.rootElement.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
+            let lanesEl = processEl.laneSets[0].lanes;
 
-        let elements = {};
-        let startEvent;
-        let lanes = {};
-        lanesEl.map(laneEl => {
-            lanes[laneEl.id] = laneEl;
-            laneEl.flowNodeRef.map(el => {
-                el.inLane = laneEl.id;
-                elements[el.id] = el;
-                if (el['$type'] === 'bpmn:StartEvent') {
-                    startEvent = el;
-                }
+            let elements = {};
+            let startEvent;
+            let lanes = {};
+            lanesEl.map(laneEl => {
+                lanes[laneEl.id] = laneEl;
+                laneEl.flowNodeRef.map(el => {
+                    el.inLane = laneEl.id;
+                    elements[el.id] = el;
+                    if (el['$type'] === 'bpmn:StartEvent') {
+                        startEvent = el;
+                    }
+                });
             });
+
+            let orderedTasks = [];
+            let currentElement = startEvent;
+            while (currentElement['$type'] !== 'bpmn:EndEvent') {
+                let sequenceFlow = currentElement.outgoing[0]; // = "edge" = "arrow"
+                currentElement = elements[sequenceFlow.targetRef.id];
+                orderedTasks.push(currentElement);
+            }
+            orderedTasks.pop(); // remove EndEvent
+
+            let process: Process = new Process(fileName, fileName);
+            process.setModules(orderedTasks.map(task => task.name));
+            this.processes.push(process);
+            console.log(process);
         });
-
-        let orderedTasks = [];
-        let currentElement = startEvent;
-        while (currentElement['$type'] !== 'bpmn:EndEvent') {
-            let sequenceFlow = currentElement.outgoing[0]; // = "edge" = "arrow"
-            currentElement = elements[sequenceFlow.targetRef.id];
-            orderedTasks.push(currentElement);
-        }
-        orderedTasks.pop(); // remove EndEvent
-
-        let process: Process = new Process(fileName, fileName);
-        process.setModules(orderedTasks.map(task => task.name));
-        this.processes.push(process);
     };
 
 }
