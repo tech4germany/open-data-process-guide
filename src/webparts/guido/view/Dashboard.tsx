@@ -8,12 +8,12 @@ export interface IDashboardProps {
 
 export default function Dashboard(props: IDashboardProps) {
 
-    const [processes, setProcesses] = useState([]);
+    const [processIDs, setProcessIds] = useState([]);
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
 
     useEffect(() => {
-        if (props.model && processes.length === 0) {
-            setProcesses(props.model.importFromConfig());
+        if (props.model && processIDs.length === 0) {
+            setProcessIds(props.model.getProcessIDs());
         }
     });
 
@@ -22,12 +22,12 @@ export default function Dashboard(props: IDashboardProps) {
         reader.onload = e => {
             let content = reader.result.toString();
             if (addingProcessVia === 'json') {
-                let proc = props.model.importFromJSON(JSON.parse(content));
-                setProcesses([...processes, proc]);
+                let procId = props.model.importFromJSON(JSON.parse(content));
+                setProcessIds([...processIDs, procId]);
             }
             if (addingProcessVia === 'bpmn') {
-                props.model.importFromBPMN(content, file.name).then(proc => {
-                    setProcesses([...processes, proc]);
+                props.model.importFromBPMN(content, file.name).then(procId => {
+                    setProcessIds([...processIDs, procId]);
                 });
             }
             setAddingProcessVia(null);
@@ -42,8 +42,8 @@ export default function Dashboard(props: IDashboardProps) {
     return (
         props.model && <>
             <b>Processes</b>:<br/>
-            {processes.map((proc, idx) =>
-                <li key={'proc_' + idx}>{proc.name} <a href='#' onClick={() => startCase(proc.id)}>start case</a></li>)
+            {processIDs.map((procId, idx) =>
+                <li key={'proc_' + idx}>{props.model.getProcessByID(procId).name} <a href='#' onClick={() => startCase(procId)}>start case</a></li>)
             }
             <br/>
             Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or

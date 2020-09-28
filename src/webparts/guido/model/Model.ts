@@ -11,22 +11,33 @@ export class Model {
      An instantiated process we call "case" containing instantiated modules we call "tasks".
      */
 
-    // public processes: Process[] = [];
+    public processes: Process[] = []; // use map instead?
 
-    constructor() {}
-
-    public importFromConfig(): Process[] {
-        // import processes defined in config.json
-        return config.processes.map(processConfig => this.importFromJSON(processConfig));
+    constructor() {
+        this.importFromConfig();
     }
 
-    public importFromJSON(processConfig: any): Process {
+    public getProcessByID(id: string): Process {
+        return this.processes.filter(proc => proc.id === id)[0];
+    }
+
+    public getProcessIDs(): string[] {
+        return this.processes.map(proc => proc.id);
+    }
+
+    public importFromConfig(): void {
+        // import processes defined in config.json
+        config.processes.map(processConfig => this.importFromJSON(processConfig));
+    }
+
+    public importFromJSON(processConfig: any): string {
         let process: Process = new Process(processConfig.id, processConfig.name);
         process.setModules(processConfig.modules);
-        return process;
+        this.processes.push(process);
+        return process.id;
     }
 
-    public importFromBPMN(xmlStr: string, fileName: string): Promise<Process> {
+    public importFromBPMN(xmlStr: string, fileName: string): Promise<string> {
         const moddle = new BpmnModdle();
         return moddle.fromXML(xmlStr).then(parsed => {
             let processEl = parsed.rootElement.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
@@ -57,7 +68,8 @@ export class Model {
 
             let process: Process = new Process(fileName, fileName);
             process.setModules(orderedTasks.map(task => task.name));
-            return process;
+            this.processes.push(process);
+            return process.id;
         });
     };
 
