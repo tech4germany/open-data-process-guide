@@ -62,9 +62,12 @@ export class Model {
             while (currentElement['$type'] !== 'bpmn:EndEvent') {
                 let sequenceFlow = currentElement.outgoing[0]; // = "edge" = "arrow"
                 currentElement = elements[sequenceFlow.targetRef.id];
-                orderedTasks.push(currentElement);
+                if (currentElement['$type'] !== 'bpmn:EndEvent') { // TODO solve this nicer
+                    orderedTasks.push(currentElement);
+                    console.log(lanes[currentElement.inLane].name + ' is responsible for ' + currentElement.name);
+                }
             }
-            orderedTasks.pop(); // remove EndEvent
+            // orderedTasks.pop(); // remove EndEvent
 
             let process: Process = new Process(fileName, fileName);
             process.setModules(orderedTasks.map(task => task.name));
