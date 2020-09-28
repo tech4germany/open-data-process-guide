@@ -10,8 +10,10 @@
             "name": "Prepare Data",
             "description": "Check if the data meets the standards for open publication, e.g. spell out internal abbreviations",
             "fields": {
-                "title": "Is the data prepared?",
-                "type": "boolean"
+                "preparedness": {
+                    "title": "Is the data prepared?",
+                    "type": "boolean"
+                }
             }
         },
         "publish-data": {
