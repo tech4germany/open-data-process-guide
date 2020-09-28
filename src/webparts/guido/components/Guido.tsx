@@ -46,8 +46,6 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 &nbsp;&nbsp;
                 <br/><br/><br/>
                 <Dashboard model={model}/>
-                <hr/>
-                {/*model && <Case process={model.processes[0]}/>*/}
             </div>
         </div>
     );

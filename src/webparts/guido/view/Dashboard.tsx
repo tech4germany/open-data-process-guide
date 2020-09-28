@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import {Model} from "../model/Model";
+import Case from "./Case";
 
 export interface IDashboardProps {
     model: Model;
@@ -10,6 +11,7 @@ export default function Dashboard(props: IDashboardProps) {
 
     const [processIDs, setProcessIds] = useState([]);
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
+    const [activeCase, setActiveCase] = useState(null); // a Process object
 
     useEffect(() => {
         if (props.model && processIDs.length === 0) {
@@ -36,7 +38,7 @@ export default function Dashboard(props: IDashboardProps) {
     };
 
     const startCase = procId => {
-        // TODO
+        setActiveCase(props.model.getProcessByID(procId));
     };
 
     return (
@@ -51,6 +53,14 @@ export default function Dashboard(props: IDashboardProps) {
             <br/><br/>
             {addingProcessVia &&
                 <input type="file" onChange={e => handleChange(e.target.files[0])}/>
+            }
+            {activeCase &&
+                <>
+                    <br/>
+                    <hr/>
+                    <br/>
+                    <Case process={activeCase}/>
+                </>
             }
         </>
     );
