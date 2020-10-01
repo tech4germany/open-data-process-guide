@@ -8,9 +8,10 @@ import { parse } from 'query-string';
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
-import {Model} from "../model/Model";
+import { Model } from "../model/Model";
 import Dashboard from "../view/Dashboard";
 import * as Fabric from "office-ui-fabric-react";
+import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -34,15 +35,17 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         const listAddResult = await sp.web.lists.add("My new list");
     };
 
+    const isDevEnv = (): boolean => {
+        return Environment.type === EnvironmentType.Local;
+        // EnvironmentType.SharePoint, EnvironmentType.ClassicSharePoint
+    };
+
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
         console.log(props.context);
         let title = props.context.pageContext.web.title;
         console.log(title, props.context.pageContext.user);
-        if (title === 'Local Workbench') {
-            console.log('In local workbench')
-        }
     };
 
     return (
