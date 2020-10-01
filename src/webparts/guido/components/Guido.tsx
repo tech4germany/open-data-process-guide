@@ -5,13 +5,11 @@ import { IGuidoWebPartProps } from '../GuidoWebPart';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { nanoid } from 'nanoid';
 import { parse } from 'query-string';
-import { sp } from "@pnp/sp";
-import "@pnp/sp/webs";
-import "@pnp/sp/lists";
 import { Model } from "../model/Model";
 import Dashboard from "../view/Dashboard";
 import * as Fabric from "office-ui-fabric-react";
 import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
+import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -29,10 +27,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         }
     });
 
-    const listsTest = async() => {
-        console.log(sp.web.lists);
-        console.log(sp.web.lists.length);
-        const listAddResult = await sp.web.lists.add("My new list");
+    const getListData = (): Promise<any> => {
+        let url = props.context.pageContext.web.absoluteUrl + '/_api/web/lists?$filter=Hidden eq false';
+        return props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+            .then((response: SPHttpClientResponse) => {
+                return response.json();
+            });
     };
 
     const isDevEnv = (): boolean => {
@@ -42,10 +42,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
-        // listsTest();
         console.log(props.context);
         let title = props.context.pageContext.web.title;
         console.log(title, props.context.pageContext.user);
+        getListData().then(resp => {
+            console.log("getListData()", resp);
+        });
     };
 
     return (
