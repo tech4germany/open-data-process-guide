@@ -13,6 +13,7 @@ import { IGuidoProps } from './components/IGuidoProps';
 
 export interface IGuidoWebPartProps {
     description: string;
+    context: any;
 }
 
 export default class GuidoWebPart extends BaseClientSideWebPart<IGuidoWebPartProps> {
@@ -21,7 +22,8 @@ export default class GuidoWebPart extends BaseClientSideWebPart<IGuidoWebPartPro
         const element: React.ReactElement<IGuidoProps> = React.createElement(
             Guido,
             {
-                description: this.properties.description
+                description: this.properties.description,
+                context: this.context
             }
         );
 

@@ -10,6 +10,7 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import {Model} from "../model/Model";
 import Dashboard from "../view/Dashboard";
+import * as Fabric from "office-ui-fabric-react";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -36,12 +37,14 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const dev = () => {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
-        // <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+        console.log(props.context);
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.row}>
+                <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+                <br/><br/>
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                 &nbsp;&nbsp;
                 <br/><br/><br/>
