@@ -38,6 +38,11 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         console.log("nanoid: ", nanoid(5));
         // listsTest();
         console.log(props.context);
+        let title = props.context.pageContext.web.title;
+        console.log(title, props.context.pageContext.user);
+        if (title === 'Local Workbench') {
+            console.log('In local workbench')
+        }
     };
 
     return (
