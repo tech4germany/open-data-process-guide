@@ -9,7 +9,10 @@ import { Model } from "../model/Model";
 import Dashboard from "../view/Dashboard";
 import * as Fabric from "office-ui-fabric-react";
 import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+import { sp } from "@pnp/sp";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -27,27 +30,24 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         }
     });
 
-    const getListData = (): Promise<any> => {
-        let url = props.context.pageContext.web.absoluteUrl + '/_api/web/lists?$filter=Hidden eq false';
-        return props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
-            .then((response: SPHttpClientResponse) => {
-                return response.json();
-            });
-    };
-
     const isDevEnv = (): boolean => {
         return Environment.type === EnvironmentType.Local;
         // EnvironmentType.SharePoint, EnvironmentType.ClassicSharePoint
     };
 
+    const listsTest = async() => {
+        const list = sp.web.lists.getByTitle("listy");
+        const allItems: any[] = await list.items.getAll();
+        console.log(allItems);
+    }
+
     const dev = () => {
+        console.log("isDevEnv: ", isDevEnv());
         console.log("nanoid: ", nanoid(5));
         console.log(props.context);
         let title = props.context.pageContext.web.title;
         console.log(title, props.context.pageContext.user);
-        getListData().then(resp => {
-            console.log("getListData()", resp);
-        });
+        listsTest();
     };
 
     return (

@@ -6,10 +6,10 @@ import {
     PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-
 import * as strings from 'GuidoWebPartStrings';
 import Guido from './components/Guido';
 import { IGuidoProps } from './components/IGuidoProps';
+import { setup as pnpSetup } from "@pnp/common";
 
 export interface IGuidoWebPartProps {
     description: string;
@@ -17,6 +17,15 @@ export interface IGuidoWebPartProps {
 }
 
 export default class GuidoWebPart extends BaseClientSideWebPart<IGuidoWebPartProps> {
+
+    // via https://pnp.github.io/pnpjs/getting-started/
+    protected onInit(): Promise<void> {
+        return super.onInit().then(_ => {
+            pnpSetup({
+                spfxContext: this.context
+            });
+        });
+    }
 
     public render(): void {
         const element: React.ReactElement<IGuidoProps> = React.createElement(
