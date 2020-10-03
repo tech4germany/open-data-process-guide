@@ -43,7 +43,7 @@ export class Model {
         } else {
             // list already existed --> import processes
             sp.web.lists.getByTitle("guido-processes").items.get().then((items: any[]) => {
-                items.map(item => this.importFromJSON(JSON.parse(item.configJSON), false));
+                items.map(item => this.importFromJSON(JSON.parse(item.configJSON), item.ID));
             });
         }
         this.lists = {
@@ -60,6 +60,8 @@ export class Model {
             this.lists.procs.items.add({
                 Title: proc.id,
                 configJSON: JSON.stringify(proc.getJSONconfig())
+            }).then(item => {
+               proc.setListID(item.data.ID);
             });
         }
     }
@@ -74,14 +76,16 @@ export class Model {
 
     public importFromConfig(): void {
         // import processes defined in config.json
-        config.processes.map(processConfig => this.importFromJSON(processConfig, true));
+        config.processes.map(processConfig => this.importFromJSON(processConfig, null));
     }
 
-    public importFromJSON(processConfig: any, addToList: boolean): string {
+    public importFromJSON(processConfig: any, listID: number): string {
         let process: Process = new Process(processConfig.id, processConfig.name, processConfig.description);
         process.setModules(processConfig.modules);
         this.processes.push(process);
-        if (addToList) {
+        if (listID) {
+            process.setListID(listID);
+        } else {
             this.writeProcessToStorage(process);
         }
         return process.id;

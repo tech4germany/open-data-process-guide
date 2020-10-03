@@ -3,6 +3,8 @@ import {Module} from "./Module";
 export class Process {
 
     public modules: Module[] = [];
+    // if lists are used as storage, this is the ID of this process there
+    public listID: number = null;
 
     constructor(public id: string, public name: string, public description: string) {}
 
@@ -17,5 +19,9 @@ export class Process {
             description: this.description,
             modules: this.modules.map(m => m.id)
         }
+    }
+
+    public setListID(listID: any) {
+        this.listID = listID;
     }
 }

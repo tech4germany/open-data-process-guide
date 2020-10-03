@@ -24,7 +24,7 @@ export default function Dashboard(props: IDashboardProps) {
         reader.onload = e => {
             let content = reader.result.toString();
             if (addingProcessVia === 'json') {
-                let procId = props.model.importFromJSON(JSON.parse(content), true);
+                let procId = props.model.importFromJSON(JSON.parse(content), null);
                 setProcessIds([...processIDs, procId]);
             }
             if (addingProcessVia === 'bpmn') {
