@@ -13,7 +13,12 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     return (
         <>
-            Open Cases | Closed Cases | Start a new case
+            <b>Open cases</b>:<br/>
+            {props.cases.map((caseObj, idx) =>
+                <li key={'case_' + idx}>
+                    {caseObj.process.id}
+                </li>
+            )}
         </>
     );
 }

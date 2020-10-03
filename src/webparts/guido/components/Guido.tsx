@@ -88,7 +88,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <br/><hr/>
                 <span className={styles.title}>Case Dashboard</span>
                 <br/><br/>
-                <CasesDashboard model={model} cases={[]}/>
+                <CasesDashboard model={model} cases={cases}/>
                 <br/><hr/>
                 <span className={styles.title}>Active Case</span>
                 <br/><br/>
