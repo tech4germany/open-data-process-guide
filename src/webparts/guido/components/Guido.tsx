@@ -8,7 +8,7 @@ import { parse } from 'query-string';
 import { Model } from "../model/Model";
 import Dashboard from "../view/Dashboard";
 import * as Fabric from "office-ui-fabric-react";
-import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
+import Utils from "../model/Utils";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -26,13 +26,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         }
     });
 
-    const isDevEnv = (): boolean => {
-        return Environment.type === EnvironmentType.Local;
-        // EnvironmentType.SharePoint, EnvironmentType.ClassicSharePoint
-    };
-
     const dev = () => {
-        console.log("isDevEnv: ", isDevEnv());
+        console.log("isDevEnv: ", Utils.isDevEnv());
         console.log("nanoid: ", nanoid(5));
         console.log(props.context);
         let title = props.context.pageContext.web.title;
