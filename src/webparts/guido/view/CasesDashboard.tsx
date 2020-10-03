@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Model } from "../model/Model";
+import Utils from "../model/Utils";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -16,7 +17,11 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
             <b>Open cases</b>:<br/>
             {props.cases.map((caseObj, idx) =>
                 <li key={'case_' + idx}>
-                    {caseObj.process.id}
+                    {caseObj.id},
+                    <small>
+                        {' '}Started: {Utils.getFormattedTime(caseObj.startTime)},
+                        {' '}Progress: {caseObj.getProgress()}%
+                    </small>
                 </li>
             )}
         </>

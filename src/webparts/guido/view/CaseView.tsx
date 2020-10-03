@@ -31,8 +31,8 @@ export default function CaseView(props: ICaseViewProps) {
     return (
         props.case && (
             <>
-                <i>Step: {step + 1}/{props.case.process.modules.length}</i>
-                <br/><br/>
+                {props.case.id}, <i>Step: {step + 1}/{props.case.process.modules.length}</i>
+                <br/><br/><br/>
                 <Task module={props.case.process.modules[step]}/>
                 <br/><br/>
                 <div style={{ textAlign: 'right' }}>
