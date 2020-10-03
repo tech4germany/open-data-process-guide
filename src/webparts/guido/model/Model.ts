@@ -161,7 +161,8 @@ export class Model {
 
     public newCaseFromProcess(proc: Process): Promise<Case> {
         return new Promise<Case>(resolve => {
-            let caseObj: Case = new Case(proc);
+            let caseObj: Case = new Case();
+            caseObj.initNewCase(proc);
             this.writeCaseToStorage(caseObj, resolve);
         });
     }
@@ -178,5 +179,39 @@ export class Model {
                 resolve(caseObj);
             });
         }
+    }
+
+    public getInitialCases(procs: Process[], done) {
+        this.loadCasesFromStorage(procs, (cases: Case[]) => {
+            done(cases);
+        });
+    }
+
+    private loadCasesFromStorage = (procs, done) => {
+        if (Utils.isDevEnv()) {
+            done([]);
+        } else {
+            // import cases from sharepoint list
+            sp.web.lists.getByTitle(CASES_LIST_NAME).items.get().then((items: any[]) => {
+                let promises = [];
+                for (let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    let itemID = item.ID;
+                    let caseConf = JSON.parse(item[CASE_JSON_FIELD_NAME]);
+                    let proc = procs.filter(p => p.id === caseConf.processId)[0];
+                    promises.push(this.importCaseFromListItem(caseConf, itemID, proc));
+                }
+                Promise.all(promises).then(cases => done(cases));
+            });
+        }
+    }
+
+    public importCaseFromListItem(caseConf: any, listID: number, proc: Process): Promise<Case> {
+        return new Promise<Case>(resolve => {
+            let caseObj: Case = new Case();
+            caseObj.initExistingCase(caseConf, proc);
+            caseObj.setListID(listID);
+            resolve(caseObj);
+        });
     }
 }
