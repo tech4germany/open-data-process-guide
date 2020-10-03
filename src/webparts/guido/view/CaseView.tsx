@@ -29,13 +29,17 @@ export default function CaseView(props: ICaseViewProps) {
         }
     };
 
+    const getHeadline = () => {
+        return props.case ? 'Active Case: ' + props.case.id : 'Active Case';
+    }
+
     return (
         <>
-            <span className={styles.title}>Active Case</span>
+            <span className={styles.title}>{getHeadline()}</span>
             <br/><br/>
             {props.case && (
                 <>
-                    {props.case.id}, <i>Step: {step + 1}/{props.case.process.modules.length}</i>
+                    <i>Step: {step + 1}/{props.case.process.modules.length}</i>
                     <br/><br/><br/>
                     <Task module={props.case.process.modules[step]}/>
                     <br/><br/>
