@@ -162,8 +162,21 @@ export class Model {
     public newCaseFromProcess(proc: Process): Promise<Case> {
         return new Promise<Case>(resolve => {
             let caseObj: Case = new Case(proc);
-            // TODO
-            resolve(caseObj);
+            this.writeCaseToStorage(caseObj, resolve);
         });
+    }
+
+    public writeCaseToStorage = (caseObj: Case, resolve) => {
+        if (Utils.isDevEnv()) {
+            resolve(caseObj);
+        } else {
+            this.lists.cases.items.add({
+                Title: caseObj.id,
+                [CASE_JSON_FIELD_NAME]: JSON.stringify(caseObj.getJSONconfig())
+            }).then(item => {
+                caseObj.setListID(item.data.ID);
+                resolve(caseObj);
+            });
+        }
     }
 }

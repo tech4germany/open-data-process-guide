@@ -5,6 +5,7 @@ export class Case {
 
     public id: String;
     public startTime: number;
+    public listID: number = null;
 
     constructor(public process: Process) {
         this.id = process.id + '_' + nanoid(4);
@@ -21,5 +22,9 @@ export class Case {
 
     public getProgress(): number {
         return 0;
+    }
+
+    public setListID(listID: any) {
+        this.listID = listID;
     }
 }
