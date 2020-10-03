@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import {Model} from "../model/Model";
 import Case from "./Case";
+import fileDownload from 'js-file-download';
 
 export interface IDashboardProps {
     model: Model;
@@ -47,7 +48,8 @@ export default function Dashboard(props: IDashboardProps) {
     };
 
     const downloadProc = procId => {
-        // TODO
+        let jsonStr = JSON.stringify(props.model.getProcessByID(procId).getJSONconfig(), null, 4);
+        fileDownload(jsonStr, procId + '.json');
     };
 
     return (
