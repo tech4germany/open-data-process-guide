@@ -9,13 +9,6 @@ import { Model } from "../model/Model";
 import Dashboard from "../view/Dashboard";
 import * as Fabric from "office-ui-fabric-react";
 import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
-import { sp } from "@pnp/sp";
-import "@pnp/sp/webs";
-import "@pnp/sp/lists";
-import "@pnp/sp/items";
-import { IItemAddResult } from "@pnp/sp/items";
-import "@pnp/sp/fields/web";
-import "@pnp/sp/fields/list";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -38,29 +31,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         // EnvironmentType.SharePoint, EnvironmentType.ClassicSharePoint
     };
 
-    const listsTest = async() => {
-        const list = sp.web.lists.getByTitle("listy");
-        const allItems: any[] = await list.items.getAll();
-        console.log(allItems);
-        /*list.fields.addText("NewField").then(f => {
-            console.log(f);
-        });
-        const newItem: IItemAddResult = await list.items.add({
-            Title: "foo",
-            NewField: "bar"
-        });
-        console.log(newItem);
-        const listEnsureResult = await sp.web.lists.ensure("created-list");
-        */
-    }
-
     const dev = () => {
         console.log("isDevEnv: ", isDevEnv());
         console.log("nanoid: ", nanoid(5));
         console.log(props.context);
         let title = props.context.pageContext.web.title;
         console.log(title, props.context.pageContext.user);
-        listsTest();
     };
 
     return (
