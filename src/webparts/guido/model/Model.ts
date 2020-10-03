@@ -22,7 +22,6 @@ export class Model {
      */
 
     public lists: any = {};
-    constructor() {}
 
     public getInitialProcesses(done) {
         this.initStorage(() => {
@@ -38,6 +37,28 @@ export class Model {
             done();
         } else {
             this.initLists(done);
+        }
+    }
+
+    private initLists = async(done) => {
+        let procsListEnsure = await sp.web.lists.ensure(PROCESSES_LIST_NAME);
+        let casesListEnsure = await sp.web.lists.ensure(CASES_LIST_NAME);
+        this.lists = {
+            procs: procsListEnsure.list,
+            cases: casesListEnsure.list
+        }
+        if (procsListEnsure.created) {
+            // list was just created
+            procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME).then(f => {
+                // let promises: Promise<Process>[] = ...
+                // this is to make sure we are waiting until all processes from config.json got added to the list before moving on
+                Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {
+                    done();
+                });
+            });
+        } else {
+            // list already existed
+            done();
         }
     }
 
@@ -57,28 +78,6 @@ export class Model {
         }
     }
 
-    private initLists = async(done) => {
-        let procsListEnsure = await sp.web.lists.ensure(PROCESSES_LIST_NAME);
-        let casesListEnsure = await sp.web.lists.ensure(CASES_LIST_NAME);
-        this.lists = {
-            procs: procsListEnsure.list,
-            cases: casesListEnsure.list
-        }
-        if (procsListEnsure.created) {
-            // list was just created
-            procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME).then(f => {
-                let promises: Promise<Process>[] = config.processes.map(conf => this.importFromJSON(conf, null));
-                // this is to make sure we are waiting until all processes from config.json got added to the list before moving on
-                Promise.all(promises).then(() => {
-                    done();
-                });
-            });
-        } else {
-            // list already existed
-            done();
-        }
-    }
-
     public writeProcessToStorage = (proc: Process, resolve) => {
         if (Utils.isDevEnv()) {
             resolve(proc);
@@ -94,7 +93,7 @@ export class Model {
     }
 
     public importFromJSON(conf: any, listID: number): Promise<Process> {
-        return new Promise<Process>((resolve => {
+        return new Promise<Process>(resolve => {
             let process: Process = new Process(conf.id, conf.name, conf.description);
             process.setModules(conf.modules);
             if (listID) {
@@ -103,46 +102,46 @@ export class Model {
             } else {
                 this.writeProcessToStorage(process, resolve);
             }
-        }));
+        });
     }
 
-    public importFromBPMN(xmlStr: string, fileName: string): Promise<string> {
+    public importFromBPMN(xmlStr: string, fileName: string): Promise<Process> {
         const moddle = new BpmnModdle();
         return moddle.fromXML(xmlStr).then(parsed => {
-            let processEl = parsed.rootElement.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
-            let lanesEl = processEl.laneSets[0].lanes;
-
-            let elements = {};
-            let startEvent;
-            let lanes = {};
-            lanesEl.map(laneEl => {
-                lanes[laneEl.id] = laneEl;
-                laneEl.flowNodeRef.map(el => {
-                    el.inLane = laneEl.id;
-                    elements[el.id] = el;
-                    if (el['$type'] === 'bpmn:StartEvent') {
-                        startEvent = el;
-                    }
+            return new Promise<Process>(resolve => {
+                let processEl = parsed.rootElement.rootElements[1]; // [0] is bpmn:Collaboration, [1] is bpmn:Process
+                let lanesEl = processEl.laneSets[0].lanes;
+                let elements = {};
+                let startEvent;
+                let lanes = {};
+                lanesEl.map(laneEl => {
+                    lanes[laneEl.id] = laneEl;
+                    laneEl.flowNodeRef.map(el => {
+                        el.inLane = laneEl.id;
+                        elements[el.id] = el;
+                        if (el['$type'] === 'bpmn:StartEvent') {
+                            startEvent = el;
+                        }
+                    });
                 });
-            });
 
-            let orderedTasks = [];
-            let currentElement = startEvent;
-            while (currentElement['$type'] !== 'bpmn:EndEvent') {
-                let sequenceFlow = currentElement.outgoing[0]; // = "edge" = "arrow"
-                currentElement = elements[sequenceFlow.targetRef.id];
-                if (currentElement['$type'] !== 'bpmn:EndEvent') { // TODO solve this nicer
-                    orderedTasks.push(currentElement);
-                    console.log(lanes[currentElement.inLane].name + ' is responsible for ' + currentElement.name);
+                let orderedTasks = [];
+                let currentElement = startEvent;
+                while (currentElement['$type'] !== 'bpmn:EndEvent') {
+                    let sequenceFlow = currentElement.outgoing[0]; // = "edge" = "arrow"
+                    currentElement = elements[sequenceFlow.targetRef.id];
+                    if (currentElement['$type'] !== 'bpmn:EndEvent') { // solve this nicer TODO
+                        orderedTasks.push(currentElement);
+                        // TODO
+                        console.log(lanes[currentElement.inLane].name + ' is responsible for ' + currentElement.name);
+                    }
                 }
-            }
-            // orderedTasks.pop(); // remove EndEvent
+                // orderedTasks.pop(); // remove EndEvent
 
-            let process: Process = new Process(fileName, fileName, '');
-            process.setModules(orderedTasks.map(task => task.name));
-            // TODO
-            //this.writeProcessToStorage(process);
-            return process.id;
+                let process: Process = new Process(fileName, fileName, '');
+                process.setModules(orderedTasks.map(task => task.name));
+                this.writeProcessToStorage(process, resolve);
+            });
         });
     };
 
