@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Model } from "../model/Model";
 import Utils from "../model/Utils";
+import styles from "../components/Guido.module.scss";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -14,6 +15,8 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     return (
         <>
+            <span className={styles.title}>Case Dashboard</span>
+            <br/><br/>
             <b>Open cases</b>:<br/>
             {props.cases.map((caseObj, idx) =>
                 <li key={'case_' + idx}>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import fileDownload from 'js-file-download';
 import { Model } from "../model/Model";
 import { Process } from "../model/Process";
+import styles from "../components/Guido.module.scss";
 
 export interface IProcessDashboardProps {
     model: Model;
@@ -43,6 +44,8 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
 
     return (
         <>
+            <span className={styles.title}>Process Dashboard</span>
+            <br/><br/>
             <b>Available processes</b>:<br/>
             {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
