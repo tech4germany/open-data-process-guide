@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import Case from "./Case";
-import { IModelProps } from "./IModelProps";
+import {Model} from "../model/Model";
 
-export default function ActiveCase(props: IModelProps) {
+export interface IActiveCaseProps {
+    model: Model;
+    case: any;
+}
+
+export default function ActiveCase(props: IActiveCaseProps) {
 
     const [activeCase, setActiveCase] = useState(null); // a Process object
 

@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import { IModelProps } from "./IModelProps";
+import { Model } from "../model/Model";
 
-export default function CasesDashboard(props: IModelProps) {
+export interface ICaseDashboardProps {
+    model: Model;
+    cases: any[];
+}
+
+export default function CasesDashboard(props: ICaseDashboardProps) {
 
     useEffect(() => {});
 

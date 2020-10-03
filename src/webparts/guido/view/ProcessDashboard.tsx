@@ -1,30 +1,31 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import fileDownload from 'js-file-download';
-import { IModelProps } from "./IModelProps";
+import { Model } from "../model/Model";
+import { Process } from "../model/Process";
 
-export default function ProcessDashboard(props: IModelProps) {
+export interface IProcessDashboardProps {
+    model: Model;
+    processes: Process[];
+}
 
-    const [processIDs, setProcessIds] = useState([]);
+export default function ProcessDashboard(props: IProcessDashboardProps) {
+
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
 
-    useEffect(() => {
-        if (props.model && processIDs.length === 0) {
-            setProcessIds(props.model.getProcessIDs());
-        }
-    });
+    useEffect(() => {});
 
     const handleChange = (file: File) => {
         let reader = new FileReader();
         reader.onload = e => {
             let content = reader.result.toString();
             if (addingProcessVia === 'json') {
-                let procId = props.model.importFromJSON(JSON.parse(content), null);
-                setProcessIds([...processIDs, procId]);
+                let proc: Promise<Process> = props.model.importFromJSON(JSON.parse(content), null);
+                // TODO
             }
             if (addingProcessVia === 'bpmn') {
                 props.model.importFromBPMN(content, file.name).then(procId => {
-                    setProcessIds([...processIDs, procId]);
+                    // TODO
                 });
             }
             setAddingProcessVia(null);
@@ -32,29 +33,29 @@ export default function ProcessDashboard(props: IModelProps) {
         reader.readAsText(file);
     };
 
-    const startCase = procId => {
+    const startCase = proc => {
         // TODO props.model.getProcessByID(procId)
     };
 
-    const deleteProc = procId => {
-        setProcessIds(processIDs.filter(id => id !== procId));
-        props.model.deleteProcess(procId);
+    const deleteProc = proc => {
+        //setProcessIds(processIDs.filter(id => id !== procId));
+        //props.model.deleteProcess(procId);
     };
 
-    const downloadProc = procId => {
-        let jsonStr = JSON.stringify(props.model.getProcessByID(procId).getJSONconfig(), null, 4);
-        fileDownload(jsonStr, procId + '.json');
+    const downloadProc = proc => {
+        //let jsonStr = JSON.stringify(props.model.getProcessByID(procId).getJSONconfig(), null, 4);
+        //fileDownload(jsonStr, procId + '.json');
     };
 
     return (
-        props.model && <>
+        <>
             <b>Processes</b>:<br/>
-            {processIDs.map((procId, idx) =>
+            {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
-                    {props.model.getProcessByID(procId).name}
-                    {' '}<a href='#' onClick={() => startCase(procId)}>start case</a>
-                    {' '}<a href='#' onClick={() => deleteProc(procId)}>delete</a>
-                    {' '}<a href='#' onClick={() => downloadProc(procId)}>download</a>
+                    {proc.name}
+                    {' '}<a href='#' onClick={() => startCase(proc)}>start case</a>
+                    {' '}<a href='#' onClick={() => deleteProc(proc)}>delete</a>
+                    {' '}<a href='#' onClick={() => downloadProc(proc)}>download</a>
                 </li>
             )}
             <br/>

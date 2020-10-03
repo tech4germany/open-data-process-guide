@@ -8,6 +8,10 @@ import "@pnp/sp/fields/list";
 import "@pnp/sp/items/list";
 import Utils from "./Utils";
 
+const PROCESSES_LIST_NAME: string = 'guido-processes';
+const PROCESS_JSON_FIELD_NAME: string = 'configJSON';
+const CASES_LIST_NAME: string = 'guido-cases';
+
 export class Model {
 
     /*
@@ -17,85 +21,89 @@ export class Model {
      An instantiated process we call "case" containing instantiated modules we call "tasks".
      */
 
-    public processes: Process[] = []; // use map instead?
     public lists: any = {};
+    constructor() {}
 
-    constructor() {
-        this.readProcessesFromStorage();
+    public getInitialProcesses(done) {
+        this.initStorage(() => {
+            this.loadProcessesFromStorage((procs: Process[]) => {
+                done(procs);
+            });
+        });
+        return null;
     }
 
-    private readProcessesFromStorage = () => {
+    private initStorage = done => {
         if (Utils.isDevEnv()) {
-            this.importFromConfig();
+            done();
         } else {
-            this.readProcessesFromLists();
+            this.initLists(done);
         }
     }
 
-    private readProcessesFromLists = async() => {
-        const procsListEnsure = await sp.web.lists.ensure("guido-processes");
-        const casesListEnsure = await sp.web.lists.ensure("guido-cases");
-        if (procsListEnsure.created) {
-            // list was just created --> write processes from config.json there
-            procsListEnsure.list.fields.addText("configJSON").then(f => {
-                this.importFromConfig();
+    private loadProcessesFromStorage = done => {
+        if (Utils.isDevEnv()) {
+            // import processes defined in config.json
+            Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(procs => {
+                done(procs);
             });
         } else {
-            // list already existed --> import processes
-            sp.web.lists.getByTitle("guido-processes").items.get().then((items: any[]) => {
-                items.map(item => this.importFromJSON(JSON.parse(item.configJSON), item.ID));
+            // import processes from sharepoint list
+            sp.web.lists.getByTitle(PROCESSES_LIST_NAME).items.get().then((items: any[]) => {
+                Promise.all(items.map(item => this.importFromJSON(JSON.parse(item[PROCESS_JSON_FIELD_NAME]), item.ID))).then(procs => {
+                    done(procs);
+                });
             });
         }
+    }
+
+    private initLists = async(done) => {
+        let procsListEnsure = await sp.web.lists.ensure(PROCESSES_LIST_NAME);
+        let casesListEnsure = await sp.web.lists.ensure(CASES_LIST_NAME);
         this.lists = {
             procs: procsListEnsure.list,
             cases: casesListEnsure.list
         }
+        if (procsListEnsure.created) {
+            // list was just created
+            procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME).then(f => {
+                let promises: Promise<Process>[] = config.processes.map(conf => this.importFromJSON(conf, null));
+                // this is to make sure we are waiting until all processes from config.json got added to the list before moving on
+                Promise.all(promises).then(() => {
+                    done();
+                });
+            });
+        } else {
+            // list already existed
+            done();
+        }
     }
 
-    public writeProcessToStorage = (proc: Process) => {
+    public writeProcessToStorage = (proc: Process, resolve) => {
         if (Utils.isDevEnv()) {
-            // ?
+            resolve(proc);
         } else {
             this.lists.procs.items.add({
                 Title: proc.id,
-                configJSON: JSON.stringify(proc.getJSONconfig())
+                [PROCESS_JSON_FIELD_NAME]: JSON.stringify(proc.getJSONconfig())
             }).then(item => {
                proc.setListID(item.data.ID);
+               resolve(proc);
             });
         }
     }
 
-    public deleteProcessFromStorage = async (proc: Process) => {
-        if (Utils.isDevEnv()) {
-            // ?
-        } else {
-            await this.lists.procs.items.getById(proc.listID).delete();
-        }
-    }
-
-    public getProcessByID(id: string): Process {
-        return this.processes.filter(proc => proc.id === id)[0];
-    }
-
-    public getProcessIDs(): string[] {
-        return this.processes.map(proc => proc.id);
-    }
-
-    public importFromConfig(): void {
-        // import processes defined in config.json
-        config.processes.map(processConfig => this.importFromJSON(processConfig, null));
-    }
-
-    public importFromJSON(processConfig: any, listID: number): string {
-        let process: Process = new Process(processConfig.id, processConfig.name, processConfig.description);
-        process.setModules(processConfig.modules);
-        this.processes.push(process);
-        if (listID) {
-            process.setListID(listID);
-        } else {
-            this.writeProcessToStorage(process);
-        }
-        return process.id;
+    public importFromJSON(conf: any, listID: number): Promise<Process> {
+        return new Promise<Process>((resolve => {
+            let process: Process = new Process(conf.id, conf.name, conf.description);
+            process.setModules(conf.modules);
+            if (listID) {
+                process.setListID(listID);
+                resolve(process);
+            } else {
+                this.writeProcessToStorage(process, resolve);
+            }
+        }));
     }
 
     public importFromBPMN(xmlStr: string, fileName: string): Promise<string> {
@@ -132,15 +140,23 @@ export class Model {
 
             let process: Process = new Process(fileName, fileName, '');
             process.setModules(orderedTasks.map(task => task.name));
-            this.processes.push(process);
-            this.writeProcessToStorage(process);
+            // TODO
+            //this.writeProcessToStorage(process);
             return process.id;
         });
     };
 
-    public deleteProcess(procId: string) {
+    /*public deleteProcess(procId: string) {
         let proc: Process = this.getProcessByID(procId);
         this.deleteProcessFromStorage(proc);
         this.processes.splice(this.processes.indexOf(proc), 1);
     }
+
+    public deleteProcessFromStorage = async (proc: Process) => {
+        if (Utils.isDevEnv()) {
+            // ?
+        } else {
+            await this.lists.procs.items.getById(proc.listID).delete();
+        }
+    }*/
 }

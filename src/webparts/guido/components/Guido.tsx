@@ -8,14 +8,18 @@ import { parse } from 'query-string';
 import { Model } from "../model/Model";
 import ProcessDashboard from "../view/ProcessDashboard";
 import CasesDashboard from "../view/CasesDashboard";
+import ActiveCase from "../view/ActiveCase";
 import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
-import ActiveCase from "../view/ActiveCase";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     const [paramsParsed, setParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
+
+    const [processes, setProcesses] = useState([]);
+    const [cases, setCases] = useState([]);
+    const [activeCase, setActiveCase] = useState([]);
 
     useEffect(() => {
         if (!paramsParsed) {
@@ -24,7 +28,11 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             setParamsParsed(parsed);
         }
         if (!model) {
-            setModel(new Model());
+            let model: Model = new Model();
+            setModel(model);
+            model.getInitialProcesses(procs => {
+                setProcesses(procs)
+            });
         }
     });
 
@@ -44,11 +52,11 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                 &nbsp;&nbsp;
                 <br/><br/><br/>
-                <ProcessDashboard model={model}/>
+                <ProcessDashboard model={model} processes={processes}/>
                 <br/><hr/><br/>
-                <CasesDashboard model={model}/>
+                <CasesDashboard model={model} cases={[]}/>
                 <br/><hr/><br/>
-                <ActiveCase model={model}/>
+                <ActiveCase model={model} case={null}/>
                 <br/>
             </div>
         </div>
