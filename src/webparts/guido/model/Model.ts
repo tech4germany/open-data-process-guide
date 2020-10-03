@@ -5,6 +5,7 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/webs/index";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/fields/list";
+import "@pnp/sp/items/list";
 
 export class Model {
 
@@ -32,8 +33,9 @@ export class Model {
             });
         } else {
             // list already existed --> import processes
-            // TODO
-            //sp.web.lists.getByTitle("guido-processes").items.get().then((items: any[]) => {});
+            sp.web.lists.getByTitle("guido-processes").items.get().then((items: any[]) => {
+                items.map(item => this.importFromJSON(JSON.parse(item.configJSON), false));
+            });
         }
         this.lists = {
             procs: procsListEnsure.list,
@@ -41,8 +43,7 @@ export class Model {
         }
     }
 
-    public addProcess = async(proc: Process) => {
-        this.processes.push(proc);
+    public addProcessToList = async(proc: Process) => {
         await this.lists.procs.items.add({
             Title: proc.id,
             configJSON: JSON.stringify(proc.getJSONconfig())
@@ -59,13 +60,16 @@ export class Model {
 
     public importFromConfig(): void {
         // import processes defined in config.json
-        config.processes.map(processConfig => this.importFromJSON(processConfig));
+        config.processes.map(processConfig => this.importFromJSON(processConfig, true));
     }
 
-    public importFromJSON(processConfig: any): string {
+    public importFromJSON(processConfig: any, addToList: boolean): string {
         let process: Process = new Process(processConfig.id, processConfig.name, processConfig.description);
         process.setModules(processConfig.modules);
-        this.addProcess(process);
+        this.processes.push(process);
+        if (addToList) {
+            this.addProcessToList(process);
+        }
         return process.id;
     }
 
@@ -103,7 +107,8 @@ export class Model {
 
             let process: Process = new Process(fileName, fileName, '');
             process.setModules(orderedTasks.map(task => task.name));
-            this.addProcess(process);
+            this.processes.push(process);
+            this.addProcessToList(process);
             return process.id;
         });
     };
