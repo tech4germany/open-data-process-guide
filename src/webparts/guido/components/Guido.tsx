@@ -76,6 +76,10 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     // called from CasesDashboard
 
+    const onContinueCase = caseObj => {
+        setActiveCase(caseObj);
+    };
+
     const onDeleteCase = caseObj => {
         if (activeCase === caseObj) {
             setActiveCase(null);
@@ -100,6 +104,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <CasesDashboard
                     model={model}
                     cases={cases}
+                    onContinueCase={caseObj => onContinueCase(caseObj)}
                     onDeleteCase={caseObj => onDeleteCase(caseObj)}
                 />
                 <br/><hr/>
