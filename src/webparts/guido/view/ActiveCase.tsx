@@ -14,7 +14,6 @@ export default function ActiveCase(props: IActiveCaseProps) {
 
     return (
         <>
-            Active case:<br/><br/>
             <Case process={props.case}/>
         </>
     );

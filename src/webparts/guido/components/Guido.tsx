@@ -70,11 +70,10 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     return (
         <div className={styles.container}>
             <div className={styles.row}>
-                <Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+                {/*<Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
+                <span className={styles.title}>Welcome to {escape(props.description)}!</span>*/}
+                <span className={styles.title}>Process Dashboard</span>
                 <br/><br/>
-                <span className={styles.title}>Welcome to {escape(props.description)}!</span>
-                &nbsp;&nbsp;
-                <br/><br/><br/>
                 <ProcessDashboard
                     model={model}
                     processes={processes}
@@ -82,9 +81,13 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
                     onDeleteProcess={proc => onDeleteProcess(proc)}
                 />
-                <br/><hr/><br/>
+                <br/><hr/>
+                <span className={styles.title}>Case Dashboard</span>
+                <br/><br/>
                 <CasesDashboard model={model} cases={[]}/>
-                <br/><hr/><br/>
+                <br/><hr/>
+                <span className={styles.title}>Active Case</span>
+                <br/><br/>
                 <ActiveCase model={model} case={activeCase}/>
                 <br/>
             </div>

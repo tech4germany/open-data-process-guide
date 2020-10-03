@@ -43,7 +43,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
 
     return (
         <>
-            <b>Processes</b>:<br/>
+            <b>Available processes</b>:<br/>
             {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
                     {proc.name}
