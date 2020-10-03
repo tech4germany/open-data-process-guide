@@ -41,12 +41,25 @@ export default function Dashboard(props: IDashboardProps) {
         setActiveCase(props.model.getProcessByID(procId));
     };
 
+    const deleteProc = procId => {
+        // TODO
+    };
+
+    const downloadProc = procId => {
+        // TODO
+    };
+
     return (
         props.model && <>
             <b>Processes</b>:<br/>
             {processIDs.map((procId, idx) =>
-                <li key={'proc_' + idx}>{props.model.getProcessByID(procId).name} <a href='#' onClick={() => startCase(procId)}>start case</a></li>)
-            }
+                <li key={'proc_' + idx}>
+                    {props.model.getProcessByID(procId).name}
+                    {' '}<a href='#' onClick={() => startCase(procId)}>start case</a>
+                    {' '}<a href='#' onClick={() => deleteProc(procId)}>delete</a>
+                    {' '}<a href='#' onClick={() => downloadProc(procId)}>download</a>
+                </li>
+            )}
             <br/>
             Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
             {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
