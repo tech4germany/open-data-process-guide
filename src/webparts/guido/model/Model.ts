@@ -1,6 +1,10 @@
 import * as config from './config.json';
 import { Process } from "./Process";
 import BpmnModdle from 'bpmn-moddle';
+import { sp } from "@pnp/sp";
+import "@pnp/sp/webs/index";
+import "@pnp/sp/lists/web";
+import "@pnp/sp/fields/list";
 
 export class Model {
 
@@ -12,9 +16,37 @@ export class Model {
      */
 
     public processes: Process[] = []; // use map instead?
+    public lists: any = {};
 
     constructor() {
-        this.importFromConfig();
+        this.initLists();
+    }
+
+    private initLists = async() => {
+        const procsListEnsure = await sp.web.lists.ensure("guido-processes");
+        const casesListEnsure = await sp.web.lists.ensure("guido-cases");
+        if (procsListEnsure.created) {
+            // list was just created --> write processes from config.json there
+            procsListEnsure.list.fields.addText("configJSON").then(f => {
+                this.importFromConfig();
+            });
+        } else {
+            // list already existed --> import processes
+            // TODO
+            //sp.web.lists.getByTitle("guido-processes").items.get().then((items: any[]) => {});
+        }
+        this.lists = {
+            procs: procsListEnsure.list,
+            cases: casesListEnsure.list
+        }
+    }
+
+    public addProcess = async(proc: Process) => {
+        this.processes.push(proc);
+        await this.lists.procs.items.add({
+            Title: proc.id,
+            configJSON: JSON.stringify(proc.getJSONconfig())
+        });
     }
 
     public getProcessByID(id: string): Process {
@@ -31,9 +63,9 @@ export class Model {
     }
 
     public importFromJSON(processConfig: any): string {
-        let process: Process = new Process(processConfig.id, processConfig.name);
+        let process: Process = new Process(processConfig.id, processConfig.name, processConfig.description);
         process.setModules(processConfig.modules);
-        this.processes.push(process);
+        this.addProcess(process);
         return process.id;
     }
 
@@ -69,9 +101,9 @@ export class Model {
             }
             // orderedTasks.pop(); // remove EndEvent
 
-            let process: Process = new Process(fileName, fileName);
+            let process: Process = new Process(fileName, fileName, '');
             process.setModules(orderedTasks.map(task => task.name));
-            this.processes.push(process);
+            this.addProcess(process);
             return process.id;
         });
     };
