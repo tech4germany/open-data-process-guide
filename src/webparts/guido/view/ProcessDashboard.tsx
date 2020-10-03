@@ -37,8 +37,8 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
     };
 
     const downloadProc = proc => {
-        //let jsonStr = JSON.stringify(props.model.getProcessByID(procId).getJSONconfig(), null, 4);
-        //fileDownload(jsonStr, procId + '.json');
+        let jsonStr = JSON.stringify(proc.getJSONconfig(), null, 4);
+        fileDownload(jsonStr, proc.id + '.json');
     };
 
     return (
