@@ -7,6 +7,9 @@ import { Process } from "../model/Process";
 export interface IProcessDashboardProps {
     model: Model;
     processes: Process[];
+    onStartCase: any;
+    onImportProcess: any;
+    onDeleteProcess: any;
 }
 
 export default function ProcessDashboard(props: IProcessDashboardProps) {
@@ -19,15 +22,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
         let reader = new FileReader();
         reader.onload = e => {
             let content = reader.result.toString();
-            if (addingProcessVia === 'json') {
-                let proc: Promise<Process> = props.model.importFromJSON(JSON.parse(content), null);
-                // TODO
-            }
-            if (addingProcessVia === 'bpmn') {
-                props.model.importFromBPMN(content, file.name).then(procId => {
-                    // TODO
-                });
-            }
+            props.onImportProcess(addingProcessVia, file.name, content);
             setAddingProcessVia(null);
         }
         reader.readAsText(file);
