@@ -1,36 +1,33 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import {Process} from "../model/Process";
 import Task from "./Task";
 import * as Fabric from "office-ui-fabric-react";
+import { Case } from "../model/Case";
+import { Model } from "../model/Model";
 
-export interface ICaseProps {
-    process: Process;
+export interface ICaseViewProps {
+    model: Model;
+    case: Case;
 }
 
-export default function CaseView(props: ICaseProps) {
+export default function CaseView(props: ICaseViewProps) {
 
-    const [process, setProcess] = useState(null);
     const [step, setStep] = useState(0);
 
-    useEffect(() => {
-        if (!process) {
-            setProcess(props.process);
-        }
-    });
+    useEffect(() => {});
 
     const nextStep = () => {
-        if (step < process.modules.length - 1) {
+        if (step < props.case.process.modules.length - 1) {
             setStep(step + 1);
         }
     };
 
     return (
-        process && (
+        props.case && (
             <>
-                <i>Step: {step + 1}/{process.modules.length}</i>
+                <i>Step: {step + 1}/{props.case.process.modules.length}</i>
                 <br/><br/>
-                <Task module={process.modules[step]}/>
+                <Task module={props.case.process.modules[step]}/>
                 <br/><br/>
                 <div style={{ textAlign: 'right' }}>
                     <Fabric.PrimaryButton onClick={nextStep}>Next</Fabric.PrimaryButton>

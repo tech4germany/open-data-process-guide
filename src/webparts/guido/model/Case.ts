@@ -1,6 +1,7 @@
+import {Process} from "./Process";
 
 export class Case {
 
-    constructor() {}
+    constructor(public process: Process) {}
 
 }

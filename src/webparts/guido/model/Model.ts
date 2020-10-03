@@ -1,5 +1,6 @@
 import * as config from './config.json';
 import { Process } from "./Process";
+import { Case } from "./Case";
 import BpmnModdle from 'bpmn-moddle';
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs/index";
@@ -151,5 +152,15 @@ export class Model {
         } else {
             await this.lists.procs.items.getById(proc.listID).delete();
         }
+    }
+
+    // CASES
+
+    public newCaseFromProcess(proc: Process): Promise<Case> {
+        return new Promise<Case>(resolve => {
+            let caseObj: Case = new Case(proc);
+            // TODO
+            resolve(caseObj);
+        });
     }
 }

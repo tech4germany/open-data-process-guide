@@ -8,9 +8,9 @@ import { parse } from 'query-string';
 import { Model } from "../model/Model";
 import ProcessDashboard from "../view/ProcessDashboard";
 import CasesDashboard from "../view/CasesDashboard";
-import ActiveCase from "../view/ActiveCase";
 import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
+import CaseView from "../view/CaseView";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -32,6 +32,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             model.getInitialProcesses(procs => {
                 setProcesses(procs)
             });
+            // TODO get initial cases
         }
     });
 
@@ -46,7 +47,10 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     // called from ProcessDashboard
 
     const onStartCase = proc => {
-        setActiveCase(proc);
+        model.newCaseFromProcess(proc).then(caseObj => {
+            setCases([...cases, caseObj]);
+            setActiveCase(caseObj);
+        });
     };
 
     const onImportProcess = (type, fileName, content) => {
@@ -88,7 +92,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <br/><hr/>
                 <span className={styles.title}>Active Case</span>
                 <br/><br/>
-                <ActiveCase model={model} case={activeCase}/>
+                <CaseView model={model} case={activeCase}/>
                 <br/>
             </div>
         </div>
