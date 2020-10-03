@@ -10,8 +10,9 @@ import "@pnp/sp/items/list";
 import Utils from "./Utils";
 
 const PROCESSES_LIST_NAME: string = 'guido-processes';
-const PROCESS_JSON_FIELD_NAME: string = 'configJSON';
+const PROCESS_JSON_FIELD_NAME: string = 'processJSON';
 const CASES_LIST_NAME: string = 'guido-cases';
+const CASE_JSON_FIELD_NAME: string = 'caseJSON';
 
 export class Model {
 
@@ -48,14 +49,16 @@ export class Model {
             procs: procsListEnsure.list,
             cases: casesListEnsure.list
         }
+        if (casesListEnsure.created) {
+            await casesListEnsure.list.fields.addText(CASE_JSON_FIELD_NAME);
+        }
         if (procsListEnsure.created) {
             // list was just created
-            procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME).then(f => {
-                // let promises: Promise<Process>[] = ...
-                // this is to make sure we are waiting until all processes from config.json got added to the list before moving on
-                Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {
-                    done();
-                });
+            await procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME);
+            // let promises: Promise<Process>[] = ...
+            // this is to make sure we are waiting until all processes from config.json got added to the list before moving on
+            Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {
+                done();
             });
         } else {
             // list already existed
