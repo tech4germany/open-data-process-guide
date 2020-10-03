@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Task from "./Task";
 import * as Fabric from "office-ui-fabric-react";
 import { Case } from "../model/Case";
@@ -13,8 +13,14 @@ export interface ICaseViewProps {
 export default function CaseView(props: ICaseViewProps) {
 
     const [step, setStep] = useState(0);
+    const currentCase = useRef(null);
 
-    useEffect(() => {});
+    useEffect(() => {
+        if (props.case !== currentCase.current) {
+            currentCase.current = props.case;
+            setStep(0);
+        }
+    });
 
     const nextStep = () => {
         if (step < props.case.process.modules.length - 1) {
