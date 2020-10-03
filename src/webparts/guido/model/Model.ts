@@ -26,7 +26,7 @@ export class Model {
 
     private readProcessesFromStorage = () => {
         if (Utils.isDevEnv()) {
-            // TODO
+            this.importFromConfig();
         } else {
             this.readProcessesFromLists();
         }
