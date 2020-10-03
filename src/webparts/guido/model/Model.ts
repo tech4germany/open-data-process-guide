@@ -214,4 +214,12 @@ export class Model {
             resolve(caseObj);
         });
     }
+
+    public deleteCaseFromStorage = async(caseObj: Case) => {
+        if (Utils.isDevEnv()) {
+            // ?
+        } else {
+            await this.lists.cases.items.getById(caseObj.listID).delete();
+        }
+    }
 }

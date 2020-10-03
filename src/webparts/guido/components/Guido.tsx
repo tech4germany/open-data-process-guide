@@ -74,6 +74,16 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setProcesses(processes.filter(p => p !== proc));
     };
 
+    // called from CasesDashboard
+
+    const onDeleteCase = caseObj => {
+        if (activeCase === caseObj) {
+            setActiveCase(null);
+        }
+        model.deleteCaseFromStorage(caseObj);
+        setCases(cases.filter(c => c !== caseObj));
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.row}>
@@ -87,7 +97,11 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     onDeleteProcess={proc => onDeleteProcess(proc)}
                 />
                 <br/><hr/>
-                <CasesDashboard model={model} cases={cases}/>
+                <CasesDashboard
+                    model={model}
+                    cases={cases}
+                    onDeleteCase={caseObj => onDeleteCase(caseObj)}
+                />
                 <br/><hr/>
                 <CaseView model={model} case={activeCase}/>
                 <br/>
