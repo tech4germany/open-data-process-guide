@@ -6,7 +6,7 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import { nanoid } from 'nanoid';
 import { parse } from 'query-string';
 import { Model } from "../model/Model";
-import Dashboard from "../view/Dashboard";
+import ProcessDashboard from "../view/ProcessDashboard";
 import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
 
@@ -42,7 +42,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>
                 &nbsp;&nbsp;
                 <br/><br/><br/>
-                <Dashboard model={model}/>
+                <ProcessDashboard model={model}/>
             </div>
         </div>
     );

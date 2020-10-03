@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import {Model} from "../model/Model";
 import Case from "./Case";
 import fileDownload from 'js-file-download';
+import { IModelProps } from "./IModelProps";
 
-export interface IDashboardProps {
-    model: Model;
-}
-
-export default function Dashboard(props: IDashboardProps) {
+export default function ProcessDashboard(props: IModelProps) {
 
     const [processIDs, setProcessIds] = useState([]);
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
@@ -64,7 +60,7 @@ export default function Dashboard(props: IDashboardProps) {
                 </li>
             )}
             <br/>
-            Add a new one via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
+            Import a new process via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
             {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
             <br/><br/>
             {addingProcessVia &&
