@@ -6,6 +6,7 @@ import "@pnp/sp/webs/index";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/fields/list";
 import "@pnp/sp/items/list";
+import Utils from "./Utils";
 
 export class Model {
 
@@ -20,10 +21,18 @@ export class Model {
     public lists: any = {};
 
     constructor() {
-        this.initLists();
+        this.readProcessesFromStorage();
     }
 
-    private initLists = async() => {
+    private readProcessesFromStorage = () => {
+        if (Utils.isDevEnv()) {
+            // TODO
+        } else {
+            this.readProcessesFromLists();
+        }
+    }
+
+    private readProcessesFromLists = async() => {
         const procsListEnsure = await sp.web.lists.ensure("guido-processes");
         const casesListEnsure = await sp.web.lists.ensure("guido-cases");
         if (procsListEnsure.created) {
@@ -43,11 +52,16 @@ export class Model {
         }
     }
 
-    public addProcessToList = async(proc: Process) => {
-        await this.lists.procs.items.add({
-            Title: proc.id,
-            configJSON: JSON.stringify(proc.getJSONconfig())
-        });
+    public writeProcessToStorage = (proc: Process) => {
+        if (Utils.isDevEnv()) {
+            // TODO
+        } else {
+            // add await or .then()?
+            this.lists.procs.items.add({
+                Title: proc.id,
+                configJSON: JSON.stringify(proc.getJSONconfig())
+            });
+        }
     }
 
     public getProcessByID(id: string): Process {
@@ -68,7 +82,7 @@ export class Model {
         process.setModules(processConfig.modules);
         this.processes.push(process);
         if (addToList) {
-            this.addProcessToList(process);
+            this.writeProcessToStorage(process);
         }
         return process.id;
     }
@@ -108,7 +122,7 @@ export class Model {
             let process: Process = new Process(fileName, fileName, '');
             process.setModules(orderedTasks.map(task => task.name));
             this.processes.push(process);
-            this.addProcessToList(process);
+            this.writeProcessToStorage(process);
             return process.id;
         });
     };
