@@ -42,7 +42,8 @@ export default function Dashboard(props: IDashboardProps) {
     };
 
     const deleteProc = procId => {
-        // TODO
+        setProcessIds(processIDs.filter(id => id !== procId));
+        props.model.deleteProcess(procId);
     };
 
     const downloadProc = procId => {

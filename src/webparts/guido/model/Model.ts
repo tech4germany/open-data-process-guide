@@ -54,15 +54,22 @@ export class Model {
 
     public writeProcessToStorage = (proc: Process) => {
         if (Utils.isDevEnv()) {
-            // TODO
+            // ?
         } else {
-            // add await or .then()?
             this.lists.procs.items.add({
                 Title: proc.id,
                 configJSON: JSON.stringify(proc.getJSONconfig())
             }).then(item => {
                proc.setListID(item.data.ID);
             });
+        }
+    }
+
+    public deleteProcessFromStorage = async (proc: Process) => {
+        if (Utils.isDevEnv()) {
+            // ?
+        } else {
+            await this.lists.procs.items.getById(proc.listID).delete();
         }
     }
 
@@ -131,4 +138,9 @@ export class Model {
         });
     };
 
+    public deleteProcess(procId: string) {
+        let proc: Process = this.getProcessByID(procId);
+        this.deleteProcessFromStorage(proc);
+        this.processes.splice(this.processes.indexOf(proc), 1);
+    }
 }
