@@ -49,10 +49,12 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
             <b>Available processes</b>:<br/>
             {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
-                    {proc.name}
-                    {' '}<a href='#' onClick={() => startCase(proc)}>start case</a>
-                    {' '}<a href='#' onClick={() => deleteProc(proc)}>delete</a>
-                    {' '}<a href='#' onClick={() => downloadProc(proc)}>download</a>
+                    {proc.name},
+                    <small>
+                        {' '}<a href='#' onClick={() => startCase(proc)}>start case</a>,
+                        {' '}<a href='#' onClick={() => deleteProc(proc)}>delete</a>,
+                        {' '}<a href='#' onClick={() => downloadProc(proc)}>download</a>
+                    </small>
                 </li>
             )}
             <br/>
