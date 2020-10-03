@@ -8,6 +8,7 @@ export default function CasesDashboard(props: IModelProps) {
 
     return (
         <>
+            Open Cases | Closed Cases | Start a new case
         </>
     );
 }

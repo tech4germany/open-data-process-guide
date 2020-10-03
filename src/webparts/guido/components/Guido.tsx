@@ -7,8 +7,10 @@ import { nanoid } from 'nanoid';
 import { parse } from 'query-string';
 import { Model } from "../model/Model";
 import ProcessDashboard from "../view/ProcessDashboard";
+import CasesDashboard from "../view/CasesDashboard";
 import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
+import ActiveCase from "../view/ActiveCase";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -43,6 +45,11 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 &nbsp;&nbsp;
                 <br/><br/><br/>
                 <ProcessDashboard model={model}/>
+                <br/><hr/><br/>
+                <CasesDashboard model={model}/>
+                <br/><hr/><br/>
+                <ActiveCase model={model}/>
+                <br/>
             </div>
         </div>
     );

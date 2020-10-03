@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import Case from "./Case";
 import fileDownload from 'js-file-download';
 import { IModelProps } from "./IModelProps";
 
@@ -8,7 +7,6 @@ export default function ProcessDashboard(props: IModelProps) {
 
     const [processIDs, setProcessIds] = useState([]);
     const [addingProcessVia, setAddingProcessVia] = useState(null); // null, "json" or "bpmn"
-    const [activeCase, setActiveCase] = useState(null); // a Process object
 
     useEffect(() => {
         if (props.model && processIDs.length === 0) {
@@ -35,7 +33,7 @@ export default function ProcessDashboard(props: IModelProps) {
     };
 
     const startCase = procId => {
-        setActiveCase(props.model.getProcessByID(procId));
+        // TODO props.model.getProcessByID(procId)
     };
 
     const deleteProc = procId => {
@@ -62,16 +60,10 @@ export default function ProcessDashboard(props: IModelProps) {
             <br/>
             Import a new process via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
             {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
-            <br/><br/>
             {addingProcessVia &&
-                <input type="file" onChange={e => handleChange(e.target.files[0])}/>
-            }
-            {activeCase &&
                 <>
-                    <br/>
-                    <hr/>
-                    <br/>
-                    <Case process={activeCase}/>
+                    <br/><br/>
+                    <input type="file" onChange={e => handleChange(e.target.files[0])}/>
                 </>
             }
         </>
