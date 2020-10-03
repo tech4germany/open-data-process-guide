@@ -145,17 +145,11 @@ export class Model {
         });
     };
 
-    /*public deleteProcess(procId: string) {
-        let proc: Process = this.getProcessByID(procId);
-        this.deleteProcessFromStorage(proc);
-        this.processes.splice(this.processes.indexOf(proc), 1);
-    }
-
-    public deleteProcessFromStorage = async (proc: Process) => {
+    public deleteProcessFromStorage = async(proc: Process) => {
         if (Utils.isDevEnv()) {
             // ?
         } else {
             await this.lists.procs.items.getById(proc.listID).delete();
         }
-    }*/
+    }
 }

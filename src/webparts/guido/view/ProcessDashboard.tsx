@@ -33,8 +33,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
     };
 
     const deleteProc = proc => {
-        //setProcessIds(processIDs.filter(id => id !== procId));
-        //props.model.deleteProcess(procId);
+        props.onDeleteProcess(proc);
     };
 
     const downloadProc = proc => {

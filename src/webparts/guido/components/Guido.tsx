@@ -61,7 +61,10 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         }
     };
 
-    const onDeleteProcess = proc => {};
+    const onDeleteProcess = proc => {
+        model.deleteProcessFromStorage(proc);
+        setProcesses(processes.filter(p => p !== proc));
+    };
 
     return (
         <div className={styles.container}>
