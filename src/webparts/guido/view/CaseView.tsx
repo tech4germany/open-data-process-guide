@@ -8,7 +8,7 @@ export interface ICaseProps {
     process: Process;
 }
 
-export default function Case(props: ICaseProps) {
+export default function CaseView(props: ICaseProps) {
 
     const [process, setProcess] = useState(null);
     const [step, setStep] = useState(0);

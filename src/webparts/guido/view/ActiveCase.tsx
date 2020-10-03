@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import Case from "./Case";
+import CaseView from "./CaseView";
 import {Model} from "../model/Model";
 
 export interface IActiveCaseProps {
@@ -14,7 +14,7 @@ export default function ActiveCase(props: IActiveCaseProps) {
 
     return (
         <>
-            <Case process={props.case}/>
+            <CaseView process={props.case}/>
         </>
     );
 }
