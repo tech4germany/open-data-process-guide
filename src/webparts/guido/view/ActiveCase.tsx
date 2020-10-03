@@ -10,14 +10,12 @@ export interface IActiveCaseProps {
 
 export default function ActiveCase(props: IActiveCaseProps) {
 
-    const [activeCase, setActiveCase] = useState(null); // a Process object
-
     useEffect(() => {});
 
     return (
         <>
-            Active case
-            <Case process={activeCase}/>
+            Active case:<br/><br/>
+            <Case process={props.case}/>
         </>
     );
 }

@@ -11,7 +11,6 @@ import CasesDashboard from "../view/CasesDashboard";
 import ActiveCase from "../view/ActiveCase";
 import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
-import {Process} from "../model/Process";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -19,7 +18,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const [model, setModel] = useState(null);
     const [processes, setProcesses] = useState([]);
     const [cases, setCases] = useState([]);
-    const [activeCase, setActiveCase] = useState([]);
+    const [activeCase, setActiveCase] = useState(null);
 
     useEffect(() => {
         if (!paramsParsed) {
@@ -46,7 +45,9 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     // called from ProcessDashboard
 
-    const onStartCase = proc => {};
+    const onStartCase = proc => {
+        setActiveCase(proc);
+    };
 
     const onImportProcess = (type, fileName, content) => {
         if (type === 'json') {
@@ -84,7 +85,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <br/><hr/><br/>
                 <CasesDashboard model={model} cases={[]}/>
                 <br/><hr/><br/>
-                <ActiveCase model={model} case={null}/>
+                <ActiveCase model={model} case={activeCase}/>
                 <br/>
             </div>
         </div>

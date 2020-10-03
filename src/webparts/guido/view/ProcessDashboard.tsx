@@ -29,7 +29,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
     };
 
     const startCase = proc => {
-        // TODO props.model.getProcessByID(procId)
+        props.onStartCase(proc);
     };
 
     const deleteProc = proc => {
