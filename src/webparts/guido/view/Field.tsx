@@ -10,9 +10,10 @@ export interface IFieldProps {
 export default function Field(props: IFieldProps) {
 
     const [details, setDetails] = useState(null);
+    const [value, setValue] = useState(null);
 
     useEffect(() => {
-        if (props.details !== details) {
+        if (!details) {
             setDetails(props.details);
         }
     });
@@ -23,15 +24,19 @@ export default function Field(props: IFieldProps) {
             case 'string':
                 return <Fabric.TextField
                     label={details.title}
+                    value={value ? value : ''}
                     onChanged={val => {
-                        console.log(details.title, val);
+                        setValue(val);
+                        props.onEdit(val);
                     }}
                 />;
             case 'boolean':
                 return <Fabric.Checkbox
                     label={details.title}
+                    checked={value ? value : false}
                     onChange={(e, isChecked) => {
-                        console.log(details.title, isChecked);
+                        setValue(isChecked);
+                        props.onEdit(isChecked);
                     }}
                 />;
         }
