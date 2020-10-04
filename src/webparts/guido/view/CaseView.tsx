@@ -9,6 +9,7 @@ import styles from "../components/Guido.module.scss";
 export interface ICaseViewProps {
     model: Model;
     case: Case;
+    stopEditing: any;
 }
 
 export default function CaseView(props: ICaseViewProps) {
@@ -45,7 +46,8 @@ export default function CaseView(props: ICaseViewProps) {
             <br/><br/>
             {props.case && (
                 <>
-                    <i>Step: {step + 1}/{props.case.process.modules.length}</i>
+                    <i>Step: {step + 1}/{props.case.process.modules.length}</i>,
+                    {' '}<small><a href='#' onClick={props.stopEditing}>stop editing</a></small>
                     <br/><br/><br/>
                     <Task module={props.case.process.modules[step]}/>
                     <br/><br/>

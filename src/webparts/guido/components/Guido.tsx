@@ -88,6 +88,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setCases(cases.filter(c => c !== caseObj));
     };
 
+    // called from CaseView
+
+    const stopEditing = () => {
+        setActiveCase(null);
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.row}>
@@ -104,11 +110,16 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <CasesDashboard
                     model={model}
                     cases={cases}
+                    activeCase={activeCase}
                     onContinueCase={caseObj => onContinueCase(caseObj)}
                     onDeleteCase={caseObj => onDeleteCase(caseObj)}
                 />
                 <br/><hr/>
-                <CaseView model={model} case={activeCase}/>
+                <CaseView
+                    model={model}
+                    case={activeCase}
+                    stopEditing={stopEditing}
+                />
                 <br/>
             </div>
         </div>
