@@ -28,7 +28,7 @@ export default function Task(props: ITaskProps) {
                 <br/><br/>
                 {Object.keys(module.config.fields).map(fieldId =>
                     <Field
-                        key={'field_' + fieldId}
+                        key={'module-' + module.id + '_field-' + fieldId}
                         details={module.config.fields[fieldId]}
                         onEdit={value => props.onEdit(fieldId, value)}
                         initialValue={props.initialValues[fieldId]}
