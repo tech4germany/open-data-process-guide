@@ -29,6 +29,12 @@ export default function CaseView(props: ICaseViewProps) {
         }
     };
 
+    const previousStep = () => {
+        if (step >= 1) {
+            setStep(step - 1);
+        }
+    };
+
     const getHeadline = () => {
         return props.case ? 'Active Case: ' + props.case.id : 'Active Case';
     }
@@ -43,8 +49,13 @@ export default function CaseView(props: ICaseViewProps) {
                     <br/><br/><br/>
                     <Task module={props.case.process.modules[step]}/>
                     <br/><br/>
-                    <div style={{ textAlign: 'right' }}>
-                        <Fabric.PrimaryButton onClick={nextStep}>Next</Fabric.PrimaryButton>
+                    <div>
+                        <p style={{ float: 'left' }}>
+                            <Fabric.PrimaryButton onClick={previousStep}>Back</Fabric.PrimaryButton>
+                        </p>
+                        <p style={{ float: 'right' }}>
+                            <Fabric.PrimaryButton onClick={nextStep}>Next</Fabric.PrimaryButton>
+                        </p>
                     </div>
                 </>
             )}
