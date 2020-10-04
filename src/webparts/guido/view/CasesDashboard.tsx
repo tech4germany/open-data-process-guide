@@ -9,13 +9,21 @@ export interface ICaseDashboardProps {
     model: Model;
     cases: any[];
     activeCase: Case;
+    changeNotifs: any;
     onContinueCase: any;
     onDeleteCase: any;
 }
 
 export default function CasesDashboard(props: ICaseDashboardProps) {
 
-    useEffect(() => {});
+    const [activeCaseProgressStr, setActiveCaseProgressStr] = useState('');
+
+    useEffect(() => {
+        // gets triggered via props.changeNotifs for every edit in Tasks
+        if (props.activeCase) {
+            setActiveCaseProgressStr(props.activeCase.getProgressStr());
+        }
+    });
 
     const continueCase = caseObj => {
         props.onContinueCase(caseObj);
@@ -36,7 +44,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                     {caseObj.id},
                     <small>
                         {' '}Started: {Utils.getFormattedTime(caseObj.startTime)},
-                        {' '}Progress: {caseObj.getProgress()}%,
+                        {' '}Progress: {activeCaseProgressStr},
                         {' '}<a href='#' onClick={() => continueCase(caseObj)}>continue editing</a>,
                         {' '}<a href='#' onClick={() => deleteCase(caseObj)}>delete</a>
                     </small>

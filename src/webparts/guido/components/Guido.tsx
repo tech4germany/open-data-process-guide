@@ -19,6 +19,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const [processes, setProcesses] = useState([]);
     const [cases, setCases] = useState([]);
     const [activeCase, setActiveCase] = useState(null);
+    // incremented through edits in fields and next/back clicks, to force CaseDashboard to update the progress on the active case
+    const [changeNotifs, setChangeNotifs] = useState(0);
 
     useEffect(() => {
         if (!paramsParsed) {
@@ -94,6 +96,10 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setActiveCase(null);
     };
 
+    const onChangeNotify = () => {
+        setChangeNotifs(changeNotifs + 1);
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.row}>
@@ -111,6 +117,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     model={model}
                     cases={cases}
                     activeCase={activeCase}
+                    changeNotifs={changeNotifs}
                     onContinueCase={caseObj => onContinueCase(caseObj)}
                     onDeleteCase={caseObj => onDeleteCase(caseObj)}
                 />
@@ -118,6 +125,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 <CaseView
                     model={model}
                     case={activeCase}
+                    onChangeNotify={onChangeNotify}
                     stopEditing={stopEditing}
                 />
                 <br/>

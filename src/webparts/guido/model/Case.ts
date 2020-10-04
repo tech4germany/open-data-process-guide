@@ -45,8 +45,11 @@ export class Case {
         }
     }
 
-    public getProgress(): number {
-        return 0;
+    public getProgressStr(): string {
+        let currentStep = this.step + 1;
+        let totalSteps = this.process.modules.length;
+        let progressPercentage = Math.round((currentStep / totalSteps) * 100);
+        return progressPercentage + '%, step ' + currentStep + '/' + totalSteps;
     }
 
     public setListID(listID: any) {

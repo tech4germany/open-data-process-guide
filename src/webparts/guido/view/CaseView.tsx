@@ -10,6 +10,7 @@ export interface ICaseViewProps {
     model: Model;
     case: Case;
     stopEditing: any;
+    onChangeNotify: any;
 }
 
 export default function CaseView(props: ICaseViewProps) {
@@ -27,6 +28,7 @@ export default function CaseView(props: ICaseViewProps) {
     const updateStep = newStep =>  {
         setStep(newStep);
         props.case.setStep(newStep);
+        props.onChangeNotify();
     }
 
     const nextStep = () => {
@@ -50,6 +52,7 @@ export default function CaseView(props: ICaseViewProps) {
     const onEdit = (fieldId, value) => {
         props.case.setValue(getModule().id, fieldId, value);
         props.model.updateCaseInStorage(props.case);
+        props.onChangeNotify();
     };
 
     // helper methods
