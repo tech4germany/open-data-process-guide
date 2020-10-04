@@ -20,7 +20,7 @@ export default function CaseView(props: ICaseViewProps) {
     useEffect(() => {
         if (props.case !== currentCase.current) {
             currentCase.current = props.case;
-            setStep(props.case.step);
+            setStep(props.case ? props.case.step : 0);
         }
     });
 
