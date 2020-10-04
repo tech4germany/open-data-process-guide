@@ -23,9 +23,10 @@ export default function Field(props: IFieldProps) {
     });
 
     const buildField = () => {
-        // https://developer.microsoft.com/en-us/fluentui#/controls/web
+        // developer.microsoft.com/en-us/fluentui#/controls/web
         switch(details.type) {
             case 'string':
+                // multiline etc. if needed: github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
                 return <Fabric.TextField
                     label={details.title}
                     value={value ? value : ''}
