@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 
 export class Case {
 
-    public id: String;
+    public id: string;
     public startTime: number;
     public process: Process;
     public listID: number = null;

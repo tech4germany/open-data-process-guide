@@ -67,6 +67,7 @@ export default function CaseView(props: ICaseViewProps) {
                     {' '}<small><a href='#' onClick={props.stopEditing}>stop editing</a></small>
                     <br/><br/><br/>
                     <Task
+                        caseId={props.case.id}
                         module={getModule()}
                         initialValues={getInitialValues()}
                         onEdit={(fieldId, value) => onEdit(fieldId, value)}
