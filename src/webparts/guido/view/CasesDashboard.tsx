@@ -33,6 +33,10 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         props.onDeleteCase(caseObj);
     };
 
+    const generateRDF = (caseObj) => {
+        alert('TODO');
+    };
+
     return (
         <>
             <span className={styles.title}>Case Dashboard</span>
@@ -44,9 +48,11 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                     {caseObj.id},
                     <small>
                         {' '}Started: {Utils.getFormattedTime(caseObj.startTime)},
-                        {' '}Progress: {activeCaseProgressStr},
+                        {' '}Progress: {activeCaseProgressStr}
+                        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {' '}<a href='#' onClick={() => continueCase(caseObj)}>continue editing</a>,
-                        {' '}<a href='#' onClick={() => deleteCase(caseObj)}>delete</a>
+                        {' '}<a href='#' onClick={() => deleteCase(caseObj)}>delete</a>,
+                        {' '}<a href='#' onClick={() => generateRDF(caseObj)}>generate metadata</a>
                     </small>
                 </li>
             )}
