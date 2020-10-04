@@ -5,6 +5,7 @@ import * as Fabric from "office-ui-fabric-react";
 export interface IFieldProps {
     details: any;
     onEdit: any;
+    initialValue: any;
 }
 
 export default function Field(props: IFieldProps) {
@@ -15,6 +16,9 @@ export default function Field(props: IFieldProps) {
     useEffect(() => {
         if (!details) {
             setDetails(props.details);
+        }
+        if (!value) {
+            setValue(props.initialValue);
         }
     });
 

@@ -43,7 +43,17 @@ export default function CaseView(props: ICaseViewProps) {
     // called from Task and there from Fields
 
     const onEdit = (fieldId, value) => {
-        console.log("onEdit: ", fieldId, value);
+        props.case.setValue(getModule().id, fieldId, value);
+    };
+
+    // helper methods
+
+    const getModule = () => {
+        return props.case.process.modules[step];
+    };
+
+    const getInitialValues = () => {
+        return props.case.values[getModule().id];
     };
 
     return (
@@ -56,7 +66,8 @@ export default function CaseView(props: ICaseViewProps) {
                     {' '}<small><a href='#' onClick={props.stopEditing}>stop editing</a></small>
                     <br/><br/><br/>
                     <Task
-                        module={props.case.process.modules[step]}
+                        module={getModule()}
+                        initialValues={getInitialValues()}
                         onEdit={(fieldId, value) => onEdit(fieldId, value)}
                     />
                     <br/><br/>

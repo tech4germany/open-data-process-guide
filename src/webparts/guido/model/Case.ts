@@ -31,6 +31,10 @@ export class Case {
         this.values = caseConf.values;
     }
 
+    public setValue(moduleId: string, fieldId: string, value: any) {
+        this.values[moduleId][fieldId] = value;
+    }
+
     public getJSONconfig(): any {
         return {
             id: this.id,

@@ -6,6 +6,7 @@ import Field from "./Field";
 export interface ITaskProps {
     module: Module;
     onEdit: any;
+    initialValues: any;
 }
 
 export default function Task(props: ITaskProps) {
@@ -30,6 +31,7 @@ export default function Task(props: ITaskProps) {
                         key={'field_' + fieldId}
                         details={module.config.fields[fieldId]}
                         onEdit={value => props.onEdit(fieldId, value)}
+                        initialValue={props.initialValues[fieldId]}
                     />)}
             </>
         )
