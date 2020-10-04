@@ -181,6 +181,17 @@ export class Model {
         }
     }
 
+    public updateCaseInStorage = (caseObj: Case) => {
+        if (Utils.isDevEnv()) {
+            // ?
+        } else {
+            this.lists.cases.items.getById(caseObj.listID).update({
+                // Title: caseObj.id,
+                [CASE_JSON_FIELD_NAME]: JSON.stringify(caseObj.getJSONconfig())
+            });
+        }
+    }
+
     public getInitialCases(procs: Process[], done) {
         this.loadCasesFromStorage(procs, (cases: Case[]) => {
             done(cases);

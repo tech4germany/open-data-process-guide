@@ -44,6 +44,7 @@ export default function CaseView(props: ICaseViewProps) {
 
     const onEdit = (fieldId, value) => {
         props.case.setValue(getModule().id, fieldId, value);
+        props.model.updateCaseInStorage(props.case);
     };
 
     // helper methods
