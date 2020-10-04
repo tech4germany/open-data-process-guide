@@ -20,9 +20,19 @@ export default function Field(props: IFieldProps) {
         // https://developer.microsoft.com/en-us/fluentui#/controls/web
         switch(details.type) {
             case 'string':
-                return <Fabric.TextField label={details.title} />;
+                return <Fabric.TextField
+                    label={details.title}
+                    onChanged={val => {
+                        console.log(details.title, val);
+                    }}
+                />;
             case 'boolean':
-                return <Fabric.Checkbox label={details.title} onChange={() => {}} />;
+                return <Fabric.Checkbox
+                    label={details.title}
+                    onChange={(e, isChecked) => {
+                        console.log(details.title, isChecked);
+                    }}
+                />;
         }
     };
 
