@@ -4,6 +4,7 @@ import * as Fabric from "office-ui-fabric-react";
 
 export interface IFieldProps {
     details: any;
+    onEdit: any;
 }
 
 export default function Field(props: IFieldProps) {

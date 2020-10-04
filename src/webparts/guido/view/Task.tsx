@@ -5,6 +5,7 @@ import Field from "./Field";
 
 export interface ITaskProps {
     module: Module;
+    onEdit: any;
 }
 
 export default function Task(props: ITaskProps) {
@@ -24,7 +25,12 @@ export default function Task(props: ITaskProps) {
                 <br/>
                 {module.config.description}
                 <br/><br/>
-                {Object.keys(module.config.fields).map(fieldKey => <Field key={'field_' + fieldKey} details={module.config.fields[fieldKey]}/>)}
+                {Object.keys(module.config.fields).map(fieldId =>
+                    <Field
+                        key={'field_' + fieldId}
+                        details={module.config.fields[fieldId]}
+                        onEdit={value => props.onEdit(fieldId, value)}
+                    />)}
             </>
         )
     );

@@ -40,6 +40,12 @@ export default function CaseView(props: ICaseViewProps) {
         return props.case ? 'Active Case: ' + props.case.id : 'Active Case';
     }
 
+    // called from Task and there from Fields
+
+    const onEdit = (fieldId, value) => {
+        console.log("onEdit: ", fieldId, value);
+    };
+
     return (
         <>
             <span className={styles.title}>{getHeadline()}</span>
@@ -49,7 +55,10 @@ export default function CaseView(props: ICaseViewProps) {
                     <i>Step: {step + 1}/{props.case.process.modules.length}</i>,
                     {' '}<small><a href='#' onClick={props.stopEditing}>stop editing</a></small>
                     <br/><br/><br/>
-                    <Task module={props.case.process.modules[step]}/>
+                    <Task
+                        module={props.case.process.modules[step]}
+                        onEdit={(fieldId, value) => onEdit(fieldId, value)}
+                    />
                     <br/><br/>
                     <div>
                         <p style={{ float: 'left' }}>
