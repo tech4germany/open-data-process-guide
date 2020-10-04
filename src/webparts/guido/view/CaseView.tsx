@@ -65,6 +65,12 @@ export default function CaseView(props: ICaseViewProps) {
         return props.case.values[getModule().id];
     };
 
+    const stopEditing = () => {
+        // not sure if the reset is necessary, but better play it safe for potential race conditions
+        setStep(0);
+        props.stopEditing();
+    };
+
     return (
         <>
             <span className={styles.title}>{getHeadline()}</span>
@@ -72,7 +78,7 @@ export default function CaseView(props: ICaseViewProps) {
             {props.case && (
                 <>
                     <i>Step: {step + 1}/{props.case.process.modules.length}</i>,
-                    {' '}<small><a href='#' onClick={props.stopEditing}>stop editing</a></small>
+                    {' '}<small><a href='#' onClick={stopEditing}>stop editing</a></small>
                     <br/><br/><br/>
                     <Task
                         caseId={props.case.id}
