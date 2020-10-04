@@ -48,8 +48,18 @@ export class Case {
     public getProgressStr(): string {
         let currentStep = this.step + 1;
         let totalSteps = this.process.modules.length;
-        let progressPercentage = Math.round((currentStep / totalSteps) * 100);
-        return progressPercentage + '%, step ' + currentStep + '/' + totalSteps;
+        let totalFields = 0;
+        let nonemptyFields = 0;
+        Object.keys(this.values).map(moduleId => {
+            Object.keys(this.values[moduleId]).map(fieldId => {
+                totalFields ++;
+                if (this.values[moduleId][fieldId]) {
+                    nonemptyFields ++;
+                }
+            });
+        });
+        let progressPercentage = Math.round((nonemptyFields / totalFields) * 100);
+        return progressPercentage + '% (' + nonemptyFields + '/' + totalFields + ' fields), currently in step ' + currentStep + '/' + totalSteps;
     }
 
     public setListID(listID: any) {
