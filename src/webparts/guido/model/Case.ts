@@ -52,4 +52,8 @@ export class Case {
     public setListID(listID: any) {
         this.listID = listID;
     }
+
+    public setStep(newStep: number) {
+        this.step = newStep;
+    }
 }

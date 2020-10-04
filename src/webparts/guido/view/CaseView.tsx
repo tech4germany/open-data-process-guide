@@ -20,19 +20,24 @@ export default function CaseView(props: ICaseViewProps) {
     useEffect(() => {
         if (props.case !== currentCase.current) {
             currentCase.current = props.case;
-            setStep(0);
+            setStep(props.case.step);
         }
     });
 
+    const updateStep = newStep =>  {
+        setStep(newStep);
+        props.case.setStep(newStep);
+    }
+
     const nextStep = () => {
         if (step < props.case.process.modules.length - 1) {
-            setStep(step + 1);
+            updateStep(step + 1);
         }
     };
 
     const previousStep = () => {
         if (step >= 1) {
-            setStep(step - 1);
+            updateStep(step - 1);
         }
     };
 
