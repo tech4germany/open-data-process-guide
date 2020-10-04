@@ -48,7 +48,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                     {caseObj.id},
                     <small>
                         {' '}Started: {Utils.getFormattedTime(caseObj.startTime)},
-                        {' '}Progress: {activeCaseProgressStr}
+                        {' '}Progress: {caseObj === props.activeCase ? activeCaseProgressStr : caseObj.getProgressStr()}
                         <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {' '}<a href='#' onClick={() => continueCase(caseObj)}>continue editing</a>,
                         {' '}<a href='#' onClick={() => deleteCase(caseObj)}>delete</a>,
