@@ -232,4 +232,33 @@ export class Model {
             await this.lists.cases.items.getById(caseObj.listID).delete();
         }
     }
+
+    public uploadFilesToCase(caseId: string, fileList: FileList) {
+        if (Utils.isDevEnv()) {
+            return;
+        }
+
+        let folderPath = CASE_FILES_DIR + '/' + caseId;
+
+        let upload = () => {
+            for (let i = 0; i < fileList.length; i++) {
+                let file = fileList[i];
+                // for large (?) files, upload in chunks instead: https://pnp.github.io/pnpjs/sp/files/#adding-files
+                sp.web.getFolderByServerRelativeUrl(folderPath).files.add(file.name, file, true).then(f => {
+                    console.log("Uploaded file: " + f.data.ServerRelativeUrl);
+                });
+            }
+        };
+
+        sp.web.getFolderByServerRelativeUrl(folderPath).get()
+            .then(() => {
+                upload();
+            })
+            .catch(e => {
+                sp.web.folders.add(folderPath).then(() => {
+                    console.log("Created folder: " + folderPath);
+                    upload();
+                });
+            });
+    }
 }

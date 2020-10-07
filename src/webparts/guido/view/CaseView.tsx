@@ -17,6 +17,7 @@ export default function CaseView(props: ICaseViewProps) {
 
     const [step, setStep] = useState(0);
     const currentCase = useRef(null);
+    const [showFileChooser, setShowFileChooser] = useState(false);
 
     useEffect(() => {
         if (props.case !== currentCase.current) {
@@ -71,12 +72,27 @@ export default function CaseView(props: ICaseViewProps) {
         props.stopEditing();
     };
 
+    const addFile = () => {
+        setShowFileChooser(!showFileChooser);
+    };
+
+    const handleChange = (fileList: FileList) => {
+        props.model.uploadFilesToCase(props.case.id, fileList);
+        // TODO add to case and render here
+        setShowFileChooser(false);
+    };
+
     return (
         <>
             <span className={styles.title}>{getHeadline()}</span>
             <br/><br/>
             {props.case && (
                 <>
+                    <a href='#' onClick={addFile}>Dateien hinzufügen</a>{' '}
+                    {showFileChooser &&
+                        <input type="file" multiple onChange={e => handleChange(e.target.files)}/>
+                    }
+                    <br/><br/>
                     <i>Step: {step + 1}/{props.case.process.modules.length}</i>,
                     {' '}<small><a href='#' onClick={stopEditing}>stop editing</a></small>
                     <br/><br/><br/>
