@@ -18,6 +18,7 @@ const PROCESS_JSON_FIELD_NAME: string = 'processJSON';
 const CASES_LIST_NAME: string = 'guido-cases';
 const CASE_JSON_FIELD_NAME: string = 'caseJSON';
 const DOCS_DIR: string = '/sites/Guido/Freigegebene%20Dokumente';
+const CASE_FILES_DIR: string = DOCS_DIR + '/case-files';
 
 export class Model {
 
@@ -31,71 +32,40 @@ export class Model {
     public lists: any = {};
 
     constructor() {
-        this.dev();
-    }
-
-    private dev = async() => {
-        // add file
-        await sp.web.getFolderByServerRelativeUrl(DOCS_DIR).files.add('file.name', 'file-content', true);
-
-        // get all files
-        sp.web.getFolderByServerRelativeUrl(DOCS_DIR).files.get().then(files => {
-            for (let i = 0; i < files.length; i++) {
-                let fileUrl = files[i].ServerRelativeUrl;
-                sp.web.getFileByServerRelativeUrl(fileUrl).getItem().then(item=> {
-                    console.log(fileUrl, item);
-                });
-            }
-        });
-
-        // get share link
-        const result = await sp.web.getFolderByServerRelativeUrl(DOCS_DIR + '/test.json').getShareLink(SharingLinkKind.AnonymousView);
-        console.log(result);
-        // adding ?download=1 makes it download immediately
-    }
-
-    public getInitialProcesses(done) {
-        this.initStorage(() => {
-            this.loadProcessesFromStorage((procs: Process[]) => {
-                done(procs);
-            });
-        });
-        return null;
-    }
-
-    private initStorage = done => {
         if (Utils.isDevEnv()) {
-            done();
-        } else {
-            this.initLists(done);
+            return;
         }
+        this.initFolderStructure();
+        this.initLists();
     }
 
-    private initLists = async(done) => {
+    private initFolderStructure = () => {
+        sp.web.getFolderByServerRelativeUrl(CASE_FILES_DIR).get().catch(e => {
+            sp.web.folders.add(CASE_FILES_DIR).then(() => {
+                console.log("Created directory: " + CASE_FILES_DIR);
+            });
+        })
+    }
+
+    private initLists = async() => {
         let procsListEnsure = await sp.web.lists.ensure(PROCESSES_LIST_NAME);
         let casesListEnsure = await sp.web.lists.ensure(CASES_LIST_NAME);
         this.lists = {
             procs: procsListEnsure.list,
             cases: casesListEnsure.list
         }
-        if (casesListEnsure.created) {
-            await casesListEnsure.list.fields.addText(CASE_JSON_FIELD_NAME);
-        }
-        if (procsListEnsure.created) {
-            // list was just created
+        if (procsListEnsure.created) { // list was just created
+            console.log("Created list: " + PROCESSES_LIST_NAME);
             await procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME);
-            // let promises: Promise<Process>[] = ...
-            // this is to make sure we are waiting until all processes from config.json got added to the list before moving on
-            Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {
-                done();
-            });
-        } else {
-            // list already existed
-            done();
+            Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {});
+        }
+        if (casesListEnsure.created) {
+            console.log("Created list: " + CASES_LIST_NAME);
+            await casesListEnsure.list.fields.addText(CASE_JSON_FIELD_NAME);
         }
     }
 
-    private loadProcessesFromStorage = done => {
+    public getInitialProcesses(done) {
         if (Utils.isDevEnv()) {
             // import processes defined in config.json
             Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(procs => {
