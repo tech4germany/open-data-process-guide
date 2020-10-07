@@ -8,11 +8,16 @@ import "@pnp/sp/lists/web";
 import "@pnp/sp/fields/list";
 import "@pnp/sp/items/list";
 import Utils from "./Utils";
+import "@pnp/sp/files/web";
+import "@pnp/sp/folders/web";
+import "@pnp/sp/files/folder";
+import { SharingLinkKind } from "@pnp/sp/sharing";
 
 const PROCESSES_LIST_NAME: string = 'guido-processes';
 const PROCESS_JSON_FIELD_NAME: string = 'processJSON';
 const CASES_LIST_NAME: string = 'guido-cases';
 const CASE_JSON_FIELD_NAME: string = 'caseJSON';
+const DOCS_DIR: string = '/sites/Guido/Freigegebene%20Dokumente';
 
 export class Model {
 
@@ -24,6 +29,30 @@ export class Model {
      */
 
     public lists: any = {};
+
+    constructor() {
+        this.dev();
+    }
+
+    private dev = async() => {
+        // add file
+        await sp.web.getFolderByServerRelativeUrl(DOCS_DIR).files.add('file.name', 'file-content', true);
+
+        // get all files
+        sp.web.getFolderByServerRelativeUrl(DOCS_DIR).files.get().then(files => {
+            for (let i = 0; i < files.length; i++) {
+                let fileUrl = files[i].ServerRelativeUrl;
+                sp.web.getFileByServerRelativeUrl(fileUrl).getItem().then(item=> {
+                    console.log(fileUrl, item);
+                });
+            }
+        });
+
+        // get share link
+        const result = await sp.web.getFolderByServerRelativeUrl(DOCS_DIR + '/test.json').getShareLink(SharingLinkKind.AnonymousView);
+        console.log(result);
+        // adding ?download=1 makes it download immediately
+    }
 
     public getInitialProcesses(done) {
         this.initStorage(() => {
