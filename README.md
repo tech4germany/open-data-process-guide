@@ -24,6 +24,12 @@ For deploying the web part in a SharePoint environment, we signed up for an onli
 
 - To set the permissions for sharing files and folders from SharePoint to "anyone with the link" (= no login required, by default this is not allowed), follow the [instructions here](https://docs.microsoft.com/en-US/sharepoint/change-external-sharing-site).
 
+### Degrees of Deployment
+
+TODO
+
+Add `_layouts/workbench.aspx` to your SharePoint site URL.
+
 ## Setup
 
 The skeleton for the web part was created using `yo @microsoft/sharepoint`, following the tutorial [here](point/dev/spfx/web-parts/get-started/build-a-hello-world-web-part). More info in the respective [commit message](https://github.com/tech4germany/open-data-process-guide/commit/d3f418f64628d94720e3f6f8749c4c67d72d0eb3).
