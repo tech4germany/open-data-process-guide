@@ -77,8 +77,9 @@ export default function CaseView(props: ICaseViewProps) {
     };
 
     const handleChange = (fileList: FileList) => {
-        props.model.uploadFilesToCase(props.case.id, fileList);
-        // TODO add to case and render here
+        props.model.uploadFilesToCase(props.case.id, fileList).then(filePaths => {
+            // ...
+        });
         setShowFileChooser(false);
     };
 

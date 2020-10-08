@@ -233,32 +233,39 @@ export class Model {
         }
     }
 
-    public uploadFilesToCase(caseId: string, fileList: FileList) {
-        if (Utils.isDevEnv()) {
-            return;
-        }
-
-        let folderPath = CASE_FILES_DIR + '/' + caseId;
-
-        let upload = () => {
-            for (let i = 0; i < fileList.length; i++) {
-                let file = fileList[i];
-                // for large (?) files, upload in chunks instead: https://pnp.github.io/pnpjs/sp/files/#adding-files
-                sp.web.getFolderByServerRelativeUrl(folderPath).files.add(file.name, file, true).then(f => {
-                    console.log("Uploaded file: " + f.data.ServerRelativeUrl);
-                });
+    public uploadFilesToCase(caseId: string, fileList: FileList): Promise<string[]> {
+        return new Promise<string[]>(resolve => {
+            if (Utils.isDevEnv()) {
+                resolve([])
+                return;
             }
-        };
 
-        sp.web.getFolderByServerRelativeUrl(folderPath).get()
-            .then(() => {
-                upload();
-            })
-            .catch(e => {
-                sp.web.folders.add(folderPath).then(() => {
-                    console.log("Created folder: " + folderPath);
-                    upload();
+            let folderPath = CASE_FILES_DIR + '/' + caseId;
+
+            let uploadFiles = () => {
+                let promises = [];
+                for (let i = 0; i < fileList.length; i++) {
+                    let file = fileList[i];
+                    // for large (?) files, upload in chunks instead: https://pnp.github.io/pnpjs/sp/files/#adding-files
+                    promises.push(sp.web.getFolderByServerRelativeUrl(folderPath).files.add(file.name, file, true));
+                }
+                Promise.all(promises).then(uploadedFiles => {
+                    let filePaths = uploadedFiles.map(f => f.data.ServerRelativeUrl);
+                    filePaths.map(p => console.log("Uploaded file: " + p));
+                    resolve(filePaths);
                 });
-            });
+            };
+
+            sp.web.getFolderByServerRelativeUrl(folderPath).get()
+                .then(() => {
+                    uploadFiles();
+                })
+                .catch(e => {
+                    sp.web.folders.add(folderPath).then(() => {
+                        console.log("Created folder: " + folderPath);
+                        uploadFiles();
+                    });
+                });
+        });
     }
 }
