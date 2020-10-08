@@ -23,6 +23,7 @@ export default function CaseView(props: ICaseViewProps) {
     useEffect(() => {
         if (props.case !== currentCase.current) {
             currentCase.current = props.case;
+            updateCaseFileNames();
             setStep(props.case ? props.case.step : 0);
         }
     });
@@ -77,11 +78,15 @@ export default function CaseView(props: ICaseViewProps) {
         setShowFileChooser(!showFileChooser);
     };
 
+    const updateCaseFileNames = () => {
+        if (props.case.caseFolder) { // running locally, this is null
+            setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
+        }
+    };
+
     const handleChange = (fileList: FileList) => {
         props.model.uploadFilesToCase(props.case, fileList).then(() => {
-            if (props.case.caseFolder) { // running locally, this is null
-                setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
-            }
+            updateCaseFileNames();
         });
         setShowFileChooser(false);
     };
