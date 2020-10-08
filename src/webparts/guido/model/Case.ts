@@ -9,6 +9,7 @@ export class Case {
     public listID: number = null;
     public step: number = 0;
     public values: any = {};
+    public filePaths: string[] = []; // path to files
 
     public initNewCase(process: Process) {
         this.process = process;
@@ -33,6 +34,14 @@ export class Case {
 
     public setValue(moduleId: string, fieldId: string, value: any) {
         this.values[moduleId][fieldId] = value;
+    }
+
+    public addFilePath(filePath: string) {
+        this.filePaths.push(filePath);
+    }
+
+    public getFilePaths() {
+        return this.filePaths;
     }
 
     public getJSONconfig(): any {
