@@ -1,5 +1,6 @@
 import { Process } from "./Process";
 import { nanoid } from 'nanoid';
+import { CaseFolder } from "./CaseFolder";
 
 export class Case {
 
@@ -9,7 +10,7 @@ export class Case {
     public listID: number = null;
     public step: number = 0;
     public values: any = {};
-    public filePaths: string[] = []; // path to files
+    public caseFolder: CaseFolder = null;
 
     public initNewCase(process: Process) {
         this.process = process;
@@ -36,12 +37,8 @@ export class Case {
         this.values[moduleId][fieldId] = value;
     }
 
-    public addFilePath(filePath: string) {
-        this.filePaths.push(filePath);
-    }
-
-    public getFilePaths() {
-        return this.filePaths;
+    public setCaseFolder(caseFolder: CaseFolder) {
+        this.caseFolder = caseFolder;
     }
 
     public getJSONconfig(): any {

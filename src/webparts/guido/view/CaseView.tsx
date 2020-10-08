@@ -18,7 +18,7 @@ export default function CaseView(props: ICaseViewProps) {
     const [step, setStep] = useState(0);
     const currentCase = useRef(null);
     const [showFileChooser, setShowFileChooser] = useState(false);
-    const [filePaths, setFilePaths] = useState([]);
+    const [caseFileNames, setCaseFileNames] = useState([]);
 
     useEffect(() => {
         if (props.case !== currentCase.current) {
@@ -78,9 +78,8 @@ export default function CaseView(props: ICaseViewProps) {
     };
 
     const handleChange = (fileList: FileList) => {
-        props.model.uploadFilesToCase(props.case.id, fileList).then(filePaths => {
-            filePaths.map(fp => props.case.addFilePath(fp));
-            setFilePaths(props.case.getFilePaths());
+        props.model.uploadFilesToCase(props.case, fileList).then(() => {
+            setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
         });
         setShowFileChooser(false);
     };
@@ -95,9 +94,9 @@ export default function CaseView(props: ICaseViewProps) {
                     {showFileChooser &&
                         <input type="file" multiple onChange={e => handleChange(e.target.files)}/>
                     }
-                    {filePaths.map(path =>
+                    {caseFileNames.map(name =>
                         <>
-                            <span>{path}</span>{' '}
+                            <span>{name}</span>{' '}
                         </>
                     )}
                     <br/><br/>

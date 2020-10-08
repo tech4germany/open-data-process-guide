@@ -12,6 +12,7 @@ import "@pnp/sp/files/web";
 import "@pnp/sp/folders/web";
 import "@pnp/sp/files/folder";
 import { SharingLinkKind } from "@pnp/sp/sharing";
+import { CaseFile, CaseFolder } from "./CaseFolder";
 
 const PROCESSES_LIST_NAME: string = 'guido-processes';
 const PROCESS_JSON_FIELD_NAME: string = 'processJSON';
@@ -237,39 +238,47 @@ export class Model {
         }
     }
 
-    public uploadFilesToCase(caseId: string, fileList: FileList): Promise<string[]> {
-        return new Promise<string[]>(resolve => {
+    public uploadFilesToCase(caseObj: Case, fileList: FileList): Promise<void> {
+        return new Promise<void>(resolve => {
             if (Utils.isDevEnv()) {
-                resolve([])
+                resolve();
                 return;
             }
-
-            let folderPath = CASE_FILES_DIR + '/' + caseId;
 
             let uploadFiles = () => {
                 let promises = [];
                 for (let i = 0; i < fileList.length; i++) {
                     let file = fileList[i];
                     // for large (?) files, upload in chunks instead: https://pnp.github.io/pnpjs/sp/files/#adding-files
-                    promises.push(sp.web.getFolderByServerRelativeUrl(folderPath).files.add(file.name, file, true));
+                    promises.push(sp.web.getFolderByServerRelativeUrl(caseObj.caseFolder.path).files.add(file.name, file, true));
                 }
                 Promise.all(promises).then(uploadedFiles => {
-                    let filePaths = uploadedFiles.map(f => f.data.ServerRelativeUrl);
-                    filePaths.map(p => console.log("Uploaded file: " + p));
-                    resolve(filePaths);
+                    uploadedFiles.map(f => {
+                        caseObj.caseFolder.addCaseFile(new CaseFile(
+                            f.data.ServerRelativeUrl,
+                            f.data.Name,
+                            f.data.Name.split('.')[1], // make this more robust
+                        ));
+                    });
+                    uploadedFiles.map(f => console.log("Uploaded file: " + f.data.Name + ' to ' + caseObj.caseFolder.path));
+                    resolve();
                 });
             };
 
-            sp.web.getFolderByServerRelativeUrl(folderPath).get()
-                .then(() => {
-                    uploadFiles();
-                })
-                .catch(e => {
-                    sp.web.folders.add(folderPath).then(() => {
-                        console.log("Created folder: " + folderPath);
+            if (caseObj.caseFolder) {
+                // folder exists already, can happen though that it's only referenced in the case but got actually deleted
+                // to make it robust, there should be a safeguard against that
+                uploadFiles();
+            } else { // has to be created first
+                let newFolderPath = CASE_FILES_DIR + '/' + caseObj.id;
+                sp.web.folders.add(newFolderPath).then(() => {
+                    console.log("Created folder: " + newFolderPath);
+                    sp.web.getFolderByServerRelativeUrl(newFolderPath).getShareLink(SharingLinkKind.OrganizationEdit).then(result => {
+                        caseObj.setCaseFolder(new CaseFolder(newFolderPath, result.sharingLinkInfo.Url));
                         uploadFiles();
                     });
                 });
+            }
         });
     }
 }
