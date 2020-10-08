@@ -79,7 +79,9 @@ export default function CaseView(props: ICaseViewProps) {
 
     const handleChange = (fileList: FileList) => {
         props.model.uploadFilesToCase(props.case, fileList).then(() => {
-            setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
+            if (props.case.caseFolder) { // running locally, this is null
+                setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
+            }
         });
         setShowFileChooser(false);
     };
