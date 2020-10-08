@@ -95,9 +95,9 @@ export default function CaseView(props: ICaseViewProps) {
                         <input type="file" multiple onChange={e => handleChange(e.target.files)}/>
                     }
                     {caseFileNames.map(name =>
-                        <>
+                        <a href={props.case.caseFolder.folderSharingLink} target="_blank">
                             <span>{name}</span>{' '}
-                        </>
+                        </a>
                     )}
                     <br/><br/>
                     <i>Step: {step + 1}/{props.case.process.modules.length}</i>,
