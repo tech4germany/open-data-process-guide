@@ -31,12 +31,14 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         if (!model) {
             let model: Model = new Model();
             setModel(model);
-            model.getInitialProcesses(procs => {
-                setProcesses(procs);
-                // initStorage is done at this point
-                model.getInitialCases(procs, cases => {
-                    setCases(cases);
-                })
+            model.initLists(() => {
+                model.getInitialProcesses(procs => {
+                    setProcesses(procs);
+                    // initStorage is done at this point
+                    model.getInitialCases(procs, cases => {
+                        setCases(cases);
+                    })
+                });
             });
         }
     });

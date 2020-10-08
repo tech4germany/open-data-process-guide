@@ -36,7 +36,6 @@ export class Model {
             return;
         }
         this.initFolderStructure();
-        this.initLists();
     }
 
     private initFolderStructure = () => {
@@ -47,7 +46,11 @@ export class Model {
         })
     }
 
-    private initLists = async() => {
+    public initLists = async(done) => {
+        if (Utils.isDevEnv()) {
+            done();
+            return;
+        }
         let procsListEnsure = await sp.web.lists.ensure(PROCESSES_LIST_NAME);
         let casesListEnsure = await sp.web.lists.ensure(CASES_LIST_NAME);
         this.lists = {
@@ -63,6 +66,7 @@ export class Model {
             console.log("Created list: " + CASES_LIST_NAME);
             await casesListEnsure.list.fields.addText(CASE_JSON_FIELD_NAME);
         }
+        done();
     }
 
     public getInitialProcesses(done) {
