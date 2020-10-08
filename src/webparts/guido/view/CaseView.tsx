@@ -79,7 +79,7 @@ export default function CaseView(props: ICaseViewProps) {
     };
 
     const updateCaseFileNames = () => {
-        if (props.case.caseFolder) { // running locally, this is null
+        if (props.case && props.case.caseFolder) { // running locally, this is null
             setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
         }
     };
