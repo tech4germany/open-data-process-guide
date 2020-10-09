@@ -11,9 +11,11 @@ import CasesDashboard from "../view/CasesDashboard";
 import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
 import CaseView from "../view/CaseView";
+import { SettingsObject } from "../model/SettingsObject";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
+    const [settingsObject, setSettingsObject] = useState(null);
     const [paramsParsed, setParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
     const [processes, setProcesses] = useState([]);
@@ -31,8 +33,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         if (!model) {
             let model: Model = new Model();
             setModel(model);
-            model.initLists(() => {
+            let sObj = new SettingsObject();
+            model.initLists(sObj, () => {
                 model.getInitialProcesses(procs => {
+                    model.initSettings(sObj, procs[0].id).then(() => {
+                        setSettingsObject(sObj);
+                    });
                     setProcesses(procs);
                     // initStorage is done at this point
                     model.getInitialCases(procs, cases => {

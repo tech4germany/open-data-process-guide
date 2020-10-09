@@ -13,7 +13,10 @@ import "@pnp/sp/folders/web";
 import "@pnp/sp/files/folder";
 import { SharingLinkKind } from "@pnp/sp/sharing";
 import { CaseFile, CaseFolder } from "./CaseFolder";
+import { SettingsObject } from "./SettingsObject";
 
+const SETTINGS_LIST_NAME: string = 'guido-settings';
+const SETTINGS_JSON_FIELD_NAME: string = 'settingsJSON';
 const PROCESSES_LIST_NAME: string = 'guido-processes';
 const PROCESS_JSON_FIELD_NAME: string = 'processJSON';
 const CASES_LIST_NAME: string = 'guido-cases';
@@ -47,14 +50,16 @@ export class Model {
         })
     }
 
-    public initLists = async(done) => {
+    public initLists = async(settingsObj: SettingsObject, done) => {
         if (Utils.isDevEnv()) {
             done();
             return;
         }
+        let settingsListEnsure = await sp.web.lists.ensure(SETTINGS_LIST_NAME);
         let procsListEnsure = await sp.web.lists.ensure(PROCESSES_LIST_NAME);
         let casesListEnsure = await sp.web.lists.ensure(CASES_LIST_NAME);
         this.lists = {
+            settings: settingsListEnsure.list,
             procs: procsListEnsure.list,
             cases: casesListEnsure.list
         }
@@ -67,8 +72,39 @@ export class Model {
             console.log("Created list: " + CASES_LIST_NAME);
             await casesListEnsure.list.fields.addText(CASE_JSON_FIELD_NAME);
         }
+        if (settingsListEnsure.created) {
+            console.log("Created list: " + SETTINGS_LIST_NAME);
+            // do this after initializing processes to be able to set the first one as default process
+            await settingsListEnsure.list.items.add({
+                Title: 'settings',
+                [SETTINGS_JSON_FIELD_NAME]: JSON.stringify(settingsObj.getJSONconfig())
+            });
+        }
         done();
     }
+
+    // SETTINGS
+
+    public initSettings(settingsObj: SettingsObject, fallbackDefaultProcessID: string): Promise<void> {
+        return new Promise<void>(resolve => {
+            if (Utils.isDevEnv()) {
+                settingsObj.defaultProcessId = fallbackDefaultProcessID;
+                resolve();
+            }
+            sp.web.lists.getByTitle(SETTINGS_LIST_NAME).items.get().then((items: any[]) => {
+                // we expect just one item to be there
+                settingsObj.setListItemID(items[0].ID);
+                let json = items[0][SETTINGS_JSON_FIELD_NAME];
+                if (!json.defaultProcessId) {
+                    json.defaultProcessId = fallbackDefaultProcessID;
+                }
+                settingsObj.setFromJSON(json);
+                resolve();
+            });
+        });
+    }
+
+    // PROCESSES
 
     public getInitialProcesses(done) {
         if (Utils.isDevEnv()) {
