@@ -90,6 +90,7 @@ export class Model {
             if (Utils.isDevEnv()) {
                 settingsObj.defaultProcessId = fallbackDefaultProcessID;
                 resolve();
+                return;
             }
             sp.web.lists.getByTitle(SETTINGS_LIST_NAME).items.get().then((items: any[]) => {
                 // we expect just one item to be there
