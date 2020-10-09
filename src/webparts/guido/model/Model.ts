@@ -74,6 +74,7 @@ export class Model {
         }
         if (settingsListEnsure.created) {
             console.log("Created list: " + SETTINGS_LIST_NAME);
+            await settingsListEnsure.list.fields.addText(SETTINGS_JSON_FIELD_NAME);
             // do this after initializing processes to be able to set the first one as default process
             await settingsListEnsure.list.items.add({
                 Title: 'settings',
