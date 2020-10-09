@@ -15,6 +15,7 @@ import { SettingsObject } from "../model/SettingsObject";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
+    const [showProcessDashboard, setShowProcessDashboard] = useState(false);
     const settingsObject = useRef(null);
     const [defaultProcessId, setDefaultProcessId] = useState(null);
     const [paramsParsed, setParamsParsed] = useState(null);
@@ -121,16 +122,24 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             <div className={styles.row}>
                 {/*<Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>*/}
-                <ProcessDashboard
-                    model={model}
-                    processes={processes}
-                    onStartCase={proc => onStartCase(proc)}
-                    onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
-                    onDeleteProcess={proc => onDeleteProcess(proc)}
-                    defaultProcessId={defaultProcessId}
-                    onDefaultProcessChange={procId => onDefaultProcessChange(procId)}
-                />
-                <br/><hr/>
+                {showProcessDashboard &&
+                    <>
+                        <ProcessDashboard
+                            model={model}
+                            processes={processes}
+                            onStartCase={proc => onStartCase(proc)}
+                            onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
+                            onDeleteProcess={proc => onDeleteProcess(proc)}
+                            defaultProcessId={defaultProcessId}
+                            onDefaultProcessChange={procId => onDefaultProcessChange(procId)}
+                        />
+                        <br/>
+                        <hr/>
+                    </>
+                }
+                <a href='#' onClick={() => setShowProcessDashboard(!showProcessDashboard)}>
+                    Prozessübersicht {showProcessDashboard ? 'verstecken' : 'anzeigen'}
+                </a><br/>
                 <CasesDashboard
                     model={model}
                     cases={cases}
