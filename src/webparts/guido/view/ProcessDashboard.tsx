@@ -11,7 +11,8 @@ export interface IProcessDashboardProps {
     onStartCase: any;
     onImportProcess: any;
     onDeleteProcess: any;
-    settingsObject: any;
+    defaultProcessId: any;
+    onDefaultProcessChange: any;
 }
 
 export default function ProcessDashboard(props: IProcessDashboardProps) {
@@ -44,7 +45,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
     };
 
     const makeDefaultProc = proc => {
-        // TODO
+        props.onDefaultProcessChange(proc.id);
     };
 
     return (
@@ -54,7 +55,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
             <b>Available processes</b>:<br/>
             {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
-                    {props.settingsObject && props.settingsObject.defaultProcessId === proc.id && <small>[default] </small>}
+                    {props.defaultProcessId && props.defaultProcessId === proc.id && <small>[default] </small>}
                     {proc.name},
                     <small>
                         {' '}<a href='#' onClick={() => startCase(proc)}>start case</a>,

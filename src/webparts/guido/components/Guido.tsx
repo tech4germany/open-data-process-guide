@@ -85,6 +85,13 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setProcesses(processes.filter(p => p !== proc));
     };
 
+    const onDefaultProcessChange = procId => {
+        settingsObject.current.defaultProcessId = procId;
+        model.updateSettingsInStorage(settingsObject.current).then(() => {
+            setDefaultProcessId(procId);
+        })
+    };
+
     // called from CasesDashboard
 
     const onContinueCase = caseObj => {
@@ -120,7 +127,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     onStartCase={proc => onStartCase(proc)}
                     onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
                     onDeleteProcess={proc => onDeleteProcess(proc)}
-                    settingsObject={settingsObject}
+                    defaultProcessId={defaultProcessId}
+                    onDefaultProcessChange={procId => onDefaultProcessChange(procId)}
                 />
                 <br/><hr/>
                 <CasesDashboard

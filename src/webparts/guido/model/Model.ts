@@ -106,6 +106,20 @@ export class Model {
         });
     }
 
+    public updateSettingsInStorage = (settingsObj: SettingsObject): Promise<void> => {
+        return new Promise<void>(resolve => {
+            if (Utils.isDevEnv()) {
+                resolve();
+                return;
+            }
+            this.lists.settings.items.getById(settingsObj.listItemID).update({
+                [SETTINGS_JSON_FIELD_NAME]: JSON.stringify(settingsObj.getJSONconfig())
+            }).then(() => {
+                resolve();
+            });
+        });
+    }
+
     // PROCESSES
 
     public getInitialProcesses(done) {
