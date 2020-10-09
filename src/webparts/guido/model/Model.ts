@@ -96,7 +96,7 @@ export class Model {
             sp.web.lists.getByTitle(SETTINGS_LIST_NAME).items.get().then((items: any[]) => {
                 // we expect just one item to be there
                 settingsObj.setListItemID(items[0].ID);
-                let json = items[0][SETTINGS_JSON_FIELD_NAME];
+                let json = JSON.parse(items[0][SETTINGS_JSON_FIELD_NAME]);
                 if (!json.defaultProcessId) {
                     json.defaultProcessId = fallbackDefaultProcessID;
                 }
