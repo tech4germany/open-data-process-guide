@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from './Guido.module.scss';
 import { IGuidoWebPartProps } from '../GuidoWebPart';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -15,7 +15,8 @@ import { SettingsObject } from "../model/SettingsObject";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
-    const [settingsObject, setSettingsObject] = useState(null);
+    const settingsObject = useRef(null);
+    const [defaultProcessId, setDefaultProcessId] = useState(null);
     const [paramsParsed, setParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
     const [processes, setProcesses] = useState([]);
@@ -33,11 +34,11 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         if (!model) {
             let model: Model = new Model();
             setModel(model);
-            let sObj = new SettingsObject();
-            model.initLists(sObj, () => {
+            settingsObject.current = new SettingsObject();
+            model.initLists(settingsObject.current, () => {
                 model.getInitialProcesses(procs => {
-                    model.initSettings(sObj, procs[0].id).then(() => {
-                        setSettingsObject(sObj);
+                    model.initSettings(settingsObject.current, procs[0].id).then(() => {
+                        setDefaultProcessId(settingsObject.current.defaultProcessId)
                     });
                     setProcesses(procs);
                     // initStorage is done at this point
