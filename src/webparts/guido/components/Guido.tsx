@@ -39,7 +39,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             model.initLists(settingsObject.current, () => {
                 model.getInitialProcesses(procs => {
                     model.initSettings(settingsObject.current, procs[0].id).then(() => {
-                        setDefaultProcessId(settingsObject.current.defaultProcessId)
+                        setDefaultProcessId(settingsObject.current.defaultProcessId);
+                        setShowProcessDashboard(settingsObject.current.showProcessDashboard);
                     });
                     setProcesses(procs);
                     // initStorage is done at this point
@@ -50,6 +51,13 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             });
         }
     });
+
+    const toggleShowProcessDashboard = () => {
+        settingsObject.current.toggleShowProcessDashboard();
+        model.updateSettingsInStorage(settingsObject.current).then(() => {
+            setShowProcessDashboard(settingsObject.current.showProcessDashboard);
+        });
+    };
 
     const dev = () => {
         console.log("isDevEnv: ", Utils.isDevEnv());
@@ -137,7 +145,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                         <hr/>
                     </>
                 }
-                <a href='#' onClick={() => setShowProcessDashboard(!showProcessDashboard)}>
+                <a href='#' onClick={toggleShowProcessDashboard}>
                     Prozessübersicht {showProcessDashboard ? 'verstecken' : 'anzeigen'}
                 </a><br/>
                 <CasesDashboard
