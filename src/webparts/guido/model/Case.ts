@@ -7,7 +7,7 @@ export class Case {
     public id: string;
     public startTime: number;
     public process: Process;
-    public listID: number = null;
+    public listItemID: number = null;
     public step: number = 0;
     public values: any = {};
     public caseFolder: CaseFolder = null;
@@ -68,8 +68,8 @@ export class Case {
         return progressPercentage + '% (' + nonemptyFields + '/' + totalFields + ' fields), currently in step ' + currentStep + '/' + totalSteps;
     }
 
-    public setListID(listID: any) {
-        this.listID = listID;
+    public setListItemID(listID: any) {
+        this.listItemID = listID;
     }
 
     public setStep(newStep: number) {

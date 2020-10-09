@@ -179,7 +179,7 @@ export class Model {
                 Title: caseObj.id,
                 [CASE_JSON_FIELD_NAME]: JSON.stringify(caseObj.getJSONconfig())
             }).then(item => {
-                caseObj.setListID(item.data.ID);
+                caseObj.setListItemID(item.data.ID);
                 resolve(caseObj);
             });
         }
@@ -189,7 +189,7 @@ export class Model {
         if (Utils.isDevEnv()) {
             // ?
         } else {
-            this.lists.cases.items.getById(caseObj.listID).update({
+            this.lists.cases.items.getById(caseObj.listItemID).update({
                 // Title: caseObj.id,
                 [CASE_JSON_FIELD_NAME]: JSON.stringify(caseObj.getJSONconfig())
             });
@@ -226,7 +226,7 @@ export class Model {
             let caseObj: Case = new Case();
             // TODO export/import CaseFolder, scan for files automatically
             caseObj.initExistingCase(caseConf, proc);
-            caseObj.setListID(listID);
+            caseObj.setListItemID(listID);
             resolve(caseObj);
         });
     }
@@ -235,7 +235,7 @@ export class Model {
         if (Utils.isDevEnv()) {
             // ?
         } else {
-            await this.lists.cases.items.getById(caseObj.listID).delete();
+            await this.lists.cases.items.getById(caseObj.listItemID).delete();
         }
     }
 
