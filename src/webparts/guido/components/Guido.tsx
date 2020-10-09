@@ -119,6 +119,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     onStartCase={proc => onStartCase(proc)}
                     onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
                     onDeleteProcess={proc => onDeleteProcess(proc)}
+                    settingsObject={settingsObject}
                 />
                 <br/><hr/>
                 <CasesDashboard

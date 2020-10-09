@@ -11,6 +11,7 @@ export interface IProcessDashboardProps {
     onStartCase: any;
     onImportProcess: any;
     onDeleteProcess: any;
+    settingsObject: any;
 }
 
 export default function ProcessDashboard(props: IProcessDashboardProps) {
@@ -42,6 +43,10 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
         fileDownload(jsonStr, proc.id + '.json');
     };
 
+    const makeDefaultProc = proc => {
+        // TODO
+    };
+
     return (
         <>
             <span className={styles.title}>Process Dashboard</span>
@@ -49,11 +54,13 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
             <b>Available processes</b>:<br/>
             {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
+                    {props.settingsObject && props.settingsObject.defaultProcessId === proc.id && <small>[default] </small>}
                     {proc.name},
                     <small>
                         {' '}<a href='#' onClick={() => startCase(proc)}>start case</a>,
                         {' '}<a href='#' onClick={() => deleteProc(proc)}>delete</a>,
                         {' '}<a href='#' onClick={() => downloadProc(proc)}>download</a>
+                        {' '}<a href='#' onClick={() => makeDefaultProc(proc)}>make default</a>
                     </small>
                 </li>
             )}
