@@ -94,7 +94,7 @@ export class Model {
                 Title: proc.id,
                 [PROCESS_JSON_FIELD_NAME]: JSON.stringify(proc.getJSONconfig())
             }).then(item => {
-               proc.setListID(item.data.ID);
+               proc.setListItemID(item.data.ID);
                resolve(proc);
             });
         }
@@ -105,7 +105,7 @@ export class Model {
             let process: Process = new Process(conf.id, conf.name, conf.description);
             process.setModules(conf.modules);
             if (listID) {
-                process.setListID(listID);
+                process.setListItemID(listID);
                 resolve(process);
             } else {
                 this.writeProcessToStorage(process, resolve);

@@ -21,7 +21,7 @@ export class Process {
         }
     }
 
-    public setListID(listID: any) {
+    public setListItemID(listID: any) {
         this.listID = listID;
     }
 }
