@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import * as Fabric from "office-ui-fabric-react";
+import { TextField, Checkbox } from "office-ui-fabric-react";
 
 export interface IFieldProps {
     details: any;
@@ -27,7 +27,7 @@ export default function Field(props: IFieldProps) {
         switch(details.type) {
             case 'string':
                 // multiline etc. if needed: github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
-                return <Fabric.TextField
+                return <TextField
                     label={details.title}
                     value={value ? value : ''}
                     onChanged={val => {
@@ -36,7 +36,7 @@ export default function Field(props: IFieldProps) {
                     }}
                 />;
             case 'boolean':
-                return <Fabric.Checkbox
+                return <Checkbox
                     label={details.title}
                     checked={value ? value : false}
                     onChange={(e, isChecked) => {

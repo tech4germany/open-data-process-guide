@@ -8,7 +8,6 @@ import { parse } from 'query-string';
 import { Model } from "../model/Model";
 import ProcessDashboard from "../view/ProcessDashboard";
 import CasesDashboard from "../view/CasesDashboard";
-import * as Fabric from "office-ui-fabric-react";
 import Utils from "../model/Utils";
 import CaseView from "../view/CaseView";
 import { SettingsObject } from "../model/SettingsObject";

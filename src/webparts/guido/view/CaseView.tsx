@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
 import Task from "./Task";
-import * as Fabric from "office-ui-fabric-react";
+import { PrimaryButton } from "office-ui-fabric-react";
 import { Case } from "../model/Case";
 import { Model } from "../model/Model";
 import styles from "../components/Guido.module.scss";
@@ -119,10 +119,10 @@ export default function CaseView(props: ICaseViewProps) {
                     <br/><br/>
                     <div>
                         <p style={{ float: 'left' }}>
-                            <Fabric.PrimaryButton onClick={previousStep}>Zurück</Fabric.PrimaryButton>
+                            <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
                         </p>
                         <p style={{ float: 'right' }}>
-                            <Fabric.PrimaryButton onClick={nextStep}>Weiter</Fabric.PrimaryButton>
+                            <PrimaryButton onClick={nextStep}>Weiter</PrimaryButton>
                         </p>
                     </div>
                 </>
