@@ -4,7 +4,8 @@ import { Model } from "../model/Model";
 import Utils from "../model/Utils";
 import styles from "../components/Guido.module.scss";
 import { Case } from "../model/Case";
-import { SearchBox, Checkbox, ICheckboxStyles } from "office-ui-fabric-react";
+import {SearchBox, Checkbox, ICheckboxStyles, DetailsListLayoutMode} from "office-ui-fabric-react";
+import { DetailsList, Selection } from "office-ui-fabric-react/lib/DetailsList";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -49,6 +50,31 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         }
         // use (or combine with?) Title TODO
         return caseObj.id.toLowerCase().includes(searchStr.toLowerCase());
+    };
+
+    // CASES TABLE
+
+    const casesTableColumns = [
+        { key: 'col1', name: 'Titel', fieldName: 'title', minWidth: 100, maxWidth: 200, isResizable: true },
+        { key: 'col2', name: 'Erstellt am', fieldName: 'startTime', minWidth: 100, maxWidth: 200, isResizable: true },
+        { key: 'col3', name: 'Fortschritt', fieldName: 'progress', minWidth: 100, maxWidth: 200, isResizable: true },
+    ];
+
+    let casesTableSelection = new Selection({
+        onSelectionChanged: () => console.log(casesTableSelection.getSelection())
+    });
+
+    const getCasesTableItems = () => {
+        return props.cases
+            .filter(caseObj => meetsSearchCriteria(caseObj))
+            .map((caseObj, idx) => {
+                return {
+                    key: idx,
+                    title: caseObj.id,
+                    startTime: Utils.getFormattedTime(caseObj.startTime),
+                    progress: 'TODO'
+                }
+            });
     };
 
     // STYLES
@@ -98,7 +124,12 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                 />
             </div>
             <br/><br/>
-            {props.cases
+            <DetailsList
+                items={getCasesTableItems()}
+                columns={casesTableColumns}
+                selection={casesTableSelection}
+            />
+            {/*props.cases
                 .filter(caseObj => meetsSearchCriteria(caseObj))
                 .map((caseObj, idx) =>
                 <li key={'case_' + idx}>
@@ -113,7 +144,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                         {' '}<a href='#' onClick={() => generateRDF(caseObj)}>Metadaten generieren</a>
                     </small>
                 </li>
-            )}
+            )*/}
         </>
     );
 }
