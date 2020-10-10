@@ -36,13 +36,13 @@ export class Model {
     public lists: any = {};
 
     constructor() {
+        this.ensureCaseFilesFolderStructureInStorage();
+    }
+
+    private ensureCaseFilesFolderStructureInStorage = () => {
         if (Utils.isDevEnv()) {
             return;
         }
-        this.initFolderStructure();
-    }
-
-    private initFolderStructure = () => {
         sp.web.getFolderByServerRelativeUrl(CASE_FILES_DIR).get().catch(e => {
             sp.web.folders.add(CASE_FILES_DIR).then(() => {
                 console.log("Created directory: " + CASE_FILES_DIR);
