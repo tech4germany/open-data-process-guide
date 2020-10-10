@@ -4,7 +4,7 @@ import { Model } from "../model/Model";
 import Utils from "../model/Utils";
 import styles from "../components/Guido.module.scss";
 import { Case } from "../model/Case";
-import { SearchBox } from "office-ui-fabric-react";
+import { SearchBox, Checkbox, ICheckboxStyles } from "office-ui-fabric-react";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -44,6 +44,25 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         return caseObj.id.toLowerCase().includes(searchStr.toLowerCase());
     };
 
+    // STYLES
+
+    let checkbox: ICheckboxStyles = {
+        root: {
+            float:'left',
+            paddingRight: '15px'
+        }
+    };
+
+    let stylesDef: any = {
+        filterDiv: {
+            paddingTop: '7px'
+        },
+        filterLabel: {
+            float: 'left',
+            paddingRight: '30px'
+        }
+    };
+
     return (
         <>
             <span className={styles.title}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
@@ -52,7 +71,12 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
             <b>Suche</b><br/>
             <SearchBox placeholder="z.B. Protokolldaten 2020" onChange={val => setSearchStr(val)} />
             <br/>
-            <b>Offene Bereitstellungen</b>:<br/>
+            <div style={stylesDef.filterDiv}>
+                <b style={stylesDef.filterLabel}>Filter</b>
+                <Checkbox styles={checkbox} label='nur laufende Prozesse'/>
+                <Checkbox styles={checkbox} label='nur abgeschlossene Prozesse'/>
+            </div>
+            <br/><br/>
             {props.cases
                 .filter(caseObj => meetsSearchCriteria(caseObj))
                 .map((caseObj, idx) =>
