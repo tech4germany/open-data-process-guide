@@ -4,6 +4,7 @@ import { Model } from "../model/Model";
 import Utils from "../model/Utils";
 import styles from "../components/Guido.module.scss";
 import { Case } from "../model/Case";
+import { SearchBox } from "office-ui-fabric-react";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -16,6 +17,7 @@ export interface ICaseDashboardProps {
 
 export default function CasesDashboard(props: ICaseDashboardProps) {
 
+    const [searchStr, setSearchStr] = useState('');
     const [activeCaseProgressStr, setActiveCaseProgressStr] = useState('');
 
     useEffect(() => {
@@ -37,13 +39,23 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         alert('TODO');
     };
 
+    const meetsSearchCriteria = caseObj => {
+        // use (or combine with?) Title TODO
+        return caseObj.id.toLowerCase().includes(searchStr.toLowerCase());
+    };
+
     return (
         <>
             <span className={styles.title}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
                 {props.model && <>{': ' + props.model.specifications.config.ministry}</>}</span>
             <br/><br/>
+            <b>Suche</b><br/>
+            <SearchBox placeholder="z.B. Protokolldaten 2020" onChange={val => setSearchStr(val)} />
+            <br/>
             <b>Offene Bereitstellungen</b>:<br/>
-            {props.cases.map((caseObj, idx) =>
+            {props.cases
+                .filter(caseObj => meetsSearchCriteria(caseObj))
+                .map((caseObj, idx) =>
                 <li key={'case_' + idx}>
                     {caseObj === props.activeCase && <small>[Aktiv] </small>}
                     {caseObj.id},
