@@ -39,7 +39,8 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     return (
         <>
-            <span className={styles.title}>Übersicht der Bereitstellungsprozesse</span>
+            <span className={styles.title}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
+                {props.model && <>{': ' + props.model.specifications.config.ministry}</>}</span>
             <br/><br/>
             <b>Offene Bereitstellungen</b>:<br/>
             {props.cases.map((caseObj, idx) =>
