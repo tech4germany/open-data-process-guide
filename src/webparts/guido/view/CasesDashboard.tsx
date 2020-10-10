@@ -17,6 +17,7 @@ export interface ICaseDashboardProps {
 
 export default function CasesDashboard(props: ICaseDashboardProps) {
 
+    const [filter, setFilter] = useState(null); // can be: null, onlyActive, onlyCompleted
     const [searchStr, setSearchStr] = useState('');
     const [activeCaseProgressStr, setActiveCaseProgressStr] = useState('');
 
@@ -40,6 +41,12 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
     };
 
     const meetsSearchCriteria = caseObj => {
+        if (
+            (filter === 'onlyActive' && caseObj.isCompleted) ||
+            (filter === 'onlyCompleted' && !caseObj.isCompleted)
+        ) {
+            return false;
+        }
         // use (or combine with?) Title TODO
         return caseObj.id.toLowerCase().includes(searchStr.toLowerCase());
     };
@@ -73,8 +80,22 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
             <br/>
             <div style={stylesDef.filterDiv}>
                 <b style={stylesDef.filterLabel}>Filter</b>
-                <Checkbox styles={checkbox} label='nur laufende Prozesse'/>
-                <Checkbox styles={checkbox} label='nur abgeschlossene Prozesse'/>
+                <Checkbox
+                    styles={checkbox}
+                    label='nur laufende Prozesse'
+                    checked={filter === 'onlyActive'}
+                    onChange={(e, isChecked) => {
+                        setFilter(filter === 'onlyActive' ? null : 'onlyActive');
+                    }}
+                />
+                <Checkbox
+                    styles={checkbox}
+                    label='nur abgeschlossene Prozesse'
+                    checked={filter === 'onlyCompleted'}
+                    onChange={(e, isChecked) => {
+                        setFilter(filter === 'onlyCompleted' ? null : 'onlyCompleted');
+                    }}
+                />
             </div>
             <br/><br/>
             {props.cases
