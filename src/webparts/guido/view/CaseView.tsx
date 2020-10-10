@@ -34,8 +34,17 @@ export default function CaseView(props: ICaseViewProps) {
         props.onChangeNotify();
     }
 
+    const isLastStep = () => {
+        return step === props.case.process.modules.length - 1;
+    };
+
     const nextStep = () => {
-        if (step < props.case.process.modules.length - 1) {
+        if (isLastStep()) {
+            // don't allow if not all mandatory fields are filled TODO
+            props.case.setCompleted();
+            props.model.updateCaseInStorage(props.case);
+            props.stopEditing();
+        } else {
             updateStep(step + 1);
         }
     };
@@ -124,7 +133,7 @@ export default function CaseView(props: ICaseViewProps) {
                             </p>
                         }
                         <p style={{ float: 'right' }}>
-                            <PrimaryButton onClick={nextStep}>Weiter</PrimaryButton>
+                            <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Weiter'}</PrimaryButton>
                         </p>
                     </div>
                 </>

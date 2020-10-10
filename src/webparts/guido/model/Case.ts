@@ -11,6 +11,7 @@ export class Case {
     public step: number = 0;
     public values: any = {};
     public caseFolder: CaseFolder = null;
+    public isCompleted: boolean = false;
 
     public initNewCase(process: Process) {
         this.process = process;
@@ -31,6 +32,7 @@ export class Case {
         this.process = process;
         this.step = caseConf.step;
         this.values = caseConf.values;
+        this.isCompleted = caseConf.isCompleted;
     }
 
     public setValue(moduleId: string, fieldId: string, value: any) {
@@ -47,11 +49,15 @@ export class Case {
             processId: this.process.id,
             startTime: this.startTime,
             step: this.step,
-            values: this.values
+            values: this.values,
+            isCompleted: this.isCompleted
         }
     }
 
     public getProgressStr(): string {
+        if (this.isCompleted) {
+            return 'Bereitstellung abgeschlossen';
+        }
         let currentStep = this.step + 1;
         let totalSteps = this.process.modules.length;
         let totalFields = 0;
@@ -74,5 +80,9 @@ export class Case {
 
     public setStep(newStep: number) {
         this.step = newStep;
+    }
+
+    public setCompleted() {
+        this.isCompleted = true;
     }
 }
