@@ -1,4 +1,11 @@
 {
+    "specifications": {
+        "ministry": "Auswärtiges Amt",
+        "emails": {
+            "datenschutzbeauftragter": "Gast@opendataprocess.onmicrosoft.com",
+            "pressereferat": "Gast@opendataprocess.onmicrosoft.com"
+        }
+    },
     "fields": {
         "responsible": {
             "title": "Person responsible",

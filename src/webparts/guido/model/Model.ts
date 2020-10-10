@@ -14,6 +14,7 @@ import "@pnp/sp/files/folder";
 import { SharingLinkKind } from "@pnp/sp/sharing";
 import { CaseFile, CaseFolder } from "./CaseFolder";
 import { SettingsObject } from "./SettingsObject";
+import { Specifications } from "./Specifications";
 
 const SETTINGS_LIST_NAME: string = 'guido-settings';
 const SETTINGS_JSON_FIELD_NAME: string = 'settingsJSON';
@@ -34,8 +35,10 @@ export class Model {
      */
 
     public lists: any = {};
+    public specifications: Specifications = null;
 
     constructor() {
+        this.specifications = new Specifications(config.specifications);
         this.ensureCaseFilesFolderStructureInStorage();
     }
 
