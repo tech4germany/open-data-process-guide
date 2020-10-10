@@ -118,9 +118,11 @@ export default function CaseView(props: ICaseViewProps) {
                     />
                     <br/><br/>
                     <div>
-                        <p style={{ float: 'left' }}>
-                            <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
-                        </p>
+                        {step > 0 &&
+                            <p style={{ float: 'left' }}>
+                                <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
+                            </p>
+                        }
                         <p style={{ float: 'right' }}>
                             <PrimaryButton onClick={nextStep}>Weiter</PrimaryButton>
                         </p>
