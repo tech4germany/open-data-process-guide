@@ -39,20 +39,20 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     return (
         <>
-            <span className={styles.title}>Case Dashboard</span>
+            <span className={styles.title}>Übersicht der Bereitstellungsprozesse</span>
             <br/><br/>
-            <b>Open cases</b>:<br/>
+            <b>Offene Bereitstellungen</b>:<br/>
             {props.cases.map((caseObj, idx) =>
                 <li key={'case_' + idx}>
-                    {caseObj === props.activeCase && <small>[active] </small>}
+                    {caseObj === props.activeCase && <small>[Aktiv] </small>}
                     {caseObj.id},
                     <small>
-                        {' '}Started: {Utils.getFormattedTime(caseObj.startTime)},
-                        {' '}Progress: {caseObj === props.activeCase ? activeCaseProgressStr : caseObj.getProgressStr()}
+                        {' '}Start: {Utils.getFormattedTime(caseObj.startTime)},
+                        {' '}Fortschritt: {caseObj === props.activeCase ? activeCaseProgressStr : caseObj.getProgressStr()}
                         <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {' '}<a href='#' onClick={() => continueCase(caseObj)}>continue editing</a>,
-                        {' '}<a href='#' onClick={() => deleteCase(caseObj)}>delete</a>,
-                        {' '}<a href='#' onClick={() => generateRDF(caseObj)}>generate metadata</a>
+                        {' '}<a href='#' onClick={() => continueCase(caseObj)}>Weiter bearbeiten</a>,
+                        {' '}<a href='#' onClick={() => deleteCase(caseObj)}>Löschen</a>,
+                        {' '}<a href='#' onClick={() => generateRDF(caseObj)}>Metadaten generieren</a>
                     </small>
                 </li>
             )}

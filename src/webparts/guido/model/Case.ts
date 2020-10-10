@@ -65,7 +65,7 @@ export class Case {
             });
         });
         let progressPercentage = Math.round((nonemptyFields / totalFields) * 100);
-        return progressPercentage + '% (' + nonemptyFields + '/' + totalFields + ' fields), currently in step ' + currentStep + '/' + totalSteps;
+        return progressPercentage + '% (' + nonemptyFields + '/' + totalFields + ' Felder), momentan in Schritt ' + currentStep + '/' + totalSteps;
     }
 
     public setListItemID(listID: any) {

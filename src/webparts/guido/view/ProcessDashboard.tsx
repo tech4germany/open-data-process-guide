@@ -50,29 +50,26 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
 
     return (
         <>
-            <span className={styles.title}>Process Dashboard</span>
+            <span className={styles.title}>Prozessübersicht</span>
             <br/><br/>
-            <b>Available processes</b>:<br/>
+            <b>Verfügbare Prozesse</b>:<br/>
             {props.processes.map((proc, idx) =>
                 <li key={'proc_' + idx}>
-                    {props.defaultProcessId && props.defaultProcessId === proc.id && <small>[default] </small>}
+                    {props.defaultProcessId && props.defaultProcessId === proc.id && <small>[Standard] </small>}
                     {proc.name},
                     <small>
-                        {' '}<a href='#' onClick={() => startCase(proc)}>start case</a>,
-                        {' '}<a href='#' onClick={() => deleteProc(proc)}>delete</a>,
-                        {' '}<a href='#' onClick={() => downloadProc(proc)}>download</a>
-                        {' '}<a href='#' onClick={() => makeDefaultProc(proc)}>make default</a>
+                        {' '}<a href='#' onClick={() => startCase(proc)}>Bereitstellung starten</a>,
+                        {' '}<a href='#' onClick={() => deleteProc(proc)}>Löschen</a>,
+                        {' '}<a href='#' onClick={() => downloadProc(proc)}>Herunterladen</a>
+                        {' '}<a href='#' onClick={() => makeDefaultProc(proc)}>Als Standard festlegen</a>
                     </small>
                 </li>
             )}
             <br/>
-            Import a new process via <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> or
-            {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a>
+            Neuen Prozess importieren, im <a href='#' onClick={() => setAddingProcessVia('json')}>JSON</a> oder im
+            {' '}<a href='#' onClick={() => setAddingProcessVia('bpmn')}>BPMN</a> Format.{' '}
             {addingProcessVia &&
-                <>
-                    <br/><br/>
-                    <input type="file" onChange={e => handleChange(e.target.files[0])}/>
-                </>
+                <input type="file" onChange={e => handleChange(e.target.files[0])}/>
             }
         </>
     );

@@ -47,7 +47,7 @@ export default function CaseView(props: ICaseViewProps) {
     };
 
     const getHeadline = () => {
-        return props.case ? 'Active Case: ' + props.case.id : 'Active Case';
+        return 'Aktive Bereitstellung' + (props.case ? ': ' + props.case.id : '');
     }
 
     // called from Task and there from Fields
@@ -107,8 +107,8 @@ export default function CaseView(props: ICaseViewProps) {
                         </a>
                     )}
                     <br/><br/>
-                    <i>Step: {step + 1}/{props.case.process.modules.length}</i>,
-                    {' '}<small><a href='#' onClick={stopEditing}>stop editing</a></small>
+                    <i>Schritt: {step + 1}/{props.case.process.modules.length}</i>,
+                    {' '}<small><a href='#' onClick={stopEditing}>Bearbeitung beenden</a></small>
                     <br/><br/><br/>
                     <Task
                         caseId={props.case.id}
@@ -119,10 +119,10 @@ export default function CaseView(props: ICaseViewProps) {
                     <br/><br/>
                     <div>
                         <p style={{ float: 'left' }}>
-                            <Fabric.PrimaryButton onClick={previousStep}>Back</Fabric.PrimaryButton>
+                            <Fabric.PrimaryButton onClick={previousStep}>Zurück</Fabric.PrimaryButton>
                         </p>
                         <p style={{ float: 'right' }}>
-                            <Fabric.PrimaryButton onClick={nextStep}>Next</Fabric.PrimaryButton>
+                            <Fabric.PrimaryButton onClick={nextStep}>Weiter</Fabric.PrimaryButton>
                         </p>
                     </div>
                 </>
