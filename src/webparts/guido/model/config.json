@@ -13,6 +13,47 @@
         }
     },
     "modules": {
+        "describe-dataset": {
+            "name": "Datensatz beschreiben",
+            "description": "Zum Start einer neuen Bereitstellung geben Sie dem Datensatz einen treffenden Titel und eine beschreiben Sie den Inhalt in kurzen und prägnant. Laden Sie im nächsten Schritt die einzelnen Dateien, die zum Datensatz gehören, hoch und beschreiben diese.",
+            "fields": {
+                "title": {
+                    "label": "Titel",
+                    "type": "string",
+                    "empty-prompt": "z. B. Protokolldaten 2020",
+                    "info": ""
+                },
+                "description": {
+                    "label": "Beschreibung",
+                    "type": "string-long",
+                    "empty-prompt": "Beschreiben Sie kurz den Inhalt des Datensatzes.",
+                    "info": ""
+                },
+                "data-provider": {
+                    "label": "Datenbereitsteller",
+                    "type": "string",
+                    "prefill": "$specifications.ministry",
+                    "info": ""
+                },
+                "categories": {
+                    "label": "Kategorien",
+                    "type": "multi-select",
+                    "options": [
+                        "Bevölkerung und Gesellschaft", "Energie", "Internationale Themen", "Landwirtschaft, Fischerei, Forstwirtschaft & Nahrungsmittel",
+                        "Regionen und Städte", "Wissenschaft und Technologie", "Justiz, Rechtssystem und öffentliche Sicherheit", "Bildung, Kultur und Sport",
+                        "Gesundheit", "Verkehr", "Regierung und öffentlicher Sektor", "Umwelt", "Wirtschaft und Finanzen"
+                    ],
+                    "info": ""
+                },
+                "tags": {
+                    "label": "Schlagwörter",
+                    "type": "tag-picker",
+                    "options": [],
+                    "empty-prompt": "Mit welchen Wörter würde man nach dem Datensatz suchen?",
+                    "info": ""
+                }
+            }
+        },
         "prepare-data": {
             "name": "Prepare Data",
             "description": "Check if the data meets the standards for open publication, e.g. spell out internal abbreviations",

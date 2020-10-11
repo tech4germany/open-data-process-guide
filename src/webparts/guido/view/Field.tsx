@@ -25,8 +25,10 @@ export default function Field(props: IFieldProps) {
     const buildField = () => {
         // developer.microsoft.com/en-us/fluentui#/controls/web
         switch(details.type) {
+            case 'tag-picker':
+                // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
             case 'string':
-                // multiline etc. if needed: github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
+                // multiline etc. if needed: https://github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
                 return <TextField
                     label={details.label}
                     value={value ? value : ''}
@@ -44,6 +46,10 @@ export default function Field(props: IFieldProps) {
                         props.onEdit(isChecked);
                     }}
                 />;
+            case 'string-long':
+                return null;
+            case 'multi-select':
+                return null;
         }
     };
 
