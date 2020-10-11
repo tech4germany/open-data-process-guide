@@ -4,6 +4,7 @@ import { Model } from "../model/Model";
 import styles from "../components/Guido.module.scss";
 import { Case } from "../model/Case";
 import { SearchBox, Checkbox, ICheckboxStyles } from "office-ui-fabric-react";
+import Utils from "../model/Utils";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -99,6 +100,18 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                 />
             </div>
             <br/><br/>
+            <table>
+                <thead><tr><th>Titel</th><th>Erstellt am</th><th>Fortschritt</th></tr></thead>
+                <tbody>
+                    {props.cases.filter(caseObj => meetsSearchCriteria(caseObj)).map(caseObj =>
+                        <tr key={caseObj.id}>
+                            <td>{caseObj.id/*TODO*/}</td>
+                            <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
+                            <td>TODO</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
             {/*
             filteredCases={props.cases.filter(caseObj => meetsSearchCriteria(caseObj))
             
