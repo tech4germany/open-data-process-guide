@@ -51,8 +51,39 @@ export default function Field(props: IFieldProps) {
                     }}
                 />;
             case 'multi-select':
-                return null;
+                return <>
+                    {params.label}
+                    <table>
+                    <tbody>
+                        {buildMultiSelectRows()}
+                    </tbody>
+                    </table>
+                </>
+            default:
+                return <>{params.label}': not yet implemented'</>;
         }
+    };
+
+    const buildMultiSelectRows = () => {
+        let rows = Math.round(params.options.length / 2);
+        let rowElements = [];
+        for (let i = 0; i < rows; i += 2) {
+            rowElements.push(
+                <tr key={i}>
+                    <td>
+                        <Checkbox
+                            label={params.options[i]}
+                        />
+                    </td>
+                    <td>
+                        <Checkbox
+                            label={params.options[i + 1]}
+                        />
+                    </td>
+                </tr>
+            );
+        }
+        return <>{rowElements}</>
     };
 
     return (
