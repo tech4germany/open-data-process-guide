@@ -9,7 +9,8 @@
     "fields": {
         "responsible": {
             "label": "Person responsible",
-            "type": "string"
+            "type": "string",
+            "info": ""
         }
     },
     "modules": {
@@ -60,7 +61,8 @@
             "fields": {
                 "preparedness": {
                     "label": "Is the data prepared?",
-                    "type": "boolean"
+                    "type": "boolean",
+                    "info": ""
                 }
             }
         },
@@ -71,12 +73,13 @@
                 "ref": "responsible",
                 "url": {
                     "label": "URL to published data",
-                    "type": "string"
+                    "type": "string",
+                    "info": ""
                 },
                 "url-accessibility": {
                     "label": "Is the URL publicly accessible?",
                     "type": "boolean",
-                    "hint": "If unsure, see if you can download it when opening the URL in an incognito browser window while being connected through a mobile hotspot"
+                    "info": "If unsure, see if you can download it when opening the URL in an incognito browser window while being connected through a mobile hotspot"
                 }
             }
         },
