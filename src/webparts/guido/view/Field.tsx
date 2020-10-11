@@ -65,20 +65,23 @@ export default function Field(props: IFieldProps) {
     };
 
     const buildMultiSelectRows = () => {
-        let rows = Math.round(params.options.length / 2);
         let rowElements = [];
-        for (let i = 0; i < rows; i += 2) {
+        for (let i = 0; i < params.options.length; i += 2) {
+            let label1 = params.options[i];
+            let label2 = params.options[i + 1];
             rowElements.push(
                 <tr key={i}>
                     <td>
                         <Checkbox
-                            label={params.options[i]}
+                            label={label1}
                         />
                     </td>
                     <td>
-                        <Checkbox
-                            label={params.options[i + 1]}
-                        />
+                        {label2 &&
+                            <Checkbox
+                                label={label2}
+                            />
+                        }
                     </td>
                 </tr>
             );
