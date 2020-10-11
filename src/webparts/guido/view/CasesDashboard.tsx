@@ -17,6 +17,7 @@ export interface ICaseDashboardProps {
 
 export default function CasesDashboard(props: ICaseDashboardProps) {
 
+    const [selectedCaseInTable, setSelectedCaseInTable] = useState(null);
     const [filter, setFilter] = useState(null); // can be: null, onlyActive, onlyCompleted
     const [searchStr, setSearchStr] = useState('');
     const [activeCaseProgressStr, setActiveCaseProgressStr] = useState('');
@@ -69,6 +70,9 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         filterLabel: {
             float: 'left',
             paddingRight: '30px'
+        },
+        selectedCaseInTable: {
+            backgroundColor: 'white'
         }
     };
 
@@ -102,6 +106,12 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                         />
                     </div>
                     <br/><br/>
+                    {selectedCaseInTable &&
+                        <>
+                            {selectedCaseInTable.id + ': Weiter bearbeiten, Löschen, Metadaten herunterladen'}
+                            <br/>
+                        </>
+                    }
                     <table>
                         <thead>
                         <tr>
@@ -112,7 +122,10 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                         </thead>
                         <tbody>
                         {props.cases.filter(caseObj => meetsSearchCriteria(caseObj)).map(caseObj =>
-                            <tr key={caseObj.id}>
+                            <tr key={caseObj.id}
+                                style={caseObj === selectedCaseInTable ? stylesDef.selectedCaseInTable : {}}
+                                onClick={() => setSelectedCaseInTable(selectedCaseInTable === caseObj ? null : caseObj)}
+                            >
                                 <td>{caseObj.id/*TODO*/}</td>
                                 <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
                                 <td>TODO</td>
