@@ -8,7 +8,7 @@
     },
     "fields": {
         "responsible": {
-            "title": "Person responsible",
+            "label": "Person responsible",
             "type": "string"
         }
     },
@@ -18,7 +18,7 @@
             "description": "Check if the data meets the standards for open publication, e.g. spell out internal abbreviations",
             "fields": {
                 "preparedness": {
-                    "title": "Is the data prepared?",
+                    "label": "Is the data prepared?",
                     "type": "boolean"
                 }
             }
@@ -29,11 +29,11 @@
             "fields": {
                 "ref": "responsible",
                 "url": {
-                    "title": "URL to published data",
+                    "label": "URL to published data",
                     "type": "string"
                 },
                 "url-accessibility": {
-                    "title": "Is the URL publicly accessible?",
+                    "label": "Is the URL publicly accessible?",
                     "type": "boolean",
                     "hint": "If unsure, see if you can download it when opening the URL in an incognito browser window while being connected through a mobile hotspot"
                 }

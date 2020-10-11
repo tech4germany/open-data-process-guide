@@ -28,7 +28,7 @@ export default function Field(props: IFieldProps) {
             case 'string':
                 // multiline etc. if needed: github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
                 return <TextField
-                    label={details.title}
+                    label={details.label}
                     value={value ? value : ''}
                     onChanged={val => {
                         setValue(val);
@@ -37,7 +37,7 @@ export default function Field(props: IFieldProps) {
                 />;
             case 'boolean':
                 return <Checkbox
-                    label={details.title}
+                    label={details.label}
                     checked={value ? value : false}
                     onChange={(e, isChecked) => {
                         setValue(isChecked);
