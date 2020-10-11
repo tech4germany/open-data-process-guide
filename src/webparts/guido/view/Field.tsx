@@ -10,12 +10,12 @@ export interface IFieldProps {
 
 export default function Field(props: IFieldProps) {
 
-    const [details, setDetails] = useState(null);
+    const [params, setParams] = useState(null); // parameters = fields within a field
     const [value, setValue] = useState(null);
 
     useEffect(() => {
-        if (!details) {
-            setDetails(props.details);
+        if (!params) {
+            setParams(props.details);
         }
         if (!value) {
             setValue(props.initialValue);
@@ -24,18 +24,18 @@ export default function Field(props: IFieldProps) {
 
     const buildField = () => {
         // developer.microsoft.com/en-us/fluentui#/controls/web
-        switch(details.type) {
+        switch(params.type) {
             case 'tag-picker':
                 // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
             case 'string-long':
             case 'string':
                 // multiline etc. if needed: https://github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
                 return <TextField
-                    label={details.label + (details.mandatory ? ' *' : '')}
+                    label={params.label + (params.mandatory ? ' *' : '')}
                     value={value ? value : ''}
-                    multiline={details.type === 'string-long'}
-                    rows={details.type === 'string-long' ? 5 : 1}
-                    placeholder={details.placeholder ? details.placeholder : ''}
+                    multiline={params.type === 'string-long'}
+                    rows={params.type === 'string-long' ? 5 : 1}
+                    placeholder={params.placeholder ? params.placeholder : ''}
                     onChanged={val => {
                         setValue(val);
                         props.onEdit(val);
@@ -43,7 +43,7 @@ export default function Field(props: IFieldProps) {
                 />;
             case 'boolean':
                 return <Checkbox
-                    label={details.label}
+                    label={params.label}
                     checked={value ? value : false}
                     onChange={(e, isChecked) => {
                         setValue(isChecked);
@@ -56,7 +56,7 @@ export default function Field(props: IFieldProps) {
     };
 
     return (
-        details &&  (
+        params &&  (
             <>
                 {buildField()}
                 <br/>
