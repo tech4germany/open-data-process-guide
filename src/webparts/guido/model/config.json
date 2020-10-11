@@ -43,9 +43,10 @@
                     "label": "Kategorien",
                     "type": "multi-select",
                     "options": [
-                        "Bevölkerung und Gesellschaft", "Energie", "Internationale Themen", "Landwirtschaft, Fischerei, Forstwirtschaft & Nahrungsmittel",
-                        "Regionen und Städte", "Wissenschaft und Technologie", "Justiz, Rechtssystem und öffentliche Sicherheit", "Bildung, Kultur und Sport",
-                        "Gesundheit", "Verkehr", "Regierung und öffentlicher Sektor", "Umwelt", "Wirtschaft und Finanzen"
+                        "Bevölkerung und Gesellschaft", "Bildung, Kultur und Sport", "Energie", "Gesundheit",
+                        "Internationale Themen", "Verkehr", "Landwirtschaft, Fischerei, Forstwirtschaft & Nahrungsmittel",
+                        "Regierung und öffentlicher Sektor", "Regionen und Städte", "Umwelt", "Wissenschaft und Technologie",
+                        "Wirtschaft und Finanzen", "Justiz, Rechtssystem und öffentliche Sicherheit"
                     ],
                     "info": ""
                 },
