@@ -1,6 +1,7 @@
 import { Process } from "./Process";
 import { nanoid } from 'nanoid';
 import { CaseFolder } from "./CaseFolder";
+import { Specifications } from "./Specifications";
 
 export class Case {
 
@@ -13,13 +14,26 @@ export class Case {
     public caseFolder: CaseFolder = null;
     public isCompleted: boolean = false;
 
+    constructor(public specifications: Specifications) {}
+
     public initNewCase(process: Process) {
         this.process = process;
         // copy all fields from the modules over here to track their values here
         process.modules.map(module => {
             this.values[module.id] = {};
             Object.keys(module.config.fields).map(fieldId => {
-                this.values[module.id][fieldId] = null;
+                let fieldParams = module.config.fields[fieldId];
+                let val = null;
+                if (Object.keys(fieldParams).filter(p => p === 'prefill').length > 0) {
+                    let prefill = fieldParams.prefill;
+                    if (prefill.startsWith('$')) { // indicator for variable
+                        // further distinguish where to source the value from?
+                        val = this.specifications.config[prefill.split('.')[1]];
+                    } else {
+                        val = prefill;
+                    }
+                }
+                this.values[module.id][fieldId] = val;
             });
         });
         this.id = process.id + '_' + nanoid(4);

@@ -220,7 +220,7 @@ export class Model {
 
     public newCaseFromProcess(proc: Process): Promise<Case> {
         return new Promise<Case>(resolve => {
-            let caseObj: Case = new Case();
+            let caseObj: Case = new Case(this.specifications);
             caseObj.initNewCase(proc);
             this.writeCaseToStorage(caseObj, resolve);
         });
@@ -278,7 +278,7 @@ export class Model {
 
     public importCaseFromListItem(caseConf: any, listID: number, proc: Process): Promise<Case> {
         return new Promise<Case>(resolve => {
-            let caseObj: Case = new Case();
+            let caseObj: Case = new Case(this.specifications);
             // TODO export/import CaseFolder, scan for files automatically
             caseObj.initExistingCase(caseConf, proc);
             caseObj.setListItemID(listID);

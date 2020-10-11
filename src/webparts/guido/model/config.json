@@ -53,7 +53,7 @@
                     "label": "Schlagwörter",
                     "type": "tag-picker",
                     "options": [],
-                    "empty-prompt": "Mit welchen Wörter würde man nach dem Datensatz suchen?",
+                    "placeholder": "Mit welchen Wörter würde man nach dem Datensatz suchen?",
                     "info": ""
                 }
             }
