@@ -9,7 +9,7 @@
     "fields": {
         "responsible": {
             "label": "Person responsible",
-            "type": "string",
+            "type": "textfield",
             "info": ""
         }
     },
@@ -20,28 +20,28 @@
             "fields": {
                 "title": {
                     "label": "Titel",
-                    "type": "string",
+                    "type": "textfield",
                     "placeholder": "z. B. Protokolldaten 2020",
                     "info": "",
                     "mandatory": true
                 },
                 "description": {
                     "label": "Beschreibung",
-                    "type": "string-long",
+                    "type": "multitextfield",
                     "placeholder": "Beschreiben Sie kurz den Inhalt des Datensatzes.",
                     "info": "",
                     "mandatory": true
                 },
                 "data-provider": {
                     "label": "Datenbereitsteller",
-                    "type": "string",
+                    "type": "textfield",
                     "prefill": "$specifications.ministry",
                     "info": "",
                     "mandatory": true
                 },
                 "categories": {
                     "label": "Kategorien",
-                    "type": "multi-select",
+                    "type": "multi-select-checkboxes",
                     "options": [
                         "Bevölkerung und Gesellschaft", "Bildung, Kultur und Sport", "Energie", "Gesundheit",
                         "Internationale Themen", "Verkehr", "Landwirtschaft, Fischerei, Forstwirtschaft & Nahrungsmittel",
@@ -64,7 +64,7 @@
             "fields": {
                 "preparedness": {
                     "label": "Is the data prepared?",
-                    "type": "boolean",
+                    "type": "checkbox",
                     "info": ""
                 }
             }
@@ -76,12 +76,12 @@
                 "ref": "responsible",
                 "url": {
                     "label": "URL to published data",
-                    "type": "string",
+                    "type": "textfield",
                     "info": ""
                 },
                 "url-accessibility": {
                     "label": "Is the URL publicly accessible?",
-                    "type": "boolean",
+                    "type": "checkbox",
                     "info": "If unsure, see if you can download it when opening the URL in an incognito browser window while being connected through a mobile hotspot"
                 }
             }

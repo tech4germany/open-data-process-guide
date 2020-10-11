@@ -27,21 +27,21 @@ export default function Field(props: IFieldProps) {
         switch(params.type) {
             case 'tag-creator':
                 // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
-            case 'string-long':
-            case 'string':
+            case 'multitextfield':
+            case 'textfield':
                 // multiline etc. if needed: https://github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
                 return <TextField
                     label={params.label + (params.mandatory ? ' *' : '')}
                     value={value ? value : ''}
-                    multiline={params.type === 'string-long'}
-                    rows={params.type === 'string-long' ? 5 : 1}
+                    multiline={params.type === 'multitextfield'}
+                    rows={params.type === 'multitextfield' ? 5 : 1}
                     placeholder={params.placeholder ? params.placeholder : ''}
                     onChanged={val => {
                         setValue(val);
                         props.onEdit(val);
                     }}
                 />;
-            case 'boolean':
+            case 'checkbox':
                 return <Checkbox
                     label={params.label}
                     checked={value ? value : false}
@@ -50,7 +50,7 @@ export default function Field(props: IFieldProps) {
                         props.onEdit(isChecked);
                     }}
                 />;
-            case 'multi-select':
+            case 'multi-select-checkboxes':
                 return <>
                     {params.label}
                     <table>
