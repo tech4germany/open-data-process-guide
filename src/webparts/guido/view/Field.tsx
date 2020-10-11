@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import { TextField, Checkbox } from "office-ui-fabric-react";
+import Utils from "../model/Utils";
 
 export interface IFieldProps {
     details: any;
@@ -17,8 +18,14 @@ export default function Field(props: IFieldProps) {
         if (!params) {
             setParams(props.details);
         }
-        if (!value) {
-            setValue(props.initialValue);
+        if (!value && params) {
+            if (params.type === 'multi-select-checkboxes' && !props.initialValue) {
+                let encodedStr = '';
+                params.options.map(o => encodedStr += '0');
+                setValue(encodedStr);
+            } else {
+                setValue(props.initialValue);
+            }
         }
     });
 
@@ -66,21 +73,30 @@ export default function Field(props: IFieldProps) {
 
     const buildMultiSelectRows = () => {
         let rowElements = [];
+
+        const buildCheckbox = (label, idx) => {
+            return <Checkbox
+                label={label}
+                checked={value ? value.charAt(idx) === '1' : false}
+                onChange={(e, isChecked) => {
+                    let encodedStr = Utils.replaceAt(value, idx, isChecked ? '1' : '0');
+                    setValue(encodedStr);
+                    props.onEdit(encodedStr);
+                }}
+            />
+        };
+
         for (let i = 0; i < params.options.length; i += 2) {
             let label1 = params.options[i];
             let label2 = params.options[i + 1];
             rowElements.push(
                 <tr key={i}>
                     <td>
-                        <Checkbox
-                            label={label1}
-                        />
+                        {buildCheckbox(label1, i)}
                     </td>
                     <td>
                         {label2 &&
-                            <Checkbox
-                                label={label2}
-                            />
+                            buildCheckbox(label2, i + 1)
                         }
                     </td>
                 </tr>
