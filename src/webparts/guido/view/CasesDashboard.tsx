@@ -34,6 +34,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
     };
 
     const deleteCase = caseObj => {
+        setSelectedCaseInTable(null);
         props.onDeleteCase(caseObj);
     };
 
@@ -51,8 +52,6 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         // use (or combine with?) Title TODO
         return caseObj.id.toLowerCase().includes(searchStr.toLowerCase());
     };
-
-    // CASES TABLE
 
     // STYLES
 
@@ -108,7 +107,10 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                     <br/><br/>
                     {selectedCaseInTable &&
                         <>
-                            {selectedCaseInTable.id + ': Weiter bearbeiten, Löschen, Metadaten herunterladen'}
+                            {selectedCaseInTable.id + ':'}
+                            {' '}<a href='#' onClick={() => continueCase(selectedCaseInTable)}>Weiter bearbeiten</a>,
+                            {' '}<a href='#' onClick={() => deleteCase(selectedCaseInTable)}>Löschen</a>,
+                            {' '}<a href='#' onClick={() => generateRDF(selectedCaseInTable)}>Metadaten generieren</a>
                             <br/>
                         </>
                     }
@@ -126,7 +128,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                                 style={caseObj === selectedCaseInTable ? stylesDef.selectedCaseInTable : {}}
                                 onClick={() => setSelectedCaseInTable(selectedCaseInTable === caseObj ? null : caseObj)}
                             >
-                                <td>{caseObj.id/*TODO*/}</td>
+                                <td>{caseObj === props.activeCase && <small>[Aktiv] </small>}{caseObj.id/*Title TODO*/}</td>
                                 <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
                                 <td>TODO</td>
                             </tr>
@@ -139,25 +141,6 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                     Noch keine Bereitstellungsprozesse vorhanden
                 </>
             }
-            {/*
-            filteredCases={props.cases.filter(caseObj => meetsSearchCriteria(caseObj))
-            
-            props.cases
-                .filter(caseObj => meetsSearchCriteria(caseObj))
-                .map((caseObj, idx) =>
-                <li key={'case_' + idx}>
-                    {caseObj === props.activeCase && <small>[Aktiv] </small>}
-                    {caseObj.id},
-                    <small>
-                        {' '}Start: {Utils.getFormattedTime(caseObj.startTime)},
-                        {' '}Fortschritt: {caseObj === props.activeCase ? activeCaseProgressStr : caseObj.getProgressStr()}
-                        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {' '}<a href='#' onClick={() => continueCase(caseObj)}>Weiter bearbeiten</a>,
-                        {' '}<a href='#' onClick={() => deleteCase(caseObj)}>Löschen</a>,
-                        {' '}<a href='#' onClick={() => generateRDF(caseObj)}>Metadaten generieren</a>
-                    </small>
-                </li>
-            )*/}
         </>
     );
 }
