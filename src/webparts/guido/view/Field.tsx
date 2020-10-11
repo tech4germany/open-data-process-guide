@@ -25,7 +25,7 @@ export default function Field(props: IFieldProps) {
     const buildField = () => {
         // developer.microsoft.com/en-us/fluentui#/controls/web
         switch(params.type) {
-            case 'tag-picker':
+            case 'tag-creator':
                 // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
             case 'string-long':
             case 'string':

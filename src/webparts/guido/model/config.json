@@ -52,8 +52,7 @@
                 },
                 "tags": {
                     "label": "Schlagwörter",
-                    "type": "tag-picker",
-                    "options": [],
+                    "type": "tag-creator",
                     "placeholder": "Mit welchen Wörter würde man nach dem Datensatz suchen?",
                     "info": ""
                 }
