@@ -77,41 +77,55 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
             <span className={styles.title}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
                 {props.model && <>{': ' + props.model.specifications.config.ministry}</>}</span>
             <br/><br/>
-            <b>Suche</b><br/>
-            <SearchBox placeholder="z.B. Protokolldaten 2020" onChange={val => setSearchStr(val)} />
-            <br/>
-            <div style={stylesDef.filterDiv}>
-                <b style={stylesDef.filterLabel}>Filter</b>
-                <Checkbox
-                    styles={checkbox}
-                    label='nur laufende Prozesse'
-                    checked={filter === 'onlyActive'}
-                    onChange={(e, isChecked) => {
-                        setFilter(filter === 'onlyActive' ? null : 'onlyActive');
-                    }}
-                />
-                <Checkbox
-                    styles={checkbox}
-                    label='nur abgeschlossene Prozesse'
-                    checked={filter === 'onlyCompleted'}
-                    onChange={(e, isChecked) => {
-                        setFilter(filter === 'onlyCompleted' ? null : 'onlyCompleted');
-                    }}
-                />
-            </div>
-            <br/><br/>
-            <table>
-                <thead><tr><th>Titel</th><th>Erstellt am</th><th>Fortschritt</th></tr></thead>
-                <tbody>
-                    {props.cases.filter(caseObj => meetsSearchCriteria(caseObj)).map(caseObj =>
-                        <tr key={caseObj.id}>
-                            <td>{caseObj.id/*TODO*/}</td>
-                            <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
-                            <td>TODO</td>
+            {props.cases.length > 0 ?
+                <>
+                    <b>Suche</b><br/>
+                    <SearchBox placeholder="z.B. Protokolldaten 2020" onChange={val => setSearchStr(val)}/>
+                    <br/>
+                    <div style={stylesDef.filterDiv}>
+                        <b style={stylesDef.filterLabel}>Filter</b>
+                        <Checkbox
+                            styles={checkbox}
+                            label='nur laufende Prozesse'
+                            checked={filter === 'onlyActive'}
+                            onChange={(e, isChecked) => {
+                                setFilter(filter === 'onlyActive' ? null : 'onlyActive');
+                            }}
+                        />
+                        <Checkbox
+                            styles={checkbox}
+                            label='nur abgeschlossene Prozesse'
+                            checked={filter === 'onlyCompleted'}
+                            onChange={(e, isChecked) => {
+                                setFilter(filter === 'onlyCompleted' ? null : 'onlyCompleted');
+                            }}
+                        />
+                    </div>
+                    <br/><br/>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Titel</th>
+                            <th>Erstellt am</th>
+                            <th>Fortschritt</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                        {props.cases.filter(caseObj => meetsSearchCriteria(caseObj)).map(caseObj =>
+                            <tr key={caseObj.id}>
+                                <td>{caseObj.id/*TODO*/}</td>
+                                <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
+                                <td>TODO</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </>
+                :
+                <>
+                    Noch keine Bereitstellungsprozesse vorhanden
+                </>
+            }
             {/*
             filteredCases={props.cases.filter(caseObj => meetsSearchCriteria(caseObj))
             
