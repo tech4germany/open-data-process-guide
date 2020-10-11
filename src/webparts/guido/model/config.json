@@ -21,13 +21,13 @@
                 "title": {
                     "label": "Titel",
                     "type": "string",
-                    "empty-prompt": "z. B. Protokolldaten 2020",
+                    "placeholder": "z. B. Protokolldaten 2020",
                     "info": ""
                 },
                 "description": {
                     "label": "Beschreibung",
                     "type": "string-long",
-                    "empty-prompt": "Beschreiben Sie kurz den Inhalt des Datensatzes.",
+                    "placeholder": "Beschreiben Sie kurz den Inhalt des Datensatzes.",
                     "info": ""
                 },
                 "data-provider": {
@@ -97,6 +97,7 @@
             "name": "Open Data Process Guide AA",
             "description": "The process of publishing Open Data in the Federal Foreign Office",
             "modules": [
+                "describe-dataset",
                 "publish-data",
                 "license"
             ]
