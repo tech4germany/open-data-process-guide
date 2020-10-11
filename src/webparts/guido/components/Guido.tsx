@@ -114,6 +114,14 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setCases(cases.filter(c => c !== caseObj));
     };
 
+    const onStartDefaultCase = () => {
+        if (!defaultProcessId) {
+            console.log("No default process ID set, don't know from which process to start a case");
+            return;
+        }
+        onStartCase(processes.filter(proc => proc.id === defaultProcessId)[0]);
+    };
+
     // called from CaseView
 
     const stopEditing = () => {
@@ -154,6 +162,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     changeNotifs={changeNotifs}
                     onContinueCase={caseObj => onContinueCase(caseObj)}
                     onDeleteCase={caseObj => onDeleteCase(caseObj)}
+                    onStartDefaultCase={onStartDefaultCase}
                 />
                 <br/><hr/>
                 <CaseView

@@ -26,6 +26,10 @@
   @include ms-font-xl;
 }
 
+.subtitle {
+    @include ms-font-l;
+}
+
 // TABLE, made for the list of cases in CasesDashboard
 
 table {

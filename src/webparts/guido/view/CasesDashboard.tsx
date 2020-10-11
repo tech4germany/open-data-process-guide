@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Model } from "../model/Model";
 import styles from "../components/Guido.module.scss";
 import { Case } from "../model/Case";
-import { SearchBox, Checkbox, ICheckboxStyles } from "office-ui-fabric-react";
+import { SearchBox, Checkbox, ICheckboxStyles, PrimaryButton } from "office-ui-fabric-react";
 import Utils from "../model/Utils";
 
 export interface ICaseDashboardProps {
@@ -13,6 +13,7 @@ export interface ICaseDashboardProps {
     changeNotifs: any;
     onContinueCase: any;
     onDeleteCase: any;
+    onStartDefaultCase: any;
 }
 
 export default function CasesDashboard(props: ICaseDashboardProps) {
@@ -77,7 +78,19 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     return (
         <>
-            <span className={styles.title}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
+            <span className={styles.title}>Wilkommen, Frau Musterfrau!</span>
+            <br/><br/>
+            Danke das Sie Open Data für Ihr Ministerium bereit stellen möchten.
+            <br/><br/>
+            Guido hilft Ihnen dabei Ihre Datensätze durch den Prozess der Datenbereitstellung zu führen.
+            <br/>
+            Dabei werden Ihnen hilfreiche Informationen, genau dort, wo sie benötigt werden, zur Verfügung gestellt.
+            <br/><br/>
+            Klicken Sie auf "Neue Bereitstellung", um eine neue Datenbereitstellung zu starten.
+            <br/><br/>
+            <PrimaryButton onClick={props.onStartDefaultCase}>Neue Bereitstellung</PrimaryButton>
+            <br/><br/><br/>
+            <span className={styles.subtitle}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
                 {props.model && <>{': ' + props.model.specifications.config.ministry}</>}</span>
             <br/><br/>
             {props.cases.length > 0 ?
