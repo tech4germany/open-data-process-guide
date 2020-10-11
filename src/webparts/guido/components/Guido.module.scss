@@ -25,3 +25,22 @@
 .title {
   @include ms-font-xl;
 }
+
+// TABLE, made for the list of cases in CasesDashboard
+
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+
+tr td, th {
+    border-bottom: 1px solid black;
+}
+
+th {
+    text-align: left;
+}
+
+td, th {
+    padding: 10px;
+}
