@@ -68,16 +68,17 @@ export class Model {
         }
         if (procsListEnsure.created) { // list was just created
             console.log("Created list: " + PROCESSES_LIST_NAME);
-            await procsListEnsure.list.fields.addText(PROCESS_JSON_FIELD_NAME);
+            // it has to be addMultilineText, not just addText, otherwise limited to 255 characters
+            await procsListEnsure.list.fields.addMultilineText(PROCESS_JSON_FIELD_NAME);
             Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {});
         }
         if (casesListEnsure.created) {
             console.log("Created list: " + CASES_LIST_NAME);
-            await casesListEnsure.list.fields.addText(CASE_JSON_FIELD_NAME);
+            await casesListEnsure.list.fields.addMultilineText(CASE_JSON_FIELD_NAME);
         }
         if (settingsListEnsure.created) {
             console.log("Created list: " + SETTINGS_LIST_NAME);
-            await settingsListEnsure.list.fields.addText(SETTINGS_JSON_FIELD_NAME);
+            await settingsListEnsure.list.fields.addMultilineText(SETTINGS_JSON_FIELD_NAME);
             // do this after initializing processes to be able to set the first one as default process
             await settingsListEnsure.list.items.add({
                 Title: 'settings',
