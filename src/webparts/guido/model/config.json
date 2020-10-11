@@ -22,19 +22,22 @@
                     "label": "Titel",
                     "type": "string",
                     "placeholder": "z. B. Protokolldaten 2020",
-                    "info": ""
+                    "info": "",
+                    "mandatory": true
                 },
                 "description": {
                     "label": "Beschreibung",
                     "type": "string-long",
                     "placeholder": "Beschreiben Sie kurz den Inhalt des Datensatzes.",
-                    "info": ""
+                    "info": "",
+                    "mandatory": true
                 },
                 "data-provider": {
                     "label": "Datenbereitsteller",
                     "type": "string",
                     "prefill": "$specifications.ministry",
-                    "info": ""
+                    "info": "",
+                    "mandatory": true
                 },
                 "categories": {
                     "label": "Kategorien",
