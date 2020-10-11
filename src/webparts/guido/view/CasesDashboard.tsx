@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Model } from "../model/Model";
-import Utils from "../model/Utils";
 import styles from "../components/Guido.module.scss";
 import { Case } from "../model/Case";
-import {SearchBox, Checkbox, ICheckboxStyles, DetailsListLayoutMode} from "office-ui-fabric-react";
-import { DetailsList, Selection } from "office-ui-fabric-react/lib/DetailsList";
+import { SearchBox, Checkbox, ICheckboxStyles } from "office-ui-fabric-react";
+import CasesList from "./CasesList";
 
 export interface ICaseDashboardProps {
     model: Model;
@@ -54,29 +53,6 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     // CASES TABLE
 
-    const casesTableColumns = [
-        { key: 'col1', name: 'Titel', fieldName: 'title', minWidth: 100, maxWidth: 200, isResizable: true },
-        { key: 'col2', name: 'Erstellt am', fieldName: 'startTime', minWidth: 100, maxWidth: 200, isResizable: true },
-        { key: 'col3', name: 'Fortschritt', fieldName: 'progress', minWidth: 100, maxWidth: 200, isResizable: true },
-    ];
-
-    let casesTableSelection = new Selection({
-        onSelectionChanged: () => console.log(casesTableSelection.getSelection())
-    });
-
-    const getCasesTableItems = () => {
-        return props.cases
-            .filter(caseObj => meetsSearchCriteria(caseObj))
-            .map((caseObj, idx) => {
-                return {
-                    key: idx,
-                    title: caseObj.id,
-                    startTime: Utils.getFormattedTime(caseObj.startTime),
-                    progress: 'TODO'
-                }
-            });
-    };
-
     // STYLES
 
     let checkbox: ICheckboxStyles = {
@@ -124,10 +100,8 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                 />
             </div>
             <br/><br/>
-            <DetailsList
-                items={getCasesTableItems()}
-                columns={casesTableColumns}
-                selection={casesTableSelection}
+            <CasesList
+                filteredCases={props.cases.filter(caseObj => meetsSearchCriteria(caseObj))}
             />
             {/*props.cases
                 .filter(caseObj => meetsSearchCriteria(caseObj))
