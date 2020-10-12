@@ -15,6 +15,7 @@ import { SharingLinkKind } from "@pnp/sp/sharing";
 import { CaseFile, CaseFolder } from "./CaseFolder";
 import { SettingsObject } from "./SettingsObject";
 import { Specifications } from "./Specifications";
+import { SPUser } from "@microsoft/sp-page-context";
 
 const SETTINGS_LIST_NAME: string = 'guido-settings';
 const SETTINGS_JSON_FIELD_NAME: string = 'settingsJSON';
@@ -37,9 +38,13 @@ export class Model {
     public lists: any = {};
     public specifications: Specifications = null;
 
-    constructor() {
+    constructor(public context: any) {
         this.specifications = new Specifications(config.specifications);
         this.ensureCaseFilesFolderStructureInStorage();
+    }
+
+    public getCurrentUser = () : SPUser => {
+        return this.context.pageContext.user;
     }
 
     private ensureCaseFilesFolderStructureInStorage = () => {

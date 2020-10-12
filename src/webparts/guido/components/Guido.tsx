@@ -32,7 +32,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             setParamsParsed(parsed);
         }
         if (!model) {
-            let model: Model = new Model();
+            let model: Model = new Model(props.context);
             setModel(model);
             settingsObject.current = new SettingsObject();
             model.initLists(settingsObject.current, () => {
