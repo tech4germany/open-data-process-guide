@@ -31,8 +31,13 @@ export default function CaseView(props: ICaseViewProps) {
     const updateStep = newStep =>  {
         setStep(newStep);
         props.case.setStep(newStep);
-        props.onChangeNotify();
+        notifyChange();
     }
+
+    const notifyChange = () => {
+        props.model.updateCaseInStorage(props.case);
+        props.onChangeNotify();
+    };
 
     const isLastStep = () => {
         return step === props.case.process.modules.length - 1;
@@ -42,7 +47,7 @@ export default function CaseView(props: ICaseViewProps) {
         if (isLastStep()) {
             // don't allow if not all mandatory fields are filled TODO
             props.case.setCompleted();
-            props.model.updateCaseInStorage(props.case);
+            notifyChange();
             props.stopEditing();
         } else {
             updateStep(step + 1);
@@ -63,8 +68,7 @@ export default function CaseView(props: ICaseViewProps) {
 
     const onEdit = (fieldId, value) => {
         props.case.setValue(getModule().id, fieldId, value);
-        props.model.updateCaseInStorage(props.case);
-        props.onChangeNotify();
+        notifyChange();
     };
 
     // helper methods
