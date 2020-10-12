@@ -30,7 +30,7 @@
     @include ms-font-l;
 }
 
-// TABLE, made for the list of cases in CasesDashboard
+// <table> for the list of cases in CasesDashboard
 
 .casesTable {
     width: 100%;
@@ -48,3 +48,11 @@
 .casesTable td, th {
     padding: 10px;
 }
+
+// <table> for multi-select-checkboxes fields
+
+.multiSelectFieldTable td {
+    border-spacing: 3px;
+    padding-right: 40px;
+}
+

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { TextField, Checkbox, ITextFieldProps } from "office-ui-fabric-react";
 import Utils from "../model/Utils";
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import styles from "../components/Guido.module.scss";
 
 export interface IFieldProps {
     details: any;
@@ -30,11 +31,48 @@ export default function Field(props: IFieldProps) {
         }
     });
 
-    const renderLabel = (props: ITextFieldProps) => {
-        return <>
-                {props.label}
-                <Icon iconName="Info" />
-            </>;
+    const wrapInTable = (fieldEl, iconStyle) => {
+        return <table>
+            <tbody>
+                <tr>
+                    <td style={stylesDef.paramWrappingTd}>
+                        {fieldEl}
+                    </td>
+                    <td>
+                        <Icon iconName='Info' style={iconStyle}/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    };
+
+    // STYLES
+
+    let stylesDef: any = {
+        paramWrappingTd: {
+            width: '100%'
+        },
+        infoIconSingleRow: {
+            paddingTop: '24px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconMultiRow: {
+            paddingBottom: '24px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconMultiSelectLabel: {
+            paddingTop: '10px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        multiSelectLabel: {
+            paddingBottom: '15px'
+        }
     };
 
     const buildField = () => {
@@ -44,21 +82,22 @@ export default function Field(props: IFieldProps) {
                 // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
             case 'multitextfield':
             case 'textfield':
+                let isMulti = params.type === 'multitextfield';
                 // multiline etc. if needed: https://github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
-                return <>
+                return wrapInTable(
                     <TextField
                         label={params.label + (params.mandatory ? ' *' : '')}
-                        onRenderLabel={renderLabel}
                         value={value ? value : ''}
-                        multiline={params.type === 'multitextfield'}
-                        rows={params.type === 'multitextfield' ? 5 : 1}
+                        multiline={isMulti}
+                        rows={isMulti ? 5 : 1}
                         placeholder={params.placeholder ? params.placeholder : ''}
                         onChanged={val => {
                             setValue(val);
                             props.onEdit(val);
                         }}
-                    />
-                </>
+                    />,
+                    isMulti ? stylesDef.infoIconMultiRow : stylesDef.infoIconSingleRow
+                )
             case 'checkbox':
                 return <Checkbox
                     label={params.label}
@@ -70,11 +109,14 @@ export default function Field(props: IFieldProps) {
                 />;
             case 'multi-select-checkboxes':
                 return <>
-                    {params.label}
-                    <table>
-                    <tbody>
-                        {buildMultiSelectRows()}
-                    </tbody>
+                    <div style={stylesDef.multiSelectLabel}>
+                        {params.label}
+                        <Icon iconName='Info' style={stylesDef.infoIconMultiSelectLabel}/>
+                    </div>
+                    <table className={styles.multiSelectFieldTable}>
+                        <tbody>
+                            {buildMultiSelectRows()}
+                        </tbody>
                     </table>
                 </>
             default:
