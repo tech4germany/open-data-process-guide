@@ -13,9 +13,8 @@ export default function UploadFilesField(props: IUploadFilesFieldProps) {
     const [caseFileNames, setCaseFileNames] = useState([]);
 
     useEffect(() => {
-        // limit the call-rate of this?
         updateCaseFileNames();
-    });
+    }, []);
 
     const updateCaseFileNames = () => {
         if (props.case && props.case.caseFolder) { // running locally, this is null
