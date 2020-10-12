@@ -32,19 +32,19 @@
 
 // TABLE, made for the list of cases in CasesDashboard
 
-table {
+.casesTable {
     width: 100%;
     border-spacing: 0;
 }
 
-tr td, th {
+.casesTable tr td, .casesTable th {
     border-bottom: 1px solid black;
 }
 
-th {
+.casesTable th {
     text-align: left;
 }
 
-td, th {
+.casesTable td, th {
     padding: 10px;
 }

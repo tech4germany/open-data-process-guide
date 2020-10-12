@@ -127,7 +127,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                             <br/>
                         </>
                     }
-                    <table>
+                    <table className={styles.casesTable}>
                         <thead>
                         <tr>
                             <th>Titel</th>
