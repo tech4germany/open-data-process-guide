@@ -69,40 +69,38 @@ export default function Field(props: IFieldProps) {
         </HoverCard>;
     };
 
-    // STYLES
+    const buildMultiSelectRows = () => {
+        let rowElements = [];
 
-    let stylesDef: any = {
-        fieldTdStyle: {
-            width: '100%'
-        },
-        // transform and color is the same in all, share it somehow? TODO
-        infoIconSingleRow: {
-            paddingTop: '24px',
-            paddingLeft: '15px',
-            transform: 'scale(1.4)',
-            color: '#00000080'
-        },
-        infoIconMultiRow: {
-            paddingBottom: '24px',
-            paddingLeft: '15px',
-            transform: 'scale(1.4)',
-            color: '#00000080'
-        },
-        infoIconLabel: { // next to label
-            paddingTop: '5px',
-            paddingLeft: '12px',
-            transform: 'scale(1.4)',
-            color: '#00000080'
-        },
-        infoIconMultiSelectLabel: {
-            paddingTop: '10px',
-            paddingLeft: '15px',
-            transform: 'scale(1.4)',
-            color: '#00000080'
-        },
-        multiSelectLabel: {
-            paddingBottom: '15px'
+        const buildCheckbox = (label, idx) => {
+            return <Checkbox
+                label={label}
+                checked={value ? value.charAt(idx) === '1' : false}
+                onChange={(e, isChecked) => {
+                    let encodedStr = Utils.replaceAt(value, idx, isChecked ? '1' : '0');
+                    setValue(encodedStr);
+                    props.onEdit(encodedStr);
+                }}
+            />
+        };
+
+        for (let i = 0; i < params.options.length; i += 2) {
+            let label1 = params.options[i];
+            let label2 = params.options[i + 1];
+            rowElements.push(
+                <tr key={i}>
+                    <td>
+                        {buildCheckbox(label1, i)}
+                    </td>
+                    <td>
+                        {label2 &&
+                        buildCheckbox(label2, i + 1)
+                        }
+                    </td>
+                </tr>
+            );
         }
+        return <>{rowElements}</>
     };
 
     const buildField = () => {
@@ -152,38 +150,40 @@ export default function Field(props: IFieldProps) {
         }
     };
 
-    const buildMultiSelectRows = () => {
-        let rowElements = [];
+    // STYLES
 
-        const buildCheckbox = (label, idx) => {
-            return <Checkbox
-                label={label}
-                checked={value ? value.charAt(idx) === '1' : false}
-                onChange={(e, isChecked) => {
-                    let encodedStr = Utils.replaceAt(value, idx, isChecked ? '1' : '0');
-                    setValue(encodedStr);
-                    props.onEdit(encodedStr);
-                }}
-            />
-        };
-
-        for (let i = 0; i < params.options.length; i += 2) {
-            let label1 = params.options[i];
-            let label2 = params.options[i + 1];
-            rowElements.push(
-                <tr key={i}>
-                    <td>
-                        {buildCheckbox(label1, i)}
-                    </td>
-                    <td>
-                        {label2 &&
-                            buildCheckbox(label2, i + 1)
-                        }
-                    </td>
-                </tr>
-            );
+    let stylesDef: any = {
+        fieldTdStyle: {
+            width: '100%'
+        },
+        // transform and color is the same in all, share it somehow? TODO
+        infoIconSingleRow: {
+            paddingTop: '24px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconMultiRow: {
+            paddingBottom: '24px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconLabel: { // next to label
+            paddingTop: '5px',
+            paddingLeft: '12px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconMultiSelectLabel: {
+            paddingTop: '10px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        multiSelectLabel: {
+            paddingBottom: '15px'
         }
-        return <>{rowElements}</>
     };
 
     return (
