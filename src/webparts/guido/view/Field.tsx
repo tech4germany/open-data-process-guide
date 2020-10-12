@@ -148,6 +148,9 @@ export default function Field(props: IFieldProps) {
                         </tbody>
                     </table>
                 </>
+            case 'upload-files':
+                // TODO
+                return null;
             default:
                 return <>{params.label}': not yet implemented'</>;
         }
