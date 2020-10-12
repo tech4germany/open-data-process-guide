@@ -18,7 +18,7 @@ export class Process {
             name: this.name,
             description: this.description,
             modules: this.modules.map(m => m.id)
-        }
+        };
     }
 
     public setListItemID(listID: any) {

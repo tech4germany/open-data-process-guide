@@ -55,7 +55,7 @@ export class Model {
             sp.web.folders.add(CASE_FILES_DIR).then(() => {
                 console.log("Created directory: " + CASE_FILES_DIR);
             });
-        })
+        });
     }
 
     public initLists = async(settingsObj: SettingsObject, done) => {
@@ -70,7 +70,7 @@ export class Model {
             settings: settingsListEnsure.list,
             procs: procsListEnsure.list,
             cases: casesListEnsure.list
-        }
+        };
         if (procsListEnsure.created) { // list was just created
             console.log("Created list: " + PROCESSES_LIST_NAME);
             // it has to be addMultilineText, not just addText, otherwise limited to 255 characters
@@ -214,7 +214,7 @@ export class Model {
                 this.writeProcessToStorage(process, resolve);
             });
         });
-    };
+    }
 
     public deleteProcessFromStorage = async(proc: Process) => {
         if (Utils.isDevEnv()) {

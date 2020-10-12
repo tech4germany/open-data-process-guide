@@ -11,7 +11,7 @@ export interface ITaskProps {
     onEdit: any;
     initialValues: any;
     caseId: string;
-    step: number
+    step: number;
 }
 
 export default function Task(props: ITaskProps) {

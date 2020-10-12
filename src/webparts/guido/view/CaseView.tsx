@@ -32,7 +32,7 @@ export default function CaseView(props: ICaseViewProps) {
         setStep(newStep);
         props.case.setStep(newStep);
         notifyChange();
-    }
+    };
 
     const notifyChange = () => {
         props.model.updateCaseInStorage(props.case);

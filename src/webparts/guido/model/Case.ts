@@ -65,7 +65,7 @@ export class Case {
             step: this.step,
             values: this.values,
             isCompleted: this.isCompleted
-        }
+        };
     }
 
     public getProgressStr(): string {

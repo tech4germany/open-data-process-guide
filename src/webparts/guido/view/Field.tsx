@@ -44,7 +44,7 @@ export default function Field(props: IFieldProps) {
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table>;
     };
 
     const plainCardProps: IPlainCardProps = {
@@ -84,7 +84,7 @@ export default function Field(props: IFieldProps) {
                     setValue(encodedStr);
                     props.onEdit(encodedStr);
                 }}
-            />
+            />;
         };
 
         for (let i = 0; i < params.options.length; i += 2) {
@@ -103,7 +103,7 @@ export default function Field(props: IFieldProps) {
                 </tr>
             );
         }
-        return <>{rowElements}</>
+        return <>{rowElements}</>;
     };
 
     const buildField = () => {
@@ -129,7 +129,7 @@ export default function Field(props: IFieldProps) {
                     />,
                     stylesDef.fieldTdStyle,
                     isMulti ? stylesDef.infoIconMultiRow : stylesDef.infoIconSingleRow
-                )
+                );
             case 'checkbox':
                 return <Checkbox
                     label={params.label}
@@ -147,7 +147,7 @@ export default function Field(props: IFieldProps) {
                             {buildMultiSelectRows()}
                         </tbody>
                     </table>
-                </>
+                </>;
             case 'upload-files':
                 // TODO
                 return null;

@@ -29,20 +29,20 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             setParamsParsed(parsed);
         }
         if (!model) {
-            let model: Model = new Model(props.context);
-            setModel(model);
+            let newModel: Model = new Model(props.context);
+            setModel(newModel);
             settingsObject.current = new SettingsObject();
-            model.initLists(settingsObject.current, () => {
-                model.getInitialProcesses(procs => {
-                    model.initSettings(settingsObject.current, procs[0].id).then(() => {
+            newModel.initLists(settingsObject.current, () => {
+                newModel.getInitialProcesses(procs => {
+                    newModel.initSettings(settingsObject.current, procs[0].id).then(() => {
                         setDefaultProcessId(settingsObject.current.defaultProcessId);
                         setShowProcessDashboard(settingsObject.current.showProcessDashboard);
                     });
                     setProcesses(procs);
                     // initStorage is done at this point
-                    model.getInitialCases(procs, cases => {
-                        setCases(cases);
-                    })
+                    newModel.getInitialCases(procs, iniCases => {
+                        setCases(iniCases);
+                    });
                 });
             });
         }
@@ -86,7 +86,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         settingsObject.current.defaultProcessId = procId;
         model.updateSettingsInStorage(settingsObject.current).then(() => {
             setDefaultProcessId(procId);
-        })
+        });
     };
 
     // called from CasesDashboard

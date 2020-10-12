@@ -27,7 +27,7 @@ export default function ProcessDashboard(props: IProcessDashboardProps) {
             let content = reader.result.toString();
             props.onImportProcess(addingProcessVia, file.name, content);
             setAddingProcessVia(null);
-        }
+        };
         reader.readAsText(file);
     };
 

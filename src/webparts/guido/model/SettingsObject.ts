@@ -19,7 +19,7 @@ export class SettingsObject {
         return {
             defaultProcessId: this.defaultProcessId,
             showProcessDashboard: this.showProcessDashboard
-        }
+        };
     }
 
     public setFromJSON(json: any) {
