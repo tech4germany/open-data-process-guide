@@ -16,6 +16,8 @@ export interface ITaskProps {
 
 export default function Task(props: ITaskProps) {
 
+    // #ConceptualDecision: refactor to no use Module and instead derive fields
+    // from instantiated Case that knows about the fields (via Module)?
     const [module, setModule] = useState(null);
 
     useEffect(() => {

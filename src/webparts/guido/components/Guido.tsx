@@ -2,13 +2,10 @@ import * as React from 'react';
 import { useEffect, useRef, useState } from "react";
 import styles from './Guido.module.scss';
 import { IGuidoWebPartProps } from '../GuidoWebPart';
-import { escape } from '@microsoft/sp-lodash-subset';
-import { nanoid } from 'nanoid';
 import { parse } from 'query-string';
 import { Model } from "../model/Model";
 import ProcessDashboard from "../view/ProcessDashboard";
 import CasesDashboard from "../view/CasesDashboard";
-import Utils from "../model/Utils";
 import CaseView from "../view/CaseView";
 import { SettingsObject } from "../model/SettingsObject";
 
@@ -56,14 +53,6 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         model.updateSettingsInStorage(settingsObject.current).then(() => {
             setShowProcessDashboard(settingsObject.current.showProcessDashboard);
         });
-    };
-
-    const dev = () => {
-        console.log("isDevEnv: ", Utils.isDevEnv());
-        console.log("nanoid: ", nanoid(5));
-        console.log(props.context);
-        let title = props.context.pageContext.web.title;
-        console.log(title, props.context.pageContext.user);
     };
 
     // called from ProcessDashboard
