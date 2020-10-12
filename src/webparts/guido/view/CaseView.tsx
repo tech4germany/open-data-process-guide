@@ -127,6 +127,7 @@ export default function CaseView(props: ICaseViewProps) {
                     <br/><br/><br/>
                     <Task
                         model={props.model}
+                        case={props.case}
                         step={step}
                         caseId={props.case.id}
                         module={getModule()}

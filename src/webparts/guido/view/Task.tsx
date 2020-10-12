@@ -4,9 +4,11 @@ import { Module } from "../model/Module";
 import Field from "./Field";
 import styles from "../components/Guido.module.scss";
 import { Model } from "../model/Model";
+import { Case } from "../model/Case";
 
 export interface ITaskProps {
     model: Model;
+    case: Case;
     module: Module;
     onEdit: any;
     initialValues: any;
@@ -46,6 +48,8 @@ export default function Task(props: ITaskProps) {
                 <br/><br/>
                 {Object.keys(module.config.fields).map(fieldId =>
                     <Field
+                        model={props.model}
+                        case={props.case}
                         key={'case-' + props.caseId + '_module-' + module.id + '_field-' + fieldId}
                         details={module.config.fields[fieldId]}
                         onEdit={value => props.onEdit(fieldId, value)}

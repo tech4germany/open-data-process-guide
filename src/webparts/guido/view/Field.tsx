@@ -6,6 +6,8 @@ import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import styles from "../components/Guido.module.scss";
 
 export interface IFieldProps {
+    model: Model;
+    case: Case;
     details: any;
     onEdit: any;
     initialValue: any;
