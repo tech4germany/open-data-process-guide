@@ -106,10 +106,10 @@ export default function CaseView(props: ICaseViewProps) {
 
     return (
         <>
-            <span className={styles.title}>{getHeadline()}</span>
-            <br/><br/>
             {props.case && (
                 <>
+                    {/*
+                    <span className={styles.title}>{getHeadline()}</span>
                     <a href='#' onClick={addFile}>Dateien hinzufügen</a>{' '}
                     {showFileChooser &&
                         <input type="file" multiple onChange={e => handleChange(e.target.files)}/>
@@ -120,10 +120,13 @@ export default function CaseView(props: ICaseViewProps) {
                         </a>
                     )}
                     <br/><br/>
-                    <i>Schritt: {step + 1}/{props.case.process.modules.length}</i>,
-                    {' '}<small><a href='#' onClick={stopEditing}>Bearbeitung beenden</a></small>
+                    <i>Schritt: {step + 1}/{props.case.process.modules.length}</i>,*/}
+                    <b>TODO Header</b>
+                    <br/>
+                    <small><a href='#' onClick={stopEditing}>Bearbeitung beenden</a></small>
                     <br/><br/><br/>
                     <Task
+                        step={step}
                         caseId={props.case.id}
                         module={getModule()}
                         initialValues={getInitialValues()}
