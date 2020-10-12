@@ -4,7 +4,6 @@ import Task from "./Task";
 import { PrimaryButton } from "office-ui-fabric-react";
 import { Case } from "../model/Case";
 import { Model } from "../model/Model";
-import styles from "../components/Guido.module.scss";
 
 export interface ICaseViewProps {
     model: Model;
@@ -17,13 +16,10 @@ export default function CaseView(props: ICaseViewProps) {
 
     const [step, setStep] = useState(0);
     const currentCase = useRef(null);
-    const [showFileChooser, setShowFileChooser] = useState(false);
-    const [caseFileNames, setCaseFileNames] = useState([]);
 
     useEffect(() => {
         if (props.case !== currentCase.current) {
             currentCase.current = props.case;
-            updateCaseFileNames();
             setStep(props.case ? props.case.step : 0);
         }
     });
@@ -60,10 +56,6 @@ export default function CaseView(props: ICaseViewProps) {
         }
     };
 
-    const getHeadline = () => {
-        return 'Aktive Bereitstellung' + (props.case ? ': ' + props.case.id : '');
-    }
-
     // called from Task and there from Fields
 
     const onEdit = (fieldId, value) => {
@@ -87,40 +79,10 @@ export default function CaseView(props: ICaseViewProps) {
         props.stopEditing();
     };
 
-    const addFile = () => {
-        setShowFileChooser(!showFileChooser);
-    };
-
-    const updateCaseFileNames = () => {
-        if (props.case && props.case.caseFolder) { // running locally, this is null
-            setCaseFileNames(props.case.caseFolder.getCaseFiles().map(cf => cf.filename));
-        }
-    };
-
-    const handleChange = (fileList: FileList) => {
-        props.model.uploadFilesToCase(props.case, fileList).then(() => {
-            updateCaseFileNames();
-        });
-        setShowFileChooser(false);
-    };
-
     return (
         <>
             {props.case && (
                 <>
-                    {/*
-                    <span className={styles.title}>{getHeadline()}</span>
-                    <a href='#' onClick={addFile}>Dateien hinzufügen</a>{' '}
-                    {showFileChooser &&
-                        <input type="file" multiple onChange={e => handleChange(e.target.files)}/>
-                    }
-                    {caseFileNames.map(name =>
-                        <a href={props.case.caseFolder.folderSharingLink} target="_blank">
-                            <span>{name}</span>{' '}
-                        </a>
-                    )}
-                    <br/><br/>
-                    <i>Schritt: {step + 1}/{props.case.process.modules.length}</i>,*/}
                     <b>TODO Header</b>
                     <br/>
                     <small><a href='#' onClick={stopEditing}>Bearbeitung beenden</a></small>
