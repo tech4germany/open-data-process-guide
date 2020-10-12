@@ -78,7 +78,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
 
     return (
         <>
-            <span className={styles.title}>Wilkommen, Frau Musterfrau!</span>
+            <span className={styles.title}>Willkommen, {props.model && props.model.getCurrentUser().displayName}!</span>
             <br/><br/>
             Danke das Sie Open Data für Ihr Ministerium bereit stellen möchten.
             <br/><br/>

@@ -126,6 +126,7 @@ export default function CaseView(props: ICaseViewProps) {
                     <small><a href='#' onClick={stopEditing}>Bearbeitung beenden</a></small>
                     <br/><br/><br/>
                     <Task
+                        model={props.model}
                         step={step}
                         caseId={props.case.id}
                         module={getModule()}
