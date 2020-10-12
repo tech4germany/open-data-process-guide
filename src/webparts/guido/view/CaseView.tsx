@@ -141,7 +141,7 @@ export default function CaseView(props: ICaseViewProps) {
                             </p>
                         }
                         <p style={{ float: 'right' }}>
-                            <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Weiter'}</PrimaryButton>
+                            <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Speichern und freigeben'}</PrimaryButton>
                         </p>
                     </div>
                 </>
