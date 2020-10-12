@@ -4,6 +4,9 @@ import { TextField, Checkbox, HoverCard, HoverCardType, IPlainCardProps } from "
 import Utils from "../model/Utils";
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import styles from "../components/Guido.module.scss";
+import { Model } from "../model/Model";
+import { Case } from "../model/Case";
+import UploadFilesField from "./UploadFilesField";
 
 export interface IFieldProps {
     model: Model;
@@ -151,8 +154,13 @@ export default function Field(props: IFieldProps) {
                     </table>
                 </>;
             case 'upload-files':
-                // TODO
-                return null;
+                return <>
+                    {wrapInTable(params.label, null, stylesDef.infoIconLabel)}
+                    <UploadFilesField
+                        model={props.model}
+                        case={props.case}
+                    />
+                </>;
             default:
                 return <>{params.label}': not yet implemented'</>;
         }
