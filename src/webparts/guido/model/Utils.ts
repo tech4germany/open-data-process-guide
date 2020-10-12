@@ -15,4 +15,14 @@ export default class Utils {
     public static replaceAt = (str, idx, replacement) => {
         return str.substr(0, idx) + replacement + str.substr(idx + replacement.length);
     }
+
+    // from https://stackoverflow.com/a/34064434
+    public static htmlDecode(input) {
+        let doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
+    }
+
+    public static parseHtmlJson(raw): any {
+        return JSON.parse(this.htmlDecode(raw));
+    }
 }

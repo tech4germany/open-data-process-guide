@@ -100,7 +100,7 @@ export class Model {
             sp.web.lists.getByTitle(SETTINGS_LIST_NAME).items.get().then((items: any[]) => {
                 // we expect just one item to be there
                 settingsObj.setListItemID(items[0].ID);
-                let json = JSON.parse(items[0][SETTINGS_JSON_FIELD_NAME]);
+                let json = Utils.parseHtmlJson(items[0][SETTINGS_JSON_FIELD_NAME]);
                 if (!json.defaultProcessId) {
                     json.defaultProcessId = fallbackDefaultProcessID;
                 }
@@ -135,7 +135,9 @@ export class Model {
         } else {
             // import processes from sharepoint list
             sp.web.lists.getByTitle(PROCESSES_LIST_NAME).items.get().then((items: any[]) => {
-                Promise.all(items.map(item => this.importFromJSON(JSON.parse(item[PROCESS_JSON_FIELD_NAME]), item.ID))).then(procs => {
+                Promise.all(items.map(item =>
+                    this.importFromJSON(Utils.parseHtmlJson(item[PROCESS_JSON_FIELD_NAME]), item.ID)
+                )).then(procs => {
                     done(procs);
                 });
             });
@@ -268,7 +270,7 @@ export class Model {
                 for (let i = 0; i < items.length; i++) {
                     let item = items[i];
                     let itemID = item.ID;
-                    let caseConf = JSON.parse(item[CASE_JSON_FIELD_NAME]);
+                    let caseConf = Utils.parseHtmlJson(item[CASE_JSON_FIELD_NAME]);
                     let proc = procs.filter(p => p.id === caseConf.processId)[0];
                     promises.push(this.importCaseFromListItem(caseConf, itemID, proc));
                 }
