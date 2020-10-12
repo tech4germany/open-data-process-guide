@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { TextField, Checkbox } from "office-ui-fabric-react";
+import { TextField, Checkbox, ITextFieldProps } from "office-ui-fabric-react";
 import Utils from "../model/Utils";
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
 
 export interface IFieldProps {
     details: any;
@@ -29,6 +30,13 @@ export default function Field(props: IFieldProps) {
         }
     });
 
+    const renderLabel = (props: ITextFieldProps) => {
+        return <>
+                {props.label}
+                <Icon iconName="Info" />
+            </>;
+    };
+
     const buildField = () => {
         // developer.microsoft.com/en-us/fluentui#/controls/web
         switch(params.type) {
@@ -37,17 +45,20 @@ export default function Field(props: IFieldProps) {
             case 'multitextfield':
             case 'textfield':
                 // multiline etc. if needed: https://github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
-                return <TextField
-                    label={params.label + (params.mandatory ? ' *' : '')}
-                    value={value ? value : ''}
-                    multiline={params.type === 'multitextfield'}
-                    rows={params.type === 'multitextfield' ? 5 : 1}
-                    placeholder={params.placeholder ? params.placeholder : ''}
-                    onChanged={val => {
-                        setValue(val);
-                        props.onEdit(val);
-                    }}
-                />;
+                return <>
+                    <TextField
+                        label={params.label + (params.mandatory ? ' *' : '')}
+                        onRenderLabel={renderLabel}
+                        value={value ? value : ''}
+                        multiline={params.type === 'multitextfield'}
+                        rows={params.type === 'multitextfield' ? 5 : 1}
+                        placeholder={params.placeholder ? params.placeholder : ''}
+                        onChanged={val => {
+                            setValue(val);
+                            props.onEdit(val);
+                        }}
+                    />
+                </>
             case 'checkbox':
                 return <Checkbox
                     label={params.label}
