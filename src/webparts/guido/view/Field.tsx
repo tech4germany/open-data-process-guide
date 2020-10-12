@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { TextField, Checkbox, ITextFieldProps } from "office-ui-fabric-react";
+import { TextField, Checkbox, HoverCard, HoverCardType, IPlainCardProps } from "office-ui-fabric-react";
 import Utils from "../model/Utils";
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import styles from "../components/Guido.module.scss";
@@ -31,27 +31,51 @@ export default function Field(props: IFieldProps) {
         }
     });
 
-    const wrapInTable = (fieldEl, iconStyle) => {
+    const wrapInTable = (fieldEl, fieldTdStyle, iconStyle) => {
+        // for Icons see here https://developer.microsoft.com/en-us/fluentui#/styles/web/icons
         return <table>
             <tbody>
                 <tr>
-                    <td style={stylesDef.paramWrappingTd}>
+                    <td style={fieldTdStyle}>
                         {fieldEl}
                     </td>
                     <td>
-                        <Icon iconName='Info' style={iconStyle}/>
+                        {wrapInfoIconInHoverCard(<Icon iconName='Info' style={iconStyle}/>)}
                     </td>
                 </tr>
             </tbody>
         </table>
     };
 
+    const plainCardProps: IPlainCardProps = {
+        onRenderPlainCard: () => {
+            return (
+                <div>
+                    TODO
+                </div>
+            );
+        },
+    };
+
+    const wrapInfoIconInHoverCard = icon => {
+        return <HoverCard
+            cardDismissDelay={100}
+            type={HoverCardType.plain}
+            plainCardProps={plainCardProps}
+            // use margin-left to move the window a bit away? or expandingCardProps:
+            // https://docs.microsoft.com/en-us/javascript/api/examples/hovercard?view=office-ui-fabric-react-latest
+        >
+            {icon}
+        </HoverCard>;
+    };
+
     // STYLES
 
     let stylesDef: any = {
-        paramWrappingTd: {
+        fieldTdStyle: {
             width: '100%'
         },
+        // transform and color is the same in all, share it somehow? TODO
         infoIconSingleRow: {
             paddingTop: '24px',
             paddingLeft: '15px',
@@ -61,6 +85,12 @@ export default function Field(props: IFieldProps) {
         infoIconMultiRow: {
             paddingBottom: '24px',
             paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconLabel: { // next to label
+            paddingTop: '5px',
+            paddingLeft: '12px',
             transform: 'scale(1.4)',
             color: '#00000080'
         },
@@ -96,6 +126,7 @@ export default function Field(props: IFieldProps) {
                             props.onEdit(val);
                         }}
                     />,
+                    stylesDef.fieldTdStyle,
                     isMulti ? stylesDef.infoIconMultiRow : stylesDef.infoIconSingleRow
                 )
             case 'checkbox':
@@ -109,10 +140,7 @@ export default function Field(props: IFieldProps) {
                 />;
             case 'multi-select-checkboxes':
                 return <>
-                    <div style={stylesDef.multiSelectLabel}>
-                        {params.label}
-                        <Icon iconName='Info' style={stylesDef.infoIconMultiSelectLabel}/>
-                    </div>
+                    {wrapInTable(params.label, null, stylesDef.infoIconLabel)}
                     <table className={styles.multiSelectFieldTable}>
                         <tbody>
                             {buildMultiSelectRows()}
