@@ -50,8 +50,11 @@ export default function Field(props: IFieldProps) {
     const plainCardProps: IPlainCardProps = {
         onRenderPlainCard: () => {
             return (
-                <div>
-                    TODO
+                <div style={stylesDef.hoverCardDiv}>
+                    <b>{params.label}</b>
+                    <br/><br/>
+                    {/* via https://stackoverflow.com/a/19277723, find a non-"dangerous" way? TODO */}
+                    <div dangerouslySetInnerHTML={{__html: params.info}} />
                 </div>
             );
         },
@@ -183,6 +186,9 @@ export default function Field(props: IFieldProps) {
         },
         multiSelectLabel: {
             paddingBottom: '15px'
+        },
+        hoverCardDiv: {
+            padding: '20px'
         }
     };
 
