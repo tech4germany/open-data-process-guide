@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
 import Task from "./Task";
-import { PrimaryButton } from "office-ui-fabric-react";
+import { Icon, PrimaryButton } from "office-ui-fabric-react";
+// import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { Case } from "../model/Case";
 import { Model } from "../model/Model";
+import styles from '../components/Guido.module.scss';
+import '../components/Guido.module.scss'
 
 export interface ICaseViewProps {
     model: Model;
@@ -81,9 +84,31 @@ export default function CaseView(props: ICaseViewProps) {
 
     return (
         <>
+        
             {props.case && (
                 <>
-                    <b>TODO Header</b>
+                    <div className={styles.headercontainer}>
+                            <div className={styles.headertitlecontainer}>
+                                <div className={styles.headertitle}>Titel</div>
+                                <div className={styles.headersubtitle}>Subtitel</div>
+                                <button className={styles.headerbutton}>Datensatz einsehen</button>
+                            </div>
+                            <div className={styles.headerfortschritt}>
+                                <div className={styles.headerfortschritttext}>
+                                    Fortschritt der Bereitstellung
+                                </div>
+                                <div className={styles.headericons}>
+                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> 
+                                </div>
+                            </div>
+                    </div>
+
+
                     <br/>
                     <small><a href='#' onClick={stopEditing}>Bearbeitung beenden</a></small>
                     <br/><br/><br/>
