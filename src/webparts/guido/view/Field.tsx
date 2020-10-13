@@ -157,6 +157,9 @@ export default function Field(props: IFieldProps) {
     const buildField = () => {
         // developer.microsoft.com/en-us/fluentui#/controls/web
         switch(params.type) {
+            case 'label-only':
+                // TODO can have info too
+                return <b>{params.label}</b>
             case 'day-picker-from-to':
                 return buildDayPickerFromTo();
             case 'tag-creator':
@@ -194,14 +197,16 @@ export default function Field(props: IFieldProps) {
                     textFieldIconStyle
                 );
             case 'checkbox':
-                return <Checkbox
+                return wrapInTable(<Checkbox
                     label={params.label}
                     checked={value ? value : false}
                     onChange={(e, isChecked) => {
                         setValue(isChecked);
                         props.onEdit(isChecked);
                     }}
-                />;
+                />,
+                null,
+                null)
             case 'multi-select-checkboxes':
                 return <>
                     {wrapInTable(params.label, null, stylesDef.infoIconLabel)}
@@ -220,8 +225,10 @@ export default function Field(props: IFieldProps) {
                         onEdit={props.onEdit}
                     />
                 </>;
+            case 'select-dropdown':
+            case 'radiobox-group-two':
             default:
-                return <>{params.label}': not yet implemented'</>;
+                return <>{params.label} {'-->'} <i>{params.type}, not yet implemented</i></>;
         }
     };
 

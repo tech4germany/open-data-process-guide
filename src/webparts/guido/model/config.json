@@ -125,6 +125,64 @@
                 }
             }
         },
+        "check-legal-constraints": {
+            "name": "Rechtliche Einschränkungen prüfen",
+            "description": "Überprüfen Sie den Datensatz auf rechtlichen Einschränkungen. Das untenstehende Formular gibt Ihnen dabei zusätzliche Informationen und Hilfestellungen. Bitte lesen Sie sich die Informationen sorgfältig durch.",
+            "fields": {
+                "data-sighted-label": {
+                    "label": "Daten gesichtet?",
+                    "type": "label-only"
+                },
+                "data-sighted": {
+                    "label": "Ja, ich habe die Daten gesichtet.",
+                    "type": "checkbox",
+                    "info": "Warum muss ich die Daten sichten? Um die folgenden Fragen richtig beurteilen zu können, brauchen Sie eine Einsicht in den Datensatz. \nDie Metadaten bzw. Informationen zu dem Datensatz reichen hierfür nicht aus, da es teilweise explizit den Inhalt des Datensatzes betrifft."
+                },
+                "open-data-criteria-fulfilled-label": {
+                    "label": "Sind die Open-Data-Kriterien erfüllt? (EGovG)",
+                    "type": "label-only"
+                },
+                "open-data-criteria-fulfilled": {
+                    "label": "Der Datensatz erfüllt die Open-Data-Kriterien.",
+                    "type": "checkbox",
+                    "info": "Was sind die Kriterien, nach denen Daten \nveröffentlicht werden müssen? Die gesetzliche Pflicht zur Veröffentlichung von Daten nach § 12a EGovernment-Gesetz gilt für Daten, die folgende Kriterien erfüllen:\n\n• sie müssen unbearbeitet sein\n• sie sind elektronisch gespeichert\n• beinhalten nur Tatsachen die außerhalb der Behörde liegende Verhältnisse betreffen\n• sie sind nicht Ergebnis einer Bearbeitung anderer Daten durch eine Behörde der unmittelbaren Bundesverwaltung. (Siehe dazu den ersten Punkt)\n• sind nicht für Forschungszwecke erhoben worden\n• kein oder lediglich ein eingeschränktes Zugangsrecht insbesondere nach §§ 3-6 IFG besteht\noder\n• ein Zugangsrecht erst nach der Beteiligung Dritter bestünde\n• die Daten ohne Auftrag der Behörde von Dritten erstellt und ihr ohne rechtliche Verpflichtung übermittelt werden\n• die Daten bereits über öffentlich zugänglich Netze entgeltfrei bereitgestellt werden."
+                },
+                "provision-complies-legal-requirements-label": {
+                    "label": "Entspricht die Bereitstellung den gesetzlichen Auflagen?",
+                    "type": "label-only"
+                },
+                "provision-complies-legal-requirements-1": {
+                    "label": "Auf Datenschutz geprüft (BDSG)",
+                    "type": "checkbox",
+                    "info": "Wie erkenne ich personenbezogene Daten? Es handelt sich um personenbezogene Daten, sobald durch Angaben im Datensatz ein Rückschluss auf eine Person gezogen werden kann. Enthält Ihr Datensatz folgende Angaben, ist er für eine Veröffentlichung vorerst nicht geeignet. \n\n• Namen\n• Telefonnummern \n• Geburtsdaten\n• Familiennamen mit Ortsangabe\n\nAb hier besteht die Möglichkeit, die Angaben manuell zu entfernen oder durch unser Anonymisierungstool zu schwärzen.\n\nSollten Sie sich dennoch unsicher sein, kontaktieren Sie die zuständige Stelle in Ihrer Behörde.\nDatenschutzbeauftragter Auswärtiges Amt: \nHerr Max Mustermann (1234@diplo.de)"
+                },
+                "provision-complies-legal-requirements-2": {
+                    "label": "Auf Urheberschutzrecht geprüft (UrhG)",
+                    "type": "checkbox",
+                    "info": "Wie kann ich herausfinden, ob der Datensatz \ndurch das Urheberrecht eingeschränkt ist? Wenn es der*die Urheber*in wünscht, kann das Werk mit einer Urheberbezeichnung versehen werden (§ 13 UrhG). Bearbeitungen oder andere Umgestaltungen des Werkes dürfen nur mit Einwilligung der schöpfenden Person des bearbeiteten oder umgestalteten Werkes veröffentlicht oder verwertet werden (§ 23 UrhG). Allerdings kann ein Nutzungsrecht, welches in irgendeiner Weise beschränkt sein kann, eingeräumt werden (§ 31 UrhG). Wie kann ich herausfinden, wer der Urheber ist? Als Urheber*in eines Werkes sieht das Gesetz den*die Schöpfer*in (§ 7 UrhG). Nur diese Person kann entscheiden, wann und wie das Werk verbreitet wird und ob es vervielfältigt werden darf (§ 17 UrhG). (…CCOD fragen?) Ausnahmen: Amtliche Erlasse, Verordnungen oder Gesetzte sowie Entscheidungen und amtlich verfasste Leitsätze zu  Entscheidungen genießen hingegen keinen urheberrechtlichen Schutz (§ 5 Abs. 1 UrhG). Das gleiche gilt für andere amtliche Werke, die im amtlichen Interesse zur allgemeinen Kenntnisnahme veröffentlicht werden."
+                },
+                "provision-complies-legal-requirements-3": {
+                    "label": "Auf Schutz durch das IFG geprüft (§§ 3-6 IFG)",
+                    "type": "checkbox",
+                    "info": "Wann sind Daten durch das IFG geschützt? Das Informationsfreiheitsgesetz IFG regelt den Zugang zu amtlichen Informationen durch Jedermann und begründet ein Auskunftsrecht oder die Akteneinsicht. Dieses Ansinnen kann nur aus wichtigem Grund abgelehnt werden. § 12a EGovG bezieht sich bei den Ausnahmetatbeständen, die einer Veröffentlichung von Daten entgegenstehen, auf die §§ 3-6 IFG.\n\nSchutz bei:\n• behördlicher Entscheidungsprozesse (§ 4 IFG)\n• personenbezogener Daten (§ 5 IFG)\n• geistigem Eigentum sowie Betriebs- und\n  Geschäftsgeheimnissen (§ 6 IFG)"
+                },
+                "license-terms-coverage-label": {
+                    "label": "Bildet die ausgewählte Lizenz die \nNutzungsbedingungen ab?",
+                    "type": "label-only",
+                    "info": "Was sind gängige Lizenzen und wie stell ich sicher, dass ich die Richtige für den Datensatz gewählt habe? Um den Aufwand zu minimieren empfiehlt es sich auf bestehende und vorgefertigte Lizenzmodelle zurückzugreifen. Zwei, für Open Data geeignete, Lizenzen sind die auf den deutschen Rechtsraum angepasste Datenlizenz Deutschland 2.0 und die international bekannte Creative Commons Lizenz 4.03"
+                },
+                "chosen-license": {
+                    "label": "Aktuell gewählte Lizenz:",
+                    "type": "select-dropdown",
+                    "options": ["Creative Commons Nammensnennung 3.0 Deutschland (empfohlen)", "Datenlizenz Deutschland Namensnennung 1.0", "Datenlizenz Deutschland Nammensnennung 2.0 (empfohlen)"]
+                },
+                "chosen-license-confirm": {
+                    "label": "Ja|Nein",
+                    "type": "radiobox-group-two"
+                }
+            },
+            "task-bottom-text": "Mit der Freigabe leiten Sie die Bereitstellung in den nächsten Schritt zur Veröffentlichung."
+        },
         "prepare-data": {
             "name": "Prepare Data",
             "description": "Check if the data meets the standards for open publication, e.g. spell out internal abbreviations",
@@ -169,7 +227,8 @@
             "modules": [
                 "describe-dataset",
                 "data-upload",
-                "supplement-metadata"
+                "supplement-metadata",
+                "check-legal-constraints"
             ]
         }
     ]
