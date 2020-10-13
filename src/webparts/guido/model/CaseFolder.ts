@@ -3,7 +3,7 @@ export class CaseFolder {
     public caseFiles: CaseFile[] = [];
 
     // ServerRelativeUrl + SharingLinkKind.OrganizationEdit
-    constructor(public path: string, public folderSharingLink: string) {}
+    constructor(public folderPath: string, public folderSharingLink: string) {}
 
     public addCaseFile(caseFile: CaseFile) {
         this.caseFiles.push(caseFile);

@@ -314,17 +314,17 @@ export class Model {
                 for (let i = 0; i < fileList.length; i++) {
                     let file = fileList[i];
                     // for large (?) files, upload in chunks instead: https://pnp.github.io/pnpjs/sp/files/#adding-files
-                    promises.push(sp.web.getFolderByServerRelativeUrl(caseObj.caseFolder.path).files.add(file.name, file, true));
+                    promises.push(sp.web.getFolderByServerRelativeUrl(caseObj.caseFolder.folderPath).files.add(file.name, file, true));
                 }
                 Promise.all(promises).then(uploadedFiles => {
                     uploadedFiles.map(f => {
                         caseObj.caseFolder.addCaseFile(new CaseFile(
                             f.data.ServerRelativeUrl,
                             f.data.Name,
-                            f.data.Name.split('.')[1], // make this more robust
+                            f.data.Name.split('.')[1] // make this more robust
                         ));
                     });
-                    uploadedFiles.map(f => console.log("Uploaded file: " + f.data.Name + ' to ' + caseObj.caseFolder.path));
+                    uploadedFiles.map(f => console.log("Uploaded file: " + f.data.Name + ' to ' + caseObj.caseFolder.folderPath));
                     resolve();
                 });
             };
