@@ -183,6 +183,30 @@
             },
             "task-bottom-text": "Mit der Freigabe leiten Sie die Bereitstellung in den nächsten Schritt zur Veröffentlichung."
         },
+        "confirm-publication": {
+            "name": "Veröffentlichung des Datensatzes bestätigen",
+            "description": "In den vorherigen Schritten wurde der Datensatz angelegt und überprüft. Bestätigen Sie in diesem Schritt die Veröffentlichung des Datensatzes. Dieser Schritt kann bearbeitet werden, sobald die Daten auf der Homepage Ihres Ministerium veröffentlicht wurden. Geben sie im unten stehenden Formular die URL an, unter der der Datensatz auffindbar ist. Bitte ergänzen Sie ebenfalls die URLs der zum Datensatz gehörenden Ressourcen, sowie das Datum der Veröffentlichung.",
+            "fields": {
+                "published-on-website-label": {
+                    "label": "Auf Website veröffentlicht?",
+                    "type": "label-only",
+                    "info": "Wie veröffentliche ich Daten? Um den Datensatz zu veröffentlichen brauchen Sie eine Website, auf der die Datenveröffentlicht werden können, meistens handelt es sich hier um die Website Ihres Ministeriums. Je nach dem, wie die Seite aufgebaut ist, muss der Datensatz in das bestehende Content Management System der Seite hochgeladen werden. \nHierzu kontaktieren Sie entweder Ihren Internetseiten-Anbieter oder die Pressestelle Ihrer Behörde."
+                },
+                "url-of-dataset": {
+                    "label": "URL des Datensatzes",
+                    "type": "textfield",
+                    "placeholder": "https://www.auswaertiges-amt.de/suchen/-/details/datensatz",
+                    "mandatory": true
+                }
+            },
+            "task-bottom-text": "Mit der Freigabe leiten Sie die Bereitstellung in den nächsten Schritt zur Metadatenerfassung."
+        },
+        "check-and-complete-metadata": {
+            "name": "Prüfung und Ergänzung der Metadaten",
+            "description": "Prüfen und ergänzen Sie die Felder im unterstehenden Formular, um die zum Datensatz gehörenden Metadaten vollständig zu erfassen. Anschließend werden diese an GovData weitergeleitet und sind dort für die Datennutzer:innen Metadatenkatalog auffindbar. Ergänzen Sie im unten stehenden Formular leere Felder und bestätigen Sie abschließend die Freigabe der Metadaten.",
+            "fields": {},
+            "task-bottom-text": "Mit der finalen Freigabe ist die Bereitstellung des Datensatzes abgeschlossen."
+        },
         "prepare-data": {
             "name": "Prepare Data",
             "description": "Check if the data meets the standards for open publication, e.g. spell out internal abbreviations",
@@ -228,7 +252,9 @@
                 "describe-dataset",
                 "data-upload",
                 "supplement-metadata",
-                "check-legal-constraints"
+                "check-legal-constraints",
+                "confirm-publication",
+                "check-and-complete-metadata"
             ]
         }
     ]

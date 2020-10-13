@@ -48,7 +48,7 @@ export default function Field(props: IFieldProps) {
                         {fieldEl}
                     </td>
                     <td>
-                        {wrapInfoIconInHoverCard(<Icon iconName='Info' style={iconStyle}/>)}
+                        {params.info && wrapInfoIconInHoverCard(<Icon iconName='Info' style={iconStyle}/>)}
                     </td>
                 </tr>
             </tbody>
