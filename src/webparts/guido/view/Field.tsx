@@ -159,6 +159,7 @@ export default function Field(props: IFieldProps) {
                     <UploadFilesField
                         model={props.model}
                         case={props.case}
+                        onEdit={props.onEdit}
                     />
                 </>;
             default:

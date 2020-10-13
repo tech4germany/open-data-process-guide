@@ -13,6 +13,13 @@ export class CaseFolder {
         return this.caseFiles;
     }
 
+    public getJSONconfig(): any {
+        return {
+            folderPath: this.folderPath,
+            folderSharingLink: this.folderSharingLink,
+            fileNames: this.caseFiles.map(cf => cf.filename)
+        }
+    }
 }
 
 export class CaseFile {
