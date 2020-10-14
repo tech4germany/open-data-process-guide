@@ -22,21 +22,21 @@
                     "label": "Titel",
                     "type": "textfield",
                     "placeholder": "z. B. Protokolldaten 2020",
-                    "info": "Bitte geben Sie hier den Titel des Datensatzes ein.<br>Dieser sollte eindeutig sein und klar auf den Inhalt<br>hinweisen.",
+                    "info": "Bitte geben Sie hier den Titel des Datensatzes ein. Dieser sollte eindeutig sein und klar auf den Inhalt hinweisen.",
                     "mandatory": true
                 },
                 "description": {
                     "label": "Beschreibung",
                     "type": "multitextfield",
                     "placeholder": "Beschreiben Sie kurz den Inhalt des Datensatzes.",
-                    "info": "Bitte beschreiben Sie in diesem Feld den Inhalt des<br>Datensatz möglichst prägnant.",
+                    "info": "Bitte beschreiben Sie in diesem Feld den Inhalt des Datensatz möglichst prägnant.",
                     "mandatory": true
                 },
                 "data-provider": {
                     "label": "Datenbereitsteller",
                     "type": "textfield",
                     "prefill": "$specifications.ministry",
-                    "info": "TODO",
+                    "info": "Dieses Feld dürfte mit dem Namen des übergeordneten Ministeriums vorausgefüllt sein und ist somit nicht änderbar. Dieses hängt mit der Vergabe des GovData-Zugangs zusammen.",
                     "mandatory": true
                 },
                 "categories": {
@@ -48,13 +48,13 @@
                         "Regierung und öffentlicher Sektor", "Regionen und Städte", "Umwelt", "Wissenschaft und Technologie",
                         "Wirtschaft und Finanzen", "Justiz, Rechtssystem und öffentliche Sicherheit"
                     ],
-                    "info": "Wählen Sie hier bitte eine oder mehrere Kategorien<br>aus, die dem Inhalt Ihres Datensatzes am nächsten<br>kommen. Handelt es sich um bspw. Daten der<br>Gesundheitsfürsorge in Deutschland wählen Sie bitte<br>die Kategorie „Gesundheit“."
+                    "info": "Wählen Sie hier bitte eine oder mehrere Kategorien aus, die dem Inhalt Ihres Datensatzes am nächsten kommen. Handelt es sich um bspw. Daten der Gesundheitsfürsorge in Deutschland wählen Sie bitte die Kategorie „Gesundheit“."
                 },
                 "tags": {
                     "label": "Schlagwörter",
                     "type": "tag-creator",
                     "placeholder": "Mit welchen Wörter würde man nach dem Datensatz suchen?",
-                    "info": "Hier sollten Schlagworte, Schlüsselbegriffe oder<br>synonyme Begriffe gepflegt werden.<br><br>Eine gewissenhafte Verschlagwortung ermöglicht es<br>Nutzern Daten schneller und gezielter zu finden.<br>Nutzen Sie Schlagwörter, um den Inhalt des<br>bereitgestellten Datensatzes möglichst genau zu<br>beschreiben. Dabei ist es empfehlenswert, auch den<br>Titel der Ressource (bzw. die charakteristischen<br>Bestandteile daraus) zusätzlich als Schlüsselwort zu<br>erfassen.<br><br>Synonyme sollten ebenfalls als Schlagwort hinterlegt<br>sein, um die bereitgestellten Daten einem möglichst<br>großen Publikum zugänglich zu machen.<br><br>Beispiele:<br><br>1. Für Kindertagesstätte wären als Schlagworte<br>denkbar: Kita, Hort, Kinderladen, Kinderhort uvm.<br><br>2. Eine Suche wird nach allgemeinen Verkehrsdaten<br>gestartet mit dem Oberbegriff „Verkehr“. Ohne eine<br>entsprechende Verschlagwortung könnten hier die<br>Ergebnisse nicht eindeutig oder unvollständig<br>ausfallen."
+                    "info": "Hier sollten Schlagworte, Schlüsselbegriffe oder synonyme Begriffe gepflegt werden. Eine gewissenhafte Verschlagwortung ermöglicht es Nutzern Daten schneller und gezielter zu finden. Nutzen Sie Schlagwörter, um den Inhalt des bereitgestellten Datensatzes möglichst genau zu beschreiben. Dabei ist es empfehlenswert, auch den Titel der Ressource (bzw. die charakteristischen Bestandteile daraus) zusätzlich als Schlüsselwort zu erfassen.<br><br>Synonyme sollten ebenfalls als Schlagwort hinterlegt sein, um die bereitgestellten Daten einem möglichst großen Publikum zugänglich zu machen.<br><br>Beispiele:<br>1. Für Kindertagesstätte wären als Schlagworte denkbar: Kita, Hort, Kinderladen, Kinderhort uvm.<br>2. Eine Suche wird nach allgemeinen Verkehrsdaten gestartet mit dem Oberbegriff „Verkehr“. Ohne eine entsprechende Verschlagwortung könnten hier die Ergebnisse nicht eindeutig oder unvollständig ausfallen."
                 }
             }
         },
@@ -66,7 +66,7 @@
                     "label": "Hochladen der einzelnen Ressourcen (Daten)",
                     "type": "upload-files",
                     "placeholder": "Ziehen Sie die Daten einfach von Ihrem Rechner in dieses Feld oder klicken Sie auf den Button:",
-                    "info": "Ziehen Sie die Daten von ihrem Desktop einfach per<br>Drag & Drop in dieses Feld um die Daten<br>hochzuladen.<br><br>Folgende Formate sind zurzeit für Open Data am<br>besten geeignet:<br><br>• XML, RDF, CSV, JSON, RDF, HTML<br><br>Bitte exportieren sie die Datei nach Möglichkeit in<br>eins oder mehrere dieser Dateiformaten und fügen<br>Sie diese Dateien dem Upload hinzu.",
+                    "info": "Ziehen Sie die Daten von ihrem Desktop einfach per Drag & Drop in dieses Feld um die Daten hochzuladen.<br>Folgende Formate sind zurzeit für Open Data am besten geeignet:<br>• XML, RDF, CSV, JSON, RDF, HTML<br>Bitte exportieren sie die Datei nach Möglichkeit in eins oder mehrere dieser Dateiformaten und fügen Sie diese Dateien dem Upload hinzu.",
                     "mandatory": true
                 }
             }
