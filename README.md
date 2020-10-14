@@ -53,6 +53,13 @@ npm install
 gulp serve
 ```
 
+## Build
+
+```sh
+gulp bundle --ship
+gulp package-solution --ship 
+```
+
 ---
 
 <details>
