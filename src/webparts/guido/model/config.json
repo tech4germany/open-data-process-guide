@@ -115,8 +115,9 @@
                 },
                 "level-geopol-coverage": {
                     "label": "Ebene der geopolitischen Abdeckung URI\t",
-                    "type": "textfield",
-                    "placeholder": "Keine Angabe",
+                    "type": "select-dropdown",
+                    "defaultIndex": 0,
+                    "options": ["Keine Angabe", "(international) internationale Ebene", "(european) EU-Ebene", "(federal) Bundesebene", "(state) Ebene der Länder", "(administrativedistrict) Ebene der Landkreise", "(municipality) kommunale Ebene"],
                     "info": "Wählen Sie hier aus, ob die Daten administrativ zur Ebene Bund, Bundesland, Kreis oder Kommune Bezug haben. Wenn Sie nicht die Ebene Bund wählen, sollte eine Ergänzung in „Geopolitische Abdeckung URI“ (siehe Feld 7) erfolgen.\nBei Bundesbehörden wird die Abdeckung in der Regel dem bundesweiten Bezug entsprechen. Wählen Sie daher „federal“ aus."
                 },
                 "coverage-text": {
