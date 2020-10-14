@@ -53,11 +53,11 @@ export default function Task(props: ITaskProps) {
 
     const getRole = () => {
         return  props.model.specifications.config.roles[props.module.config.responsible];
-    }
+    };
 
     const currentUserClaimsTask = () => {
         setTaskClaimStatus('currentUser');
-        props.onEdit('responsibleUsersStatus', 'currentUser')
+        props.onEdit('responsibleUsersStatus', 'currentUser');
     };
 
     const passTaskToResponsibleUser = () => {
@@ -98,7 +98,7 @@ export default function Task(props: ITaskProps) {
                             onEdit={value => props.onEdit(fieldId, value)}
                             initialValue={props.initialValues[fieldId]}
                         />)}
-                    </>
+                    </>;
             case 'undecided':
                 return <>
                     <br/>
@@ -122,7 +122,7 @@ export default function Task(props: ITaskProps) {
                 return <>
                     <br/>
                     {getRole().article + ' ' + getRole().label} wurde zur Bearbeitung dieser Aufgabe eingeladen.
-                </>
+                </>;
             default:
                 return 'undefined';
         }

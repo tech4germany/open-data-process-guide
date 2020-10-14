@@ -23,7 +23,7 @@ export class CaseFolder {
             folderPath: this.folderPath,
             folderSharingLink: this.folderSharingLink,
             fileNames: this.caseFiles.map(cf => cf.filename)
-        }
+        };
     }
 }
 

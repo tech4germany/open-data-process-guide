@@ -151,7 +151,7 @@ export default function Field(props: IFieldProps) {
                 </td>
             </tr>
             </tbody>
-        </table>
+        </table>;
     };
 
     const buildField = () => {
@@ -159,7 +159,7 @@ export default function Field(props: IFieldProps) {
         switch(params.type) {
             case 'label-only':
                 // TODO can have info too
-                return <b>{params.label}</b>
+                return <b>{params.label}</b>;
             case 'day-picker-from-to':
                 return buildDayPickerFromTo();
             case 'tag-creator':
@@ -206,7 +206,7 @@ export default function Field(props: IFieldProps) {
                     }}
                 />,
                 null,
-                null)
+                null);
             case 'multi-select-checkboxes':
                 return <>
                     {wrapInTable(params.label, null, stylesDef.infoIconLabel)}

@@ -95,7 +95,7 @@ export default function CaseView(props: ICaseViewProps) {
                         {'Speichern und freigeben'}
                     </PrimaryButton>
                 </p>
-            </div>
+            </div>;
         }
 
         return <div>
@@ -107,7 +107,7 @@ export default function CaseView(props: ICaseViewProps) {
             <p style={{ float: 'right' }}>
                 <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Speichern und freigeben'}</PrimaryButton>
             </p>
-        </div>
+        </div>;
     };
 
     return (
