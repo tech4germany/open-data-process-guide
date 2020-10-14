@@ -14,6 +14,7 @@ export interface ITaskProps {
     onEdit: any;
     initialValues: any;
     step: number;
+    inResponsibleUserTaskCompletedMode: boolean;
 }
 
 export default function Task(props: ITaskProps) {
@@ -130,9 +131,19 @@ export default function Task(props: ITaskProps) {
     return (
        module &&  (
             <>
-                <span className={styles.subtitle}>{'Schritt ' + props.step + ' - ' + module.config.name}</span>
+                <span className={styles.subtitle}>{'Schritt ' + props.step + ' - ' + module.config.name + (props.inResponsibleUserTaskCompletedMode ? ' abgeschlossen' : '')}</span>
                 <br/>
-                {buildTask()}
+                {props.inResponsibleUserTaskCompletedMode
+                    ?
+                    <>
+                        <br/>
+                        <span>
+                            Vielen Dank, Ihre Aufgabe ist hiermit abgeschlossen. Für den nächsten Prozessschritt wurde die nächste zuständige Stelle informiert.
+                        </span>
+                    </>
+                    :
+                    buildTask()
+                }
             </>
         )
     );

@@ -16,6 +16,7 @@ export default function CaseView(props: ICaseViewProps) {
 
     const [step, setStep] = useState(0);
     const currentCase = useRef(null);
+    const [inResponsibleUserTaskCompletedMode, setResponsibleUserTaskCompletedMode] = useState(false);
 
     useEffect(() => {
         if (props.case !== currentCase.current) {
@@ -79,6 +80,36 @@ export default function CaseView(props: ICaseViewProps) {
         props.stopEditing();
     };
 
+    const buildButtons = () => {
+        let responsibleUsersStatus = props.case.values[props.case.process.modules[step].id]['responsibleUsersStatus'];
+        if (responsibleUsersStatus === 'responsibleUserArrived') {
+            return <div>
+                {props.case.process.modules[step].config['task-bottom-text'] + ' '}
+                <br/>
+                <p style={{ float: 'right' }}>
+                    <PrimaryButton
+                        onClick={() => {
+                            setResponsibleUserTaskCompletedMode(true);
+                            nextStep();
+                        }}>
+                        {'Speichern und freigeben'}
+                    </PrimaryButton>
+                </p>
+            </div>
+        }
+
+        return <div>
+            {step > 0 &&
+                <p style={{ float: 'left' }}>
+                    <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
+                </p>
+            }
+            <p style={{ float: 'right' }}>
+                <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Speichern und freigeben'}</PrimaryButton>
+            </p>
+        </div>
+    };
+
     return (
         <>
             {props.case && (
@@ -91,21 +122,13 @@ export default function CaseView(props: ICaseViewProps) {
                         model={props.model}
                         case={props.case}
                         step={step}
+                        inResponsibleUserTaskCompletedMode={inResponsibleUserTaskCompletedMode}
                         module={getModule()}
                         initialValues={getInitialValues()}
                         onEdit={(fieldId, value) => onEdit(fieldId, value)}
                     />
                     <br/><br/>
-                    <div>
-                        {step > 0 &&
-                            <p style={{ float: 'left' }}>
-                                <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
-                            </p>
-                        }
-                        <p style={{ float: 'right' }}>
-                            <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Speichern und freigeben'}</PrimaryButton>
-                        </p>
-                    </div>
+                    {!inResponsibleUserTaskCompletedMode && buildButtons()}
                 </>
             )}
         </>
