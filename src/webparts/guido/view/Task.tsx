@@ -69,8 +69,10 @@ export default function Task(props: ITaskProps) {
         }
 
         let subject = "Bitte um Bearbeitung: " + module.config.name + " - " + caseTitle;
-        let link = ""; // TODO
-        let body = "Guten Tag,<br><br>die Bereitstellung \"" + caseTitle + "\" ist im \"Schritt " + props.step + ": " + module.config.name + "\" gelandet und bedarf Ihrer Expertise. Bitte bearbeiten Sie die Aufgabe unter folgendem Link:<br><br>" + link + "<br><br>Vielen Dank!<br>Ihr Open Data Guide";
+
+        // pull base-url dynamically instead of hardwired
+        let link = "https://opendataprocess.sharepoint.com/sites/Guido/_layouts/15/workbench.aspx?caseId=" + props.case.id + "&step=" + props.step;
+        let body = "Guten Tag,<br><br>die Bereitstellung \"" + caseTitle + "\" ist im \"Schritt " + props.step + ": " + module.config.name + "\" gelandet und bedarf Ihrer Expertise. Bitte bearbeiten Sie die Aufgabe unter folgendem Link:<br><br><a href=\"" + link + "\">" + link + "</a><br><br>Vielen Dank!<br>Ihr Open Data Guide";
 
         props.model.sendEmail(getRole().email, subject, body);
         props.onEdit('responsibleUsersStatus', 'responsibleUser');
