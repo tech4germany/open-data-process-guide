@@ -80,7 +80,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
         <>
             <span className={styles.title}>Willkommen, {props.model && props.model.getCurrentUser().displayName}!</span>
             <br/><br/>
-            Danke das Sie Open Data für Ihr Ministerium bereit stellen möchten.
+            Danke, dass Sie Open Data für Ihr Ministerium bereit stellen möchten.
             <br/><br/>
             Guido hilft Ihnen dabei Ihre Datensätze durch den Prozess der Datenbereitstellung zu führen.
             <br/>
