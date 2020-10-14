@@ -24,6 +24,8 @@ For deploying the web part in a SharePoint environment, we signed up for an onli
 
 - To set the permissions for sharing files and folders from SharePoint to "anyone with the link" (= no login required, by default this is not allowed), follow the [instructions here](https://docs.microsoft.com/en-US/sharepoint/change-external-sharing-site).
 
+- To allow emailing users within the organization via *PnPjs*, they need to be members of the SharePoint page in question. For that, add the respective emails at `<SharePoint_Page>/_layouts/15/people.aspx?MembershipGroupId=5`, in our case that is [this link](https://opendataprocess.sharepoint.com/sites/Guido/_layouts/15/people.aspx?MembershipGroupId=5).
+
 ### Degrees of Deployment
 
 TODO
