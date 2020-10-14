@@ -3,11 +3,13 @@
         "ministry": "Auswärtiges Amt",
         "roles": {
             "datenschutzbeauftragter": {
-                "label": "Datenschutzbeauftragter",
+                "label": "Rechtsabteilung",
+                "article": "Die",
                 "email": "Gast@opendataprocess.onmicrosoft.com"
             },
             "pressereferat": {
                 "label": "Pressereferat",
+                "article": "Das",
                 "email": "Gast@opendataprocess.onmicrosoft.com"
             }
         }
