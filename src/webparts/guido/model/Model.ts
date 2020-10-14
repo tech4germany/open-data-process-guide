@@ -75,7 +75,7 @@ export class Model {
             console.log("Created list: " + PROCESSES_LIST_NAME);
             // it has to be addMultilineText, not just addText, otherwise limited to 255 characters
             await procsListEnsure.list.fields.addMultilineText(PROCESS_JSON_FIELD_NAME);
-            Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {});
+            Promise.all(config.processes.map(procConf => this.importFromJSON(procConf, null))).then(() => {});
         }
         if (casesListEnsure.created) {
             console.log("Created list: " + CASES_LIST_NAME);
