@@ -46,12 +46,28 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 });
             });
         }
+
         if (modelInitiated && !urlParamsParsed) {
             let parsed = parse(location.search);
             console.log("URL params: ", parsed);
             setUrlParamsParsed(parsed);
             if (parsed['startCaseByEmail']) {
-                onStartDefaultCase(parsed['startCaseByEmail'].toString());
+                let folderName = parsed['startCaseByEmail'].toString();
+                let existingCase = null;
+                for (let i = 0; i < cases.length; i++) {
+                    if (cases[i].caseFolder && cases[i].caseFolder.getFolderName() === folderName) {
+                        existingCase = cases[i];
+                        break;
+                    }
+                }
+                if (existingCase) {
+                    console.log('A case with folder ' + folderName + ' already exists, not opening a new case. Opening the existing case for editing.');
+                    onContinueCase(existingCase);
+                    // Also show something that the user sees instead of doing this silently? TODO
+                    // set selectedCaseInTable in CasesDashboard for highlighting TODO
+                } else {
+                    onStartDefaultCase(parsed['startCaseByEmail'].toString());
+                }
             }
         }
     });

@@ -5,6 +5,11 @@ export class CaseFolder {
     // ServerRelativeUrl + SharingLinkKind.OrganizationEdit
     constructor(public folderPath: string, public folderSharingLink: string) {}
 
+    public getFolderName(): string {
+        let split = this.folderPath.split('/');
+        return split[split.length - 1];
+    }
+
     public addCaseFile(caseFile: CaseFile) {
         this.caseFiles.push(caseFile);
     }
