@@ -91,7 +91,6 @@ export default function CaseView(props: ICaseViewProps) {
                         model={props.model}
                         case={props.case}
                         step={step}
-                        caseId={props.case.id}
                         module={getModule()}
                         initialValues={getInitialValues()}
                         onEdit={(fieldId, value) => onEdit(fieldId, value)}

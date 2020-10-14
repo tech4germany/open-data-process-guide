@@ -13,7 +13,6 @@ export interface ITaskProps {
     module: Module;
     onEdit: any;
     initialValues: any;
-    caseId: string;
     step: number;
 }
 
@@ -75,7 +74,7 @@ export default function Task(props: ITaskProps) {
                         <Field
                             model={props.model}
                             case={props.case}
-                            key={'case-' + props.caseId + '_module-' + module.id + '_field-' + fieldId}
+                            key={'case-' + props.case.id + '_module-' + module.id + '_field-' + fieldId}
                             details={module.config.fields[fieldId]}
                             onEdit={value => props.onEdit(fieldId, value)}
                             initialValue={props.initialValues[fieldId]}
