@@ -73,7 +73,7 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
             if (parsed['caseId'] && parsed['step']) {
                 let caseId = parsed['caseId'].toString();
-                let step = Number(parsed['step'].toString());
+                let step = Number(parsed['step'].toString().split('#')[0]); // a # might be added when clicking on links
                 let caseObj = cases.filter(c => c.id === caseId)[0];
                 if (caseObj) {
                     console.log("Opening case at step as encoded in URL");
