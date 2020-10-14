@@ -50,6 +50,10 @@ export default function Task(props: ITaskProps) {
         }
     };
 
+    const getRole = () => {
+        return  props.model.specifications.config.roles[props.module.config.responsible];
+    }
+
     const currentUserClaimsTask = () => {
         setTaskClaimStatus('currentUser');
         props.onEdit('responsibleUsersStatus', 'currentUser')
@@ -57,11 +61,22 @@ export default function Task(props: ITaskProps) {
 
     const passTaskToResponsibleUser = () => {
         setTaskClaimStatus('responsibleUser');
-        props.onEdit('responsibleUsersStatus', 'responsibleUser')
+
+        // this breaks if that module is not there or called different, a more robust way? TODO
+        let caseTitle = props.case.values['describe-dataset']['title'];
+        if (!caseTitle) {
+            caseTitle = props.case.id; // fallback
+        }
+
+        let subject = "Bitte um Bearbeitung: " + module.config.name + " - " + caseTitle;
+        let link = ""; // TODO
+        let body = "Guten Tag,<br><br>die Bereitstellung \"" + caseTitle + "\" ist im \"Schritt " + props.step + ": " + module.config.name + "\" gelandet und bedarf Ihrer Expertise. Bitte bearbeiten Sie die Aufgabe unter folgendem Link:<br><br>" + link + "<br><br>Vielen Dank!<br>Ihr Open Data Guide";
+
+        props.model.sendEmail(getRole().email, subject, body);
+        props.onEdit('responsibleUsersStatus', 'responsibleUser');
     };
 
     const buildTask = () => {
-        let role;
         switch (taskClaimStatus) {
             case 'currentUser':
                 return <>
@@ -81,10 +96,9 @@ export default function Task(props: ITaskProps) {
                         />)}
                     </>
             case 'undecided':
-                role = props.model.specifications.config.roles[props.module.config.responsible];
                 return <>
                     <br/>
-                    Für diesen Schritt ist {role.article.toLowerCase() + ' ' + role.label + ' (' + role.email + ')'} verantwortlich.{' '}
+                    Für diesen Schritt ist {getRole().article.toLowerCase() + ' ' + getRole().label + ' (' + getRole().email + ')'} verantwortlich.{' '}
                     Sie können die Bearbeitung selbst übernehmen oder die Stelle per Email zur Bearbeitung auffordern.
                     <br/><br/>
                     <table style={stylesDef.claimTaskBtnTable}>
@@ -94,17 +108,16 @@ export default function Task(props: ITaskProps) {
                                 <PrimaryButton onClick={currentUserClaimsTask}>Selbst bearbeiten</PrimaryButton>
                             </td>
                             <td style={stylesDef.claimTaskBtnTableTd}>
-                                <PrimaryButton onClick={passTaskToResponsibleUser}>{role.article + ' ' + role.label} benachrichtigen</PrimaryButton>
+                                <PrimaryButton onClick={passTaskToResponsibleUser}>{getRole().article + ' ' + getRole().label} benachrichtigen</PrimaryButton>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </>;
             case 'responsibleUser':
-                role = props.model.specifications.config.roles[props.module.config.responsible];
                 return <>
                     <br/>
-                    {role.article + ' ' + role.label} wurde zur Bearbeitung dieser Aufgabe eingeladen.
+                    {getRole().article + ' ' + getRole().label} wurde zur Bearbeitung dieser Aufgabe eingeladen.
                 </>
             default:
                 return 'undefined';
