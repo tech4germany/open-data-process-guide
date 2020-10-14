@@ -35,6 +35,10 @@ export class Case {
                 }
                 this.values[module.id][fieldId] = val;
             });
+            if (module.config.responsible) {
+                // where decisions have to be made about claiming it yourself or notifying the external user
+                this.values[module.id]['responsibleUsersStatus'] = 'undecided';
+            }
         });
         this.id = process.id + '_' + nanoid(4);
         this.startTime = Date.now() / 1000;
