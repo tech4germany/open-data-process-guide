@@ -1,9 +1,15 @@
 {
     "specifications": {
         "ministry": "Auswärtiges Amt",
-        "emails": {
-            "datenschutzbeauftragter": "Gast@opendataprocess.onmicrosoft.com",
-            "pressereferat": "Gast@opendataprocess.onmicrosoft.com"
+        "roles": {
+            "datenschutzbeauftragter": {
+                "label": "Datenschutzbeauftragter",
+                "email": "Gast@opendataprocess.onmicrosoft.com"
+            },
+            "pressereferat": {
+                "label": "Pressereferat",
+                "email": "Gast@opendataprocess.onmicrosoft.com"
+            }
         }
     },
     "fields": {
@@ -128,6 +134,7 @@
         "check-legal-constraints": {
             "name": "Rechtliche Einschränkungen prüfen",
             "description": "Überprüfen Sie den Datensatz auf rechtlichen Einschränkungen. Das untenstehende Formular gibt Ihnen dabei zusätzliche Informationen und Hilfestellungen. Bitte lesen Sie sich die Informationen sorgfältig durch.",
+            "responsible": "datenschutzbeauftragter",
             "fields": {
                 "data-sighted-label": {
                     "label": "Daten gesichtet?",
@@ -186,6 +193,7 @@
         "confirm-publication": {
             "name": "Veröffentlichung des Datensatzes bestätigen",
             "description": "In den vorherigen Schritten wurde der Datensatz angelegt und überprüft. Bestätigen Sie in diesem Schritt die Veröffentlichung des Datensatzes. Dieser Schritt kann bearbeitet werden, sobald die Daten auf der Homepage Ihres Ministerium veröffentlicht wurden. Geben sie im unten stehenden Formular die URL an, unter der der Datensatz auffindbar ist. Bitte ergänzen Sie ebenfalls die URLs der zum Datensatz gehörenden Ressourcen, sowie das Datum der Veröffentlichung.",
+            "responsible": "pressereferat",
             "fields": {
                 "published-on-website-label": {
                     "label": "Auf Website veröffentlicht?",
