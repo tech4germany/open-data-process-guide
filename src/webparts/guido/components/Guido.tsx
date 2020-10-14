@@ -8,6 +8,7 @@ import ProcessDashboard from "../view/ProcessDashboard";
 import CasesDashboard from "../view/CasesDashboard";
 import CaseView from "../view/CaseView";
 import { SettingsObject } from "../model/SettingsObject";
+import { Process } from "../model/Process";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
@@ -48,7 +49,9 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             let parsed = parse(location.search);
             console.log("URL params: ", parsed);
             setUrlParamsParsed(parsed);
-            // TODO
+            if (parsed['startCaseByEmail']) {
+                onStartDefaultCase(parsed['startCaseByEmail'].toString());
+            }
         }
     });
 
@@ -61,8 +64,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     // called from ProcessDashboard
 
-    const onStartCase = proc => {
-        model.newCaseFromProcess(proc).then(caseObj => {
+    const onStartCase = (proc: Process, caseFolderNameViaEmail: string = null) => {
+        model.newCaseFromProcess(proc, caseFolderNameViaEmail).then(caseObj => {
             setCases([...cases, caseObj]);
             setActiveCase(caseObj);
         });
@@ -107,12 +110,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setCases(cases.filter(c => c !== caseObj));
     };
 
-    const onStartDefaultCase = () => {
+    const onStartDefaultCase = (caseFolderNameViaEmail: string = null) => {
         if (!defaultProcessId) {
             console.log("No default process ID set, don't know from which process to start a case");
             return;
         }
-        onStartCase(processes.filter(proc => proc.id === defaultProcessId)[0]);
+        onStartCase(processes.filter(proc => proc.id === defaultProcessId)[0], caseFolderNameViaEmail);
     };
 
     // called from CaseView

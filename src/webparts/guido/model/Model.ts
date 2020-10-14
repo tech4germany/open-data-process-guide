@@ -226,11 +226,37 @@ export class Model {
 
     // CASES
 
-    public newCaseFromProcess(proc: Process): Promise<Case> {
+    public newCaseFromProcess(proc: Process, existingCaseFolderNameViaEmail: string = null): Promise<Case> {
         return new Promise<Case>(resolve => {
             let caseObj: Case = new Case(this.specifications);
             caseObj.initNewCase(proc);
-            this.writeCaseToStorage(caseObj, resolve);
+
+            const doWriteToStorage = () => {
+                this.writeCaseToStorage(caseObj, resolve);
+            };
+
+            if (existingCaseFolderNameViaEmail) {
+                let existingCaseFolderPath = CASE_FILES_DIR + '/' + existingCaseFolderNameViaEmail;
+                sp.web.getFolderByServerRelativeUrl(existingCaseFolderPath).getShareLink(SharingLinkKind.OrganizationEdit).then(result => {
+                    let caseFolder = new CaseFolder(existingCaseFolderPath,  result.sharingLinkInfo.Url);
+                    caseObj.setCaseFolder(caseFolder);
+                    sp.web.getFolderByServerRelativeUrl(existingCaseFolderPath).files.get().then(files => {
+                        files.map(f => {
+                            caseFolder.addCaseFile(new CaseFile(
+                                f.ServerRelativeUrl,
+                                f.Name,
+                                f.Name.split('.')[1]
+                            ));
+                        });
+                        // extract these params dynamically instead of hardwired? TODO
+                        caseObj.setStep(1);
+                        caseObj.setValue('data-upload', 'uploader', caseObj.caseFolder.getJSONconfig());
+                        doWriteToStorage();
+                    });
+                });
+            } else {
+                doWriteToStorage();
+            }
         });
     }
 
