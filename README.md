@@ -56,7 +56,7 @@ gulp serve
 ## Build
 
 ```sh
-gulp bundle --ship
+gulp bundle --ship # ignore the "build failed" message at the end, that's a bug and not true
 gulp package-solution --ship 
 ```
 
