@@ -88,7 +88,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
             <br/><br/>
             Klicken Sie auf "Neue Bereitstellung", um eine neue Datenbereitstellung zu starten.
             <br/><br/>
-            <PrimaryButton onClick={props.onStartDefaultCase}>Neue Bereitstellung</PrimaryButton>
+            <PrimaryButton onClick={() => props.onStartDefaultCase()}>Neue Bereitstellung</PrimaryButton>
             <br/><br/><br/>
             <span className={styles.subtitle}>Übersicht der Bereitstellungsprozesse in Ihrem Ministerium
                 {props.model && <>{': ' + props.model.specifications.config.ministry}</>}</span>
