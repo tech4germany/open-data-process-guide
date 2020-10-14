@@ -16,6 +16,8 @@ import { CaseFile, CaseFolder } from "./CaseFolder";
 import { SettingsObject } from "./SettingsObject";
 import { Specifications } from "./Specifications";
 import { SPUser } from "@microsoft/sp-page-context";
+import "@pnp/sp/sputilities";
+import { IEmailProperties } from "@pnp/sp/sputilities";
 
 const SETTINGS_LIST_NAME: string = 'guido-settings';
 const SETTINGS_JSON_FIELD_NAME: string = 'settingsJSON';
@@ -368,6 +370,19 @@ export class Model {
                     });
                 });
             }
+        });
+    }
+
+    // EMAIL
+
+    public sendEmail(email: string, subject: string, body: string) {
+        // https://pnp.github.io/pnpjs/sp/sp-utilities-utility/#usage
+        sp.utility.sendEmail({
+            To: [email],
+            Subject: subject,
+            Body: body
+        }).then(() => {
+            console.log("Email sent to " + email);
         });
     }
 }
