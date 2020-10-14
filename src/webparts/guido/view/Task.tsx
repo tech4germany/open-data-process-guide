@@ -6,6 +6,7 @@ import styles from "../components/Guido.module.scss";
 import { Model } from "../model/Model";
 import { Case } from "../model/Case";
 import { PrimaryButton } from "office-ui-fabric-react";
+import Utils from "../model/Utils";
 
 export interface ITaskProps {
     model: Model;
@@ -72,7 +73,7 @@ export default function Task(props: ITaskProps) {
         let subject = "Bitte um Bearbeitung: " + module.config.name + " - " + caseTitle;
 
         // pull base-url dynamically instead of hardwired
-        let link = "https://opendataprocess.sharepoint.com/sites/Guido/_layouts/15/workbench.aspx?caseId=" + props.case.id + "&step=" + props.step;
+        let link = Utils.getBaseURL() + '?caseId=' + props.case.id + '&step=' + props.step;
         let body = "Guten Tag,<br><br>die Bereitstellung \"" + caseTitle + "\" ist im \"Schritt " + props.step + ": " + module.config.name + "\" gelandet und bedarf Ihrer Expertise. Bitte bearbeiten Sie die Aufgabe unter folgendem Link:<br><br><a href=\"" + link + "\">" + link + "</a><br><br>Vielen Dank!<br>Ihr Open Data Guide";
 
         props.model.sendEmail(getRole().email, subject, body);

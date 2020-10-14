@@ -25,4 +25,9 @@ export default class Utils {
     public static parseHtmlJson(raw): any {
         return JSON.parse(this.htmlDecode(raw));
     }
+
+    public static getBaseURL(): string {
+        // https://opendataprocess.sharepoint.com/sites/Guido/_layouts/15/workbench.aspx
+        return 'https://opendataprocess.sharepoint.com/sites/Guido';
+    }
 }
