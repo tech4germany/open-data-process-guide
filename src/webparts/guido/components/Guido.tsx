@@ -66,7 +66,21 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     // Also show something that the user sees instead of doing this silently? TODO
                     // set selectedCaseInTable in CasesDashboard for highlighting TODO
                 } else {
+                    console.log("Starting new default case via email");
                     onStartDefaultCase(parsed['startCaseByEmail'].toString());
+                }
+            }
+
+            if (parsed['caseId'] && parsed['step']) {
+                let caseId = parsed['caseId'].toString();
+                let step = Number(parsed['step'].toString());
+                let caseObj = cases.filter(c => c.id === caseId)[0];
+                if (caseObj) {
+                    console.log("Opening case at step as encoded in URL");
+                    caseObj.setStep(step);
+                    onContinueCase(caseObj);
+                } else {
+                    console.log("No case found with ID " + caseId);
                 }
             }
         }
