@@ -34,14 +34,15 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     newModel.initSettings(settingsObject.current, procs[0].id).then(() => {
                         setDefaultProcessId(settingsObject.current.defaultProcessId);
                         setShowProcessDashboard(settingsObject.current.showProcessDashboard);
-                        // if startCaseByEmail, the default process needs to be set, that's why this barrier
-                        setModelInitiated(true);
+                        // initStorage is done at this point
+                        newModel.getInitialCases(procs, iniCases => {
+                            setCases(iniCases);
+                            // if startCaseByEmail, the default process needs to be set, that's why this barrier
+                            // moved after cases are init to detect a possible duplicate
+                            setModelInitiated(true);
+                        });
                     });
                     setProcesses(procs);
-                    // initStorage is done at this point
-                    newModel.getInitialCases(procs, iniCases => {
-                        setCases(iniCases);
-                    });
                 });
             });
         }
