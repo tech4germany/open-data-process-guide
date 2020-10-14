@@ -78,6 +78,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                 if (caseObj) {
                     console.log("Opening case at step as encoded in URL");
                     caseObj.setStep(step);
+                    // that seems a bit hackish
+                    caseObj.values[caseObj.process.modules[step].id]['responsibleUsersStatus'] = 'responsibleUserArrived';
                     onContinueCase(caseObj);
                 } else {
                     console.log("No case found with ID " + caseId);

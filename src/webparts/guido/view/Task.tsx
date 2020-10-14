@@ -21,7 +21,7 @@ export default function Task(props: ITaskProps) {
     // #ConceptualDecision: refactor to no use Module and instead derive fields
     // from instantiated Case that knows about the fields (via Module)?
     const [module, setModule] = useState(null);
-    // undecided, currentUser or responsibleUser
+    // undecided, currentUser, responsibleUserRequested, responsibleUserArrived
     const [taskClaimStatus, setTaskClaimStatus] = useState('currentUser');
 
     useEffect(() => {
@@ -60,7 +60,7 @@ export default function Task(props: ITaskProps) {
     };
 
     const passTaskToResponsibleUser = () => {
-        setTaskClaimStatus('responsibleUser');
+        setTaskClaimStatus('responsibleUserRequested');
 
         // this breaks if that module is not there or called different, a more robust way? TODO
         let caseTitle = props.case.values['describe-dataset']['title'];
@@ -75,11 +75,12 @@ export default function Task(props: ITaskProps) {
         let body = "Guten Tag,<br><br>die Bereitstellung \"" + caseTitle + "\" ist im \"Schritt " + props.step + ": " + module.config.name + "\" gelandet und bedarf Ihrer Expertise. Bitte bearbeiten Sie die Aufgabe unter folgendem Link:<br><br><a href=\"" + link + "\">" + link + "</a><br><br>Vielen Dank!<br>Ihr Open Data Guide";
 
         props.model.sendEmail(getRole().email, subject, body);
-        props.onEdit('responsibleUsersStatus', 'responsibleUser');
+        props.onEdit('responsibleUsersStatus', 'responsibleUserRequested');
     };
 
     const buildTask = () => {
         switch (taskClaimStatus) {
+            case 'responsibleUserArrived':
             case 'currentUser':
                 return <>
                     <br/>
@@ -116,7 +117,7 @@ export default function Task(props: ITaskProps) {
                         </tbody>
                     </table>
                 </>;
-            case 'responsibleUser':
+            case 'responsibleUserRequested':
                 return <>
                     <br/>
                     {getRole().article + ' ' + getRole().label} wurde zur Bearbeitung dieser Aufgabe eingeladen.
