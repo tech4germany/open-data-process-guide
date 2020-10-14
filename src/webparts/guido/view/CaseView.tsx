@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
 import Task from "./Task";
-import { Icon, PrimaryButton } from "office-ui-fabric-react";
+import { Icon, PrimaryButton, Button } from "office-ui-fabric-react";
 // import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { Case } from "../model/Case";
 import { Model } from "../model/Model";
@@ -82,6 +82,38 @@ export default function CaseView(props: ICaseViewProps) {
         props.stopEditing();
     };
 
+    // Method to decide if progress bar icons in header are filled or not
+    // let progress = 0;
+
+    // const checkProgress = () => { 
+    //     switch (progress[0]]) {
+    //         case "Step1":
+    //             progress  = 0;
+    //           break;
+    //         case "Step2":
+    //             progress  = 1;
+    //         break;
+    //         case "Step3":
+    //             progress  = 2;
+    //         break;
+    //         case "Step4":
+    //             progress  = 3;
+    //         break;
+    //         case "Step5":
+    //             progress  = 4;
+    //         break;
+    //         case "Step6":
+    //             progress  = 5;
+    //         break;
+    //         case "Step7":
+    //             progress  = 6;
+    //         break;
+    //         default: 
+    //         progress = 0;
+    //         break;
+    //     }       
+    // };
+
     return (
         <>
         
@@ -91,7 +123,7 @@ export default function CaseView(props: ICaseViewProps) {
                             <div className={styles.headertitlecontainer}>
                                 <div className={styles.headertitle}>Titel</div>
                                 <div className={styles.headersubtitle}>Subtitel</div>
-                                <button className={styles.headerbutton}>Datensatz einsehen</button>
+                                <Button>Datensatz einsehen</Button>
                             </div>
                             <div className={styles.headerfortschritt}>
                                 <div className={styles.headerfortschritttext}>
