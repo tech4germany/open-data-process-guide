@@ -14,20 +14,16 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
     const [showProcessDashboard, setShowProcessDashboard] = useState(false);
     const settingsObject = useRef(null);
     const [defaultProcessId, setDefaultProcessId] = useState(null);
-    const [paramsParsed, setParamsParsed] = useState(null);
+    const [urlParamsParsed, setUrlParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
     const [processes, setProcesses] = useState([]);
     const [cases, setCases] = useState([]);
     const [activeCase, setActiveCase] = useState(null);
     // incremented through edits in fields and next/back clicks, to force CaseDashboard to update the progress on the active case
     const [changeNotifs, setChangeNotifs] = useState(0);
+    const [modelInitiated, setModelInitiated] = useState(false);
 
     useEffect(() => {
-        if (!paramsParsed) {
-            let parsed = parse(location.search);
-            // console.log("URL params: ", parsed);
-            setParamsParsed(parsed);
-        }
         if (!model) {
             let newModel: Model = new Model(props.context);
             setModel(newModel);
@@ -37,6 +33,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     newModel.initSettings(settingsObject.current, procs[0].id).then(() => {
                         setDefaultProcessId(settingsObject.current.defaultProcessId);
                         setShowProcessDashboard(settingsObject.current.showProcessDashboard);
+                        // if startCaseByEmail, the default process needs to be set, that's why this barrier
+                        setModelInitiated(true);
                     });
                     setProcesses(procs);
                     // initStorage is done at this point
@@ -45,6 +43,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     });
                 });
             });
+        }
+        if (modelInitiated && !urlParamsParsed) {
+            let parsed = parse(location.search);
+            console.log("URL params: ", parsed);
+            setUrlParamsParsed(parsed);
+            // TODO
         }
     });
 
