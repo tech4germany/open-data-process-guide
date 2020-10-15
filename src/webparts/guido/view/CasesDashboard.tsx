@@ -132,7 +132,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                         <tr>
                             <th>Titel</th>
                             <th>Erstellt am</th>
-                            <th>Fortschritt</th>
+                            {/*<th>Fortschritt</th> TODO*/}
                         </tr>
                         </thead>
                         <tbody>
@@ -143,7 +143,7 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                             >
                                 <td>{caseObj === props.activeCase && <small>[Aktiv] </small>}{caseObj.id/*Title TODO*/}</td>
                                 <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
-                                <td>TODO</td>
+                                {/*<td>TODO</td>*/}
                             </tr>
                         )}
                         </tbody>
