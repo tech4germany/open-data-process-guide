@@ -127,8 +127,12 @@ export default function CaseView(props: ICaseViewProps) {
                     <div className={styles.headercontainer}>
                             <div className={styles.headertitlecontainer}>
                                 <div className={styles.headertitle}>{props.case.getTitle()}</div>
-                                <div className={styles.headersubtitle}>erstellt: {props.case.getFormattedStartTime()} - von {getAuthor()}</div>
-                                <Button className={styles.headerbutton}>Datensatz einsehen</Button>
+                                <div className={styles.headersubtitle}>
+                                    erstellt: {props.case.getFormattedStartTime()}
+                                    <br/>
+                                    von {getAuthor()}
+                                </div>
+                                {props.case.caseFolder && props.case.caseFolder.folderSharingLink && <Button className={styles.headerbutton}>Datensatz einsehen</Button>}
                             </div>
                             <div className={styles.headerfortschritt}>
                                 <div className={styles.headerfortschritttext}>
