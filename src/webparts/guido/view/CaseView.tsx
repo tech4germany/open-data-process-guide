@@ -144,12 +144,12 @@ export default function CaseView(props: ICaseViewProps) {
                                     Fortschritt der Bereitstellung
                                 </div>
                                 <div className={styles.headericons}>
-                                    <Icon iconName='SkypeCircleCheck' className={step > 0 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 0 ? styles.headerhrfilled :styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={step > 1 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 1 ? styles.headerhrfilled :styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={step > 2 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 2 ? styles.headerhrfilled :styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={step > 3 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 3 ? styles.headerhrfilled :styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={step > 4 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 4 ? styles.headerhrfilled :styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={step > 5 ? styles.headericonfilled : styles.headericon} /> 
+                                    <Icon iconName='SkypeCircleCheck' className={step > 0 ? styles.headericonfilled : styles.headericon}/> <hr className={step > 0 ? styles.headerhrfilled : styles.headerhr}/>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 1 ? styles.headericonfilled : styles.headericon}/> <hr className={step > 1 ? styles.headerhrfilled : styles.headerhr}/>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 2 ? styles.headericonfilled : styles.headericon}/> <hr className={step > 2 ? styles.headerhrfilled : styles.headerhr}/>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 3 ? styles.headericonfilled : styles.headericon}/> <hr className={step > 3 ? styles.headerhrfilled : styles.headerhr}/>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 4 ? styles.headericonfilled : styles.headericon}/> <hr className={step > 4 ? styles.headerhrfilled : styles.headerhr}/>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 5 ? styles.headericonfilled : styles.headericon}/>
                                 </div>
                             </div>
                     </div>
