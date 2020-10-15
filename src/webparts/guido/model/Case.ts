@@ -2,6 +2,7 @@ import { Process } from "./Process";
 import { nanoid } from 'nanoid';
 import { CaseFile, CaseFolder } from "./CaseFolder";
 import { Specifications } from "./Specifications";
+import Utils from "./Utils";
 
 export class Case {
 
@@ -15,6 +16,18 @@ export class Case {
     public isCompleted: boolean = false;
 
     constructor(public specifications: Specifications) {}
+
+    public getTitle() {
+        let titlesFieldVal = this.values['describe-dataset']['title'];
+        if (titlesFieldVal) {
+            return titlesFieldVal;
+        }
+        return this.id;
+    }
+
+    public getFormattedStartTime() {
+        return Utils.getFormattedTime(this.startTime);
+    }
 
     public initNewCase(process: Process) {
         this.process = process;

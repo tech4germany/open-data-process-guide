@@ -7,6 +7,7 @@ import { Case } from "../model/Case";
 import { Model } from "../model/Model";
 import styles from '../components/Guido.module.scss';
 import '../components/Guido.module.scss'
+import Utils from "../model/Utils";
 
 export interface ICaseViewProps {
     model: Model;
@@ -83,18 +84,8 @@ export default function CaseView(props: ICaseViewProps) {
         props.stopEditing();
     };
 
-    const getTitle = () => {
-        console.log("Title", props.case.id);
-        return props.case.id;
-    };
-
-    const getDate = () => {
-        // console.log("Date", props.getFormattedTime(caseObj.startTime));
-        // return props.case.id;
-    };
-
     const getAuthor = () => {
-        console.log("Person", props.model.getCurrentUser().displayName);
+        // console.log("Person", props.model.getCurrentUser().displayName);
         return props.model.getCurrentUser().displayName;
     };
 
@@ -130,13 +121,13 @@ export default function CaseView(props: ICaseViewProps) {
 
     return (
         <>
-        
+
             {props.case && (
                 <>
                     <div className={styles.headercontainer}>
                             <div className={styles.headertitlecontainer}>
-                                <div className={styles.headertitle}>{getTitle()}</div>
-                                <div className={styles.headersubtitle}>erstellt {getDate()} - von {getAuthor()}</div>
+                                <div className={styles.headertitle}>{props.case.getTitle()}</div>
+                                <div className={styles.headersubtitle}>erstellt: {props.case.getFormattedStartTime()} - von {getAuthor()}</div>
                                 <Button className={styles.headerbutton}>Datensatz einsehen</Button>
                             </div>
                             <div className={styles.headerfortschritt}>

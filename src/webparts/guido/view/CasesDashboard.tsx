@@ -141,8 +141,8 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                                 style={caseObj === selectedCaseInTable ? stylesDef.selectedCaseInTable : {}}
                                 onClick={() => setSelectedCaseInTable(selectedCaseInTable === caseObj ? null : caseObj)}
                             >
-                                <td>{caseObj === props.activeCase && <small>[Aktiv] </small>}{caseObj.id/*Title TODO*/}</td>
-                                <td>{Utils.getFormattedTime(caseObj.startTime)}</td>
+                                <td>{caseObj === props.activeCase && <small>[Aktiv] </small>}{caseObj.getTitle()}</td>
+                                <td>{caseObj.getFormattedStartTime()}</td>
                                 {/*<td>TODO</td>*/}
                             </tr>
                         )}
