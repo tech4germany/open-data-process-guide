@@ -142,7 +142,7 @@ export default function Task(props: ITaskProps) {
     return (
        module &&  (
             <>
-                <span className={styles.subtitle}>{'Schritt ' + (props.step + 1) + ' - ' + module.config.name + (props.inResponsibleUserTaskCompletedMode ? ' abgeschlossen' : '')}</span>
+                <span className={styles.stepTitle}>{'Schritt ' + (props.step + 1) + ' - ' + module.config.name + (props.inResponsibleUserTaskCompletedMode ? ' abgeschlossen' : '')}</span>
                 <br/>
                 {props.inResponsibleUserTaskCompletedMode
                     ?
