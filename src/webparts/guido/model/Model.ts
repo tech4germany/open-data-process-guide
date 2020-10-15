@@ -211,7 +211,7 @@ export class Model {
                 }
                 // orderedTasks.pop(); // remove EndEvent
 
-                let process: Process = new Process(fileName, fileName, '');
+                let process: Process = new Process(fileName, fileName.split('.')[0], '');
                 process.setModules(orderedTasks.map(task => this.getModuleIdByModuleName(task.name)));
                 this.writeProcessToStorage(process, resolve);
             });
