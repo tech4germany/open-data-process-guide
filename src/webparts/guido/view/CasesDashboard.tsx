@@ -120,7 +120,6 @@ export default function CasesDashboard(props: ICaseDashboardProps) {
                     <br/><br/>
                     {selectedCaseInTable &&
                         <>
-                            {selectedCaseInTable.id + ':'}
                             {' '}<a href='#' onClick={() => continueCase(selectedCaseInTable)}>Weiter bearbeiten</a>,
                             {' '}<a href='#' onClick={() => deleteCase(selectedCaseInTable)}>Löschen</a>,
                             {' '}<a href='#' onClick={() => generateRDF(selectedCaseInTable)}>Metadaten generieren</a>
