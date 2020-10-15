@@ -251,7 +251,7 @@ export class Model {
                             ));
                         });
                         // extract these params dynamically instead of hardwired? TODO
-                        caseObj.setStep(1);
+                        // caseObj.setStep(1);
                         caseObj.setValue('data-upload', 'uploader', caseObj.caseFolder.getJSONconfig());
                         doWriteToStorage();
                     });
