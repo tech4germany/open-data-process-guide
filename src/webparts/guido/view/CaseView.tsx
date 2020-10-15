@@ -82,37 +82,19 @@ export default function CaseView(props: ICaseViewProps) {
         props.stopEditing();
     };
 
-    // Method to decide if progress bar icons in header are filled or not
-    // let progress = 0;
+    const getTitle = () => {
+        console.log("Title", props.case.id);
+        return props.case.id;
+    };
+    const getDate = () => {
+        // console.log("Date", props.getFormattedTime(caseObj.startTime));
+        // return props.case.id;
+    };
 
-    // const checkProgress = () => { 
-    //     switch (progress[0]]) {
-    //         case "Step1":
-    //             progress  = 0;
-    //           break;
-    //         case "Step2":
-    //             progress  = 1;
-    //         break;
-    //         case "Step3":
-    //             progress  = 2;
-    //         break;
-    //         case "Step4":
-    //             progress  = 3;
-    //         break;
-    //         case "Step5":
-    //             progress  = 4;
-    //         break;
-    //         case "Step6":
-    //             progress  = 5;
-    //         break;
-    //         case "Step7":
-    //             progress  = 6;
-    //         break;
-    //         default: 
-    //         progress = 0;
-    //         break;
-    //     }       
-    // };
+    const getAuthor = () => {
+        console.log("Person", props.model.getCurrentUser().displayName);
+        return props.model.getCurrentUser().displayName;
+    };
 
     return (
         <>
@@ -121,21 +103,21 @@ export default function CaseView(props: ICaseViewProps) {
                 <>
                     <div className={styles.headercontainer}>
                             <div className={styles.headertitlecontainer}>
-                                <div className={styles.headertitle}>Titel</div>
-                                <div className={styles.headersubtitle}>Subtitel</div>
-                                <Button>Datensatz einsehen</Button>
+                                <div className={styles.headertitle}>{getTitle()}</div>
+                                <div className={styles.headersubtitle}>erstellt {getDate()} - von {getAuthor()}</div>
+                                <Button className={styles.headerbutton}>Datensatz einsehen</Button>
                             </div>
                             <div className={styles.headerfortschritt}>
                                 <div className={styles.headerfortschritttext}>
                                     Fortschritt der Bereitstellung
                                 </div>
                                 <div className={styles.headericons}>
-                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> <hr className={styles.headerhr}></hr>
-                                    <Icon iconName='SkypeCircleCheck' className={styles.headericon} /> 
+                                    <Icon iconName='SkypeCircleCheck' className={step > 0 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 0 ? styles.headerhrfilled :styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 1 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 1 ? styles.headerhrfilled :styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 2 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 2 ? styles.headerhrfilled :styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 3 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 3 ? styles.headerhrfilled :styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 4 ? styles.headericonfilled : styles.headericon} /> <hr className={step > 4 ? styles.headerhrfilled :styles.headerhr}></hr>
+                                    <Icon iconName='SkypeCircleCheck' className={step > 5 ? styles.headericonfilled : styles.headericon} /> 
                                 </div>
                             </div>
                     </div>
