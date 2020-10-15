@@ -166,34 +166,38 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
             <div className={styles.row}>
                 {/*<Fabric.PrimaryButton onClick={dev}>Dev</Fabric.PrimaryButton>
                 <span className={styles.title}>Welcome to {escape(props.description)}!</span>*/}
-                {showProcessDashboard &&
+                {!activeCase &&
                     <>
-                        <ProcessDashboard
+                        {showProcessDashboard &&
+                        <>
+                            <ProcessDashboard
+                                model={model}
+                                processes={processes}
+                                onStartCase={proc => onStartCase(proc)}
+                                onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
+                                onDeleteProcess={proc => onDeleteProcess(proc)}
+                                defaultProcessId={defaultProcessId}
+                                onDefaultProcessChange={procId => onDefaultProcessChange(procId)}
+                            />
+                            <br/>
+                            <hr/>
+                        </>
+                        }
+                        <a href='#' onClick={toggleShowProcessDashboard}>
+                            Prozessübersicht {showProcessDashboard ? 'verstecken' : 'anzeigen'}
+                        </a><br/>
+                        <CasesDashboard
                             model={model}
-                            processes={processes}
-                            onStartCase={proc => onStartCase(proc)}
-                            onImportProcess={(type, fileName, content) => onImportProcess(type, fileName, content)}
-                            onDeleteProcess={proc => onDeleteProcess(proc)}
-                            defaultProcessId={defaultProcessId}
-                            onDefaultProcessChange={procId => onDefaultProcessChange(procId)}
+                            cases={cases}
+                            activeCase={activeCase}
+                            changeNotifs={changeNotifs}
+                            onContinueCase={caseObj => onContinueCase(caseObj)}
+                            onDeleteCase={caseObj => onDeleteCase(caseObj)}
+                            onStartDefaultCase={onStartDefaultCase}
                         />
-                        <br/>
-                        <hr/>
+                        <br/><hr/>
                     </>
                 }
-                <a href='#' onClick={toggleShowProcessDashboard}>
-                    Prozessübersicht {showProcessDashboard ? 'verstecken' : 'anzeigen'}
-                </a><br/>
-                <CasesDashboard
-                    model={model}
-                    cases={cases}
-                    activeCase={activeCase}
-                    changeNotifs={changeNotifs}
-                    onContinueCase={caseObj => onContinueCase(caseObj)}
-                    onDeleteCase={caseObj => onDeleteCase(caseObj)}
-                    onStartDefaultCase={onStartDefaultCase}
-                />
-                <br/><hr/>
                 <CaseView
                     model={model}
                     case={activeCase}
