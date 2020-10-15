@@ -19,6 +19,7 @@ export default function CaseView(props: ICaseViewProps) {
 
     const [step, setStep] = useState(0);
     const currentCase = useRef(null);
+    const [inResponsibleUserTaskCompletedMode, setResponsibleUserTaskCompletedMode] = useState(false);
 
     useEffect(() => {
         if (props.case !== currentCase.current) {
@@ -86,6 +87,7 @@ export default function CaseView(props: ICaseViewProps) {
         console.log("Title", props.case.id);
         return props.case.id;
     };
+
     const getDate = () => {
         // console.log("Date", props.getFormattedTime(caseObj.startTime));
         // return props.case.id;
@@ -94,6 +96,36 @@ export default function CaseView(props: ICaseViewProps) {
     const getAuthor = () => {
         console.log("Person", props.model.getCurrentUser().displayName);
         return props.model.getCurrentUser().displayName;
+    };
+
+    const buildButtons = () => {
+        let responsibleUsersStatus = props.case.values[props.case.process.modules[step].id]['responsibleUsersStatus'];
+        if (responsibleUsersStatus === 'responsibleUserArrived') {
+            return <div>
+                {props.case.process.modules[step].config['task-bottom-text'] + ' '}
+                <br/>
+                <p style={{ float: 'right' }}>
+                    <PrimaryButton
+                        onClick={() => {
+                            setResponsibleUserTaskCompletedMode(true);
+                            nextStep();
+                        }}>
+                        {'Speichern und freigeben'}
+                    </PrimaryButton>
+                </p>
+            </div>;
+        }
+
+        return <div>
+            {step > 0 &&
+                <p style={{ float: 'left' }}>
+                    <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
+                </p>
+            }
+            <p style={{ float: 'right' }}>
+                <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Speichern und freigeben'}</PrimaryButton>
+            </p>
+        </div>;
     };
 
     return (
@@ -130,22 +162,13 @@ export default function CaseView(props: ICaseViewProps) {
                         model={props.model}
                         case={props.case}
                         step={step}
-                        caseId={props.case.id}
+                        inResponsibleUserTaskCompletedMode={inResponsibleUserTaskCompletedMode}
                         module={getModule()}
                         initialValues={getInitialValues()}
                         onEdit={(fieldId, value) => onEdit(fieldId, value)}
                     />
                     <br/><br/>
-                    <div>
-                        {step > 0 &&
-                            <p style={{ float: 'left' }}>
-                                <PrimaryButton onClick={previousStep}>Zurück</PrimaryButton>
-                            </p>
-                        }
-                        <p style={{ float: 'right' }}>
-                            <PrimaryButton onClick={nextStep}>{isLastStep() ? 'Bereitstellung abschließen' : 'Speichern und freigeben'}</PrimaryButton>
-                        </p>
-                    </div>
+                    {!inResponsibleUserTaskCompletedMode && buildButtons()}
                 </>
             )}
         </>

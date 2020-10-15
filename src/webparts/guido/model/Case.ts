@@ -1,6 +1,6 @@
 import { Process } from "./Process";
 import { nanoid } from 'nanoid';
-import { CaseFolder } from "./CaseFolder";
+import { CaseFile, CaseFolder } from "./CaseFolder";
 import { Specifications } from "./Specifications";
 
 export class Case {
@@ -35,6 +35,10 @@ export class Case {
                 }
                 this.values[module.id][fieldId] = val;
             });
+            if (module.config.responsible) {
+                // where decisions have to be made about claiming it yourself or notifying the external user
+                this.values[module.id]['responsibleUsersStatus'] = 'undecided';
+            }
         });
         this.id = process.id + '_' + nanoid(4);
         this.startTime = Date.now() / 1000;
@@ -47,6 +51,14 @@ export class Case {
         this.step = caseConf.step;
         this.values = caseConf.values;
         this.isCompleted = caseConf.isCompleted;
+        let dataUploadModule = caseConf.values['data-upload'];
+        if (dataUploadModule && dataUploadModule['uploader']) {
+            let uploaderField = dataUploadModule['uploader'];
+            this.setCaseFolder(new CaseFolder(uploaderField.folderPath, uploaderField.folderSharingLink));
+            uploaderField.fileNames.map(fn => {
+                this.caseFolder.addCaseFile(new CaseFile(uploaderField.folderPath + '/' + fn, fn, fn.split('.')[1]));
+            });
+        }
     }
 
     public setValue(moduleId: string, fieldId: string, value: any) {

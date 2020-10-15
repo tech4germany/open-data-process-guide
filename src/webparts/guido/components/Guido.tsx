@@ -8,26 +8,23 @@ import ProcessDashboard from "../view/ProcessDashboard";
 import CasesDashboard from "../view/CasesDashboard";
 import CaseView from "../view/CaseView";
 import { SettingsObject } from "../model/SettingsObject";
+import { Process } from "../model/Process";
 
 export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     const [showProcessDashboard, setShowProcessDashboard] = useState(false);
     const settingsObject = useRef(null);
     const [defaultProcessId, setDefaultProcessId] = useState(null);
-    const [paramsParsed, setParamsParsed] = useState(null);
+    const [urlParamsParsed, setUrlParamsParsed] = useState(null);
     const [model, setModel] = useState(null);
     const [processes, setProcesses] = useState([]);
     const [cases, setCases] = useState([]);
     const [activeCase, setActiveCase] = useState(null);
     // incremented through edits in fields and next/back clicks, to force CaseDashboard to update the progress on the active case
     const [changeNotifs, setChangeNotifs] = useState(0);
+    const [modelInitiated, setModelInitiated] = useState(false);
 
     useEffect(() => {
-        if (!paramsParsed) {
-            let parsed = parse(location.search);
-            // console.log("URL params: ", parsed);
-            setParamsParsed(parsed);
-        }
         if (!model) {
             let newModel: Model = new Model(props.context);
             setModel(newModel);
@@ -37,14 +34,57 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
                     newModel.initSettings(settingsObject.current, procs[0].id).then(() => {
                         setDefaultProcessId(settingsObject.current.defaultProcessId);
                         setShowProcessDashboard(settingsObject.current.showProcessDashboard);
+                        // initStorage is done at this point
+                        newModel.getInitialCases(procs, iniCases => {
+                            setCases(iniCases);
+                            // if startCaseByEmail, the default process needs to be set, that's why this barrier
+                            // moved after cases are init to detect a possible duplicate
+                            setModelInitiated(true);
+                        });
                     });
                     setProcesses(procs);
-                    // initStorage is done at this point
-                    newModel.getInitialCases(procs, iniCases => {
-                        setCases(iniCases);
-                    });
                 });
             });
+        }
+
+        if (modelInitiated && !urlParamsParsed) {
+            let parsed = parse(location.search);
+            console.log("URL params: ", parsed);
+            setUrlParamsParsed(parsed);
+            if (parsed['startCaseByEmail']) {
+                let folderName = parsed['startCaseByEmail'].toString();
+                let existingCase = null;
+                for (let i = 0; i < cases.length; i++) {
+                    if (cases[i].caseFolder && cases[i].caseFolder.getFolderName() === folderName) {
+                        existingCase = cases[i];
+                        break;
+                    }
+                }
+                if (existingCase) {
+                    console.log('A case with folder ' + folderName + ' already exists, not opening a new case. Opening the existing case for editing.');
+                    onContinueCase(existingCase);
+                    // Also show something that the user sees instead of doing this silently? TODO
+                    // set selectedCaseInTable in CasesDashboard for highlighting TODO
+                } else {
+                    console.log("Starting new default case via email");
+                    onStartDefaultCase(parsed['startCaseByEmail'].toString());
+                }
+            }
+
+            if (parsed['caseId'] && parsed['step']) {
+                let caseId = parsed['caseId'].toString();
+                let step = Number(parsed['step'].toString().split('#')[0]); // a # might be added when clicking on links
+                let caseObj = cases.filter(c => c.id === caseId)[0];
+                if (caseObj) {
+                    console.log("Opening case at step as encoded in URL");
+                    caseObj.setStep(step);
+                    // that seems a bit hackish
+                    caseObj.values[caseObj.process.modules[step].id]['responsibleUsersStatus'] = 'responsibleUserArrived';
+                    onContinueCase(caseObj);
+                } else {
+                    console.log("No case found with ID " + caseId);
+                }
+            }
         }
     });
 
@@ -57,8 +97,8 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
 
     // called from ProcessDashboard
 
-    const onStartCase = proc => {
-        model.newCaseFromProcess(proc).then(caseObj => {
+    const onStartCase = (proc: Process, caseFolderNameViaEmail: string = null) => {
+        model.newCaseFromProcess(proc, caseFolderNameViaEmail).then(caseObj => {
             setCases([...cases, caseObj]);
             setActiveCase(caseObj);
         });
@@ -103,12 +143,12 @@ export default function GuidoWebPart(props: IGuidoWebPartProps) {
         setCases(cases.filter(c => c !== caseObj));
     };
 
-    const onStartDefaultCase = () => {
+    const onStartDefaultCase = (caseFolderNameViaEmail: string = null) => {
         if (!defaultProcessId) {
             console.log("No default process ID set, don't know from which process to start a case");
             return;
         }
-        onStartCase(processes.filter(proc => proc.id === defaultProcessId)[0]);
+        onStartCase(processes.filter(proc => proc.id === defaultProcessId)[0], caseFolderNameViaEmail);
     };
 
     // called from CaseView

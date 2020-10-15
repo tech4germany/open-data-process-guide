@@ -16,6 +16,8 @@ import { CaseFile, CaseFolder } from "./CaseFolder";
 import { SettingsObject } from "./SettingsObject";
 import { Specifications } from "./Specifications";
 import { SPUser } from "@microsoft/sp-page-context";
+import "@pnp/sp/sputilities";
+import { IEmailProperties } from "@pnp/sp/sputilities";
 
 const SETTINGS_LIST_NAME: string = 'guido-settings';
 const SETTINGS_JSON_FIELD_NAME: string = 'settingsJSON';
@@ -75,7 +77,7 @@ export class Model {
             console.log("Created list: " + PROCESSES_LIST_NAME);
             // it has to be addMultilineText, not just addText, otherwise limited to 255 characters
             await procsListEnsure.list.fields.addMultilineText(PROCESS_JSON_FIELD_NAME);
-            Promise.all(config.processes.map(conf => this.importFromJSON(conf, null))).then(() => {});
+            Promise.all(config.processes.map(procConf => this.importFromJSON(procConf, null))).then(() => {});
         }
         if (casesListEnsure.created) {
             console.log("Created list: " + CASES_LIST_NAME);
@@ -226,11 +228,37 @@ export class Model {
 
     // CASES
 
-    public newCaseFromProcess(proc: Process): Promise<Case> {
+    public newCaseFromProcess(proc: Process, existingCaseFolderNameViaEmail: string = null): Promise<Case> {
         return new Promise<Case>(resolve => {
             let caseObj: Case = new Case(this.specifications);
             caseObj.initNewCase(proc);
-            this.writeCaseToStorage(caseObj, resolve);
+
+            const doWriteToStorage = () => {
+                this.writeCaseToStorage(caseObj, resolve);
+            };
+
+            if (existingCaseFolderNameViaEmail) {
+                let existingCaseFolderPath = CASE_FILES_DIR + '/' + existingCaseFolderNameViaEmail;
+                sp.web.getFolderByServerRelativeUrl(existingCaseFolderPath).getShareLink(SharingLinkKind.OrganizationEdit).then(result => {
+                    let caseFolder = new CaseFolder(existingCaseFolderPath,  result.sharingLinkInfo.Url);
+                    caseObj.setCaseFolder(caseFolder);
+                    sp.web.getFolderByServerRelativeUrl(existingCaseFolderPath).files.get().then(files => {
+                        files.map(f => {
+                            caseFolder.addCaseFile(new CaseFile(
+                                f.ServerRelativeUrl,
+                                f.Name,
+                                f.Name.split('.')[1]
+                            ));
+                        });
+                        // extract these params dynamically instead of hardwired? TODO
+                        // caseObj.setStep(1);
+                        caseObj.setValue('data-upload', 'uploader', caseObj.caseFolder.getJSONconfig());
+                        doWriteToStorage();
+                    });
+                });
+            } else {
+                doWriteToStorage();
+            }
         });
     }
 
@@ -287,7 +315,6 @@ export class Model {
     public importCaseFromListItem(caseConf: any, listID: number, proc: Process): Promise<Case> {
         return new Promise<Case>(resolve => {
             let caseObj: Case = new Case(this.specifications);
-            // TODO export/import CaseFolder, scan for files automatically
             caseObj.initExistingCase(caseConf, proc);
             caseObj.setListItemID(listID);
             resolve(caseObj);
@@ -314,17 +341,17 @@ export class Model {
                 for (let i = 0; i < fileList.length; i++) {
                     let file = fileList[i];
                     // for large (?) files, upload in chunks instead: https://pnp.github.io/pnpjs/sp/files/#adding-files
-                    promises.push(sp.web.getFolderByServerRelativeUrl(caseObj.caseFolder.path).files.add(file.name, file, true));
+                    promises.push(sp.web.getFolderByServerRelativeUrl(caseObj.caseFolder.folderPath).files.add(file.name, file, true));
                 }
                 Promise.all(promises).then(uploadedFiles => {
                     uploadedFiles.map(f => {
                         caseObj.caseFolder.addCaseFile(new CaseFile(
                             f.data.ServerRelativeUrl,
                             f.data.Name,
-                            f.data.Name.split('.')[1], // make this more robust
+                            f.data.Name.split('.')[1] // make this more robust
                         ));
                     });
-                    uploadedFiles.map(f => console.log("Uploaded file: " + f.data.Name + ' to ' + caseObj.caseFolder.path));
+                    uploadedFiles.map(f => console.log("Uploaded file: " + f.data.Name + ' to ' + caseObj.caseFolder.folderPath));
                     resolve();
                 });
             };
@@ -343,6 +370,19 @@ export class Model {
                     });
                 });
             }
+        });
+    }
+
+    // EMAIL
+
+    public sendEmail(email: string, subject: string, body: string) {
+        // https://pnp.github.io/pnpjs/sp/sp-utilities-utility/#usage
+        sp.utility.sendEmail({
+            To: [email],
+            Subject: subject,
+            Body: body
+        }).then(() => {
+            console.log("Email sent to " + email);
         });
     }
 }

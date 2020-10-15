@@ -26,10 +26,13 @@ export default function Field(props: IFieldProps) {
             setParams(props.details);
         }
         if (!value && params) {
+            // TODO nicer if-else construct?
             if (params.type === 'multi-select-checkboxes' && !props.initialValue) {
                 let encodedStr = '';
                 params.options.map(o => encodedStr += '0');
                 setValue(encodedStr);
+            } else if (params.type === 'day-picker-from-to' && !props.initialValue) {
+                setValue('|');
             } else {
                 setValue(props.initialValue);
             }
@@ -45,7 +48,7 @@ export default function Field(props: IFieldProps) {
                         {fieldEl}
                     </td>
                     <td>
-                        {wrapInfoIconInHoverCard(<Icon iconName='Info' style={iconStyle}/>)}
+                        {params.info && wrapInfoIconInHoverCard(<Icon iconName='Info' style={iconStyle}/>)}
                     </td>
                 </tr>
             </tbody>
@@ -111,39 +114,99 @@ export default function Field(props: IFieldProps) {
         return <>{rowElements}</>;
     };
 
+    const buildDayPickerFromTo = () => {
+        let label1 = params.label.split('|')[0];
+        let label2 = params.label.split('|')[1];
+        let value1 = value ? value.split('|')[0] : '';
+        let value2 = value ? value.split('|')[1] : '';
+        return <table>
+            <tbody>
+            <tr>
+                <td style={stylesDef.shortFieldTdLeft}>
+                    <TextField
+                        label={label1}
+                        value={value1}
+                        placeholder={params.placeholder}
+                        onChanged={val => {
+                            let newValue = val + '|' + value.split('|')[1];
+                            setValue(newValue);
+                            props.onEdit(newValue);
+                        }}
+                    />
+                </td>
+                <td style={stylesDef.shortFieldTdRight}>
+                    <TextField
+                        label={label2}
+                        value={value2}
+                        placeholder={params.placeholder}
+                        onChanged={val => {
+                            let newValue = value.split('|')[0] + '|' + val;
+                            setValue(newValue);
+                            props.onEdit(newValue);
+                        }}
+                    />
+                </td>
+                <td>
+                    {wrapInfoIconInHoverCard(<Icon iconName='Info' style={stylesDef.infoIconSingleRow}/>)}
+                </td>
+            </tr>
+            </tbody>
+        </table>;
+    };
+
     const buildField = () => {
         // developer.microsoft.com/en-us/fluentui#/controls/web
         switch(params.type) {
+            case 'label-only':
+                // TODO can have info too
+                return <b>{params.label}</b>;
+            case 'day-picker-from-to':
+                return buildDayPickerFromTo();
             case 'tag-creator':
-                // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
+            // build one following this: https://github.com/microsoft/fluentui/issues/9008#issuecomment-490600178
+            case 'multitextfieldlong':
             case 'multitextfield':
             case 'textfield':
-                let isMulti = params.type === 'multitextfield';
+                let isMulti = false;
+                let textFieldRows = 1;
+                let textFieldIconStyle = stylesDef.infoIconSingleRow;
+                if (params.type === 'multitextfield') {
+                    isMulti = true;
+                    textFieldRows = 5;
+                    textFieldIconStyle = stylesDef.infoIconMultiRow;
+                }
+                if (params.type === 'multitextfieldlong') {
+                    isMulti = true;
+                    textFieldRows = 12;
+                    textFieldIconStyle = stylesDef.infoIconMultiRowLong;
+                }
                 // multiline etc. if needed: https://github.com/dock365/reform-fabric-fields/blob/9c67bbadc4715a740187d074f6e32bc4e16a97aa/src/MultilineTextField.tsx#L38
                 return wrapInTable(
                     <TextField
                         label={params.label + (params.mandatory ? ' *' : '')}
                         value={value ? value : ''}
                         multiline={isMulti}
-                        rows={isMulti ? 5 : 1}
+                        rows={textFieldRows}
                         placeholder={params.placeholder ? params.placeholder : ''}
                         onChanged={val => {
                             setValue(val);
                             props.onEdit(val);
                         }}
                     />,
-                    stylesDef.fieldTdStyle,
-                    isMulti ? stylesDef.infoIconMultiRow : stylesDef.infoIconSingleRow
+                    stylesDef.fieldTd,
+                    textFieldIconStyle
                 );
             case 'checkbox':
-                return <Checkbox
+                return wrapInTable(<Checkbox
                     label={params.label}
                     checked={value ? value : false}
                     onChange={(e, isChecked) => {
                         setValue(isChecked);
                         props.onEdit(isChecked);
                     }}
-                />;
+                />,
+                null,
+                null);
             case 'multi-select-checkboxes':
                 return <>
                     {wrapInTable(params.label, null, stylesDef.infoIconLabel)}
@@ -159,18 +222,28 @@ export default function Field(props: IFieldProps) {
                     <UploadFilesField
                         model={props.model}
                         case={props.case}
+                        onEdit={props.onEdit}
                     />
                 </>;
+            case 'select-dropdown':
+            case 'radiobox-group-two':
             default:
-                return <>{params.label}': not yet implemented'</>;
+                return <>{params.label} {'-->'} <i>{params.type}, not yet implemented</i></>;
         }
     };
 
     // STYLES
 
     let stylesDef: any = {
-        fieldTdStyle: {
+        fieldTd: {
             width: '100%'
+        },
+        shortFieldTdLeft: {
+            width: '40%',
+            paddingRight: '20px'
+        },
+        shortFieldTdRight: {
+            width: '40%'
         },
         // transform and color is the same in all, share it somehow? TODO
         infoIconSingleRow: {
@@ -181,6 +254,12 @@ export default function Field(props: IFieldProps) {
         },
         infoIconMultiRow: {
             paddingBottom: '24px',
+            paddingLeft: '15px',
+            transform: 'scale(1.4)',
+            color: '#00000080'
+        },
+        infoIconMultiRowLong: {
+            paddingBottom: '112px',
             paddingLeft: '15px',
             transform: 'scale(1.4)',
             color: '#00000080'

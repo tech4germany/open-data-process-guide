@@ -3,7 +3,12 @@ export class CaseFolder {
     public caseFiles: CaseFile[] = [];
 
     // ServerRelativeUrl + SharingLinkKind.OrganizationEdit
-    constructor(public path: string, public folderSharingLink: string) {}
+    constructor(public folderPath: string, public folderSharingLink: string) {}
+
+    public getFolderName(): string {
+        let split = this.folderPath.split('/');
+        return split[split.length - 1];
+    }
 
     public addCaseFile(caseFile: CaseFile) {
         this.caseFiles.push(caseFile);
@@ -13,6 +18,13 @@ export class CaseFolder {
         return this.caseFiles;
     }
 
+    public getJSONconfig(): any {
+        return {
+            folderPath: this.folderPath,
+            folderSharingLink: this.folderSharingLink,
+            fileNames: this.caseFiles.map(cf => cf.filename)
+        };
+    }
 }
 
 export class CaseFile {
