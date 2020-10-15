@@ -212,11 +212,16 @@ export class Model {
                 // orderedTasks.pop(); // remove EndEvent
 
                 let process: Process = new Process(fileName, fileName, '');
-                process.setModules(orderedTasks.map(task => task.name));
+                process.setModules(orderedTasks.map(task => this.getModuleIdByModuleName(task.name)));
                 this.writeProcessToStorage(process, resolve);
             });
         });
     }
+
+    public getModuleIdByModuleName = moduleName => {
+        // needs the module names to match exactly, that can break easily TODO
+        return Object.keys(config.modules).filter(mId => config.modules[mId].name === moduleName)[0];
+    };
 
     public deleteProcessFromStorage = async(proc: Process) => {
         if (Utils.isDevEnv()) {
