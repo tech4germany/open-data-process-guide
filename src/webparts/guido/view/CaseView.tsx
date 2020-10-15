@@ -132,7 +132,11 @@ export default function CaseView(props: ICaseViewProps) {
                                     <br/>
                                     von {getAuthor()}
                                 </div>
-                                {props.case.caseFolder && props.case.caseFolder.folderSharingLink && <Button className={styles.headerbutton}>Datensatz einsehen</Button>}
+                                {props.case.caseFolder && props.case.caseFolder.folderSharingLink &&
+                                    <Button onClick={() => {
+                                        window.open(props.case.caseFolder.folderSharingLink, "_blank");
+                                    }} className={styles.headerbutton}>Datensatz einsehen</Button>
+                                }
                             </div>
                             <div className={styles.headerfortschritt}>
                                 <div className={styles.headerfortschritttext}>
