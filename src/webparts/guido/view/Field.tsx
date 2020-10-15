@@ -280,7 +280,9 @@ export default function Field(props: IFieldProps) {
             paddingBottom: '15px'
         },
         hoverCardDiv: {
-            padding: '20px'
+            padding: '20px',
+            width: '400px',
+            textAlign: 'justify' as "justify",
         }
     };
 

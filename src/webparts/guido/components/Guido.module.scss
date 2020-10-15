@@ -56,3 +56,62 @@
     padding-right: 40px;
 }
 
+// Styling for Header
+
+.headercontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+}
+.headertitlecontainer {
+  flex-direction: column;
+  margin-left: 64px;
+}
+.headerfortschritt {
+  display: flex;
+  flex-direction: column;
+  margin-right: 64px;
+}
+.headerbutton{
+ justify-content: left;
+ margin-top: 16px;
+ margin-bottom: 16px;
+}
+.headertitle{
+ justify-content: left;
+ font-size: 24px;
+}
+.headersubtitle{
+ justify-content: left;
+ font-size: 16px;
+}
+.headerfortschritttext {
+  font-size: 16px;
+  margin-left: 10px;
+}
+.headericons {
+  margin-left: 10px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.headericon {
+  font-size: 16px;
+  color: #DEDEDE;
+}
+.headericonfilled {
+  font-size: 16px;
+  color: #0078D7;
+}
+.headerhr{
+  width: 20px;
+  border-bottom: 1px solid #DEDEDE;
+  display: inline;
+}
+.headerhrfilled{
+  width: 20px;
+  border-bottom: 1px solid #0078D7;
+  display: inline;
+}
+
