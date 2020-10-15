@@ -32,6 +32,8 @@ export default function Task(props: ITaskProps) {
             let responsibleUsersStatus = props.case.values[props.module.id].responsibleUsersStatus;
             if (responsibleUsersStatus) {
                 setTaskClaimStatus(responsibleUsersStatus);
+            } else {
+                setTaskClaimStatus('currentUser');
             }
         }
     });
@@ -53,7 +55,15 @@ export default function Task(props: ITaskProps) {
     };
 
     const getRole = () => {
-        return  props.model.specifications.config.roles[props.module.config.responsible];
+        let role = props.model.specifications.config.roles[props.module.config.responsible];
+        if (role) {
+            return role;
+        }
+        return {
+            article: '',
+            label: '',
+            email: ''
+        };
     };
 
     const currentUserClaimsTask = () => {
