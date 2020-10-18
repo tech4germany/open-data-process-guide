@@ -2,6 +2,19 @@
 
 GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen further down and the official project page can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
 
+## Software architecture
+
+To satisfy the fundamental requirement of maximum flexibility in designing the open-data-publishing processes, the central piece that all definitions stem from is the `config.json` file. Here, processes are described as an ordered series of modules. These modules are each described as an ordered series of fields that have different types - string renders as textfield, boolean renders as checkbox etc. Some fields are optional wheras others are mandatory. Once a new process of publishing open data is started (instantiated) we call it a case ("Bereitstellung") consisting of instantiated modules called tasks. The users sees always one task at a time, consisting of fields to fill out in the style of a form.
+
+TODO
+URL params, Start via Email, email notif external, persisting or not
+ProcessDashboard, CasesDashboard, CaseView
+
+## Frameworks used
+
+TODO
+SharePoint & React
+
 ## Deployment in SharePoint
 
 yo @microsoft/sharepoint
