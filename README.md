@@ -1,5 +1,6 @@
-# Open Data Process Guide
+# GUIDO: Open Data Process Guide
 
+GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen further down and the official project page can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
 
 ## Deployment in SharePoint
 
