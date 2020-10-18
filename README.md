@@ -77,7 +77,7 @@ We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https
 
 <img src="https://user-images.githubusercontent.com/5141792/93686296-98ee4c80-fab5-11ea-877d-9ecf9dfbb2f7.jpg">
 
-Project partners were:
+Alongside Tech4Germany, our project partners were **Jemila Kehinde** and **Jens Schüring** from the Federal Foreign Office and **Christian Horn**, **Antje Göldner** and **Christian Wittig** from GovData.
 
 <table><tr><td>
 <img src="https://user-images.githubusercontent.com/5141792/96272478-6cebbb80-0fce-11eb-91d3-d4e02af8fe6b.png"" width="200" ></td>
@@ -85,3 +85,4 @@ Project partners were:
 <img src="https://user-images.githubusercontent.com/5141792/96272475-6bba8e80-0fce-11eb-8d58-0bfc705f30da.png" width="200" ></td>
 <td>
 <img src="https://user-images.githubusercontent.com/5141792/96272480-6cebbb80-0fce-11eb-9924-fdb45ecd9a8f.png" width="200" ></td></tr></table>
+
