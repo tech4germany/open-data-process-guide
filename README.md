@@ -12,7 +12,7 @@ SharePoint & React
 
 To satisfy the requirement of maximum flexibility in designing the open-data-publishing processes, the central piece that all definitions stem from is the `config.json` file in `src/webparts/guido/model`. Here, processes are described as an ordered series of module IDs. These modules are each described as an ordered series of fields that have different types - string renders as textfield, boolean renders as checkbox etc. Some fields are optional wheras others are mandatory. Once a new process of publishing open data is started (instantiated) we call it a case ("Bereitstellung") consisting of instantiated modules called tasks.
 
-The users sees always one task at a time, consisting of fields to fill out in the style of a form. Next to each field is an info-icon providing more info, also sourced from the JSON file. Some tasks have roles assigned that are reponsible for them. If a users reaches such a task, it can either be claimed to do now or to notify the responsible role. That triggers an email containing a link that leads to only this task of the overall case. By utilizing [Power Automate](#power-automate), GUIDO supports the workflow of receieving files via email. The sender gets an email back containing a link that lets them start a new case with these files already included.
+The users sees always one task at a time, consisting of fields to fill out in the style of a form. Next to each field is an info-icon providing more info, also sourced from the JSON file. Some tasks have roles assigned that are reponsible for them. If a users reaches such a task, it can either be claimed to do now or to notify the responsible role. That triggers an email containing a link that leads to only this task of the overall case. By utilizing [Power Automate](#power-automate-workflow), GUIDO supports the workflow of receieving files via email. The sender gets an email back containing a link that lets them start a new case with these files already included.
 
 Since being a web part on a SharePoint does not come with the option to choose own URL routing (e.g. `/dashboard`), we use URL-encoded parameter to signalize specific entry points to the application.f This happens in two cases:
 
@@ -21,9 +21,17 @@ Since being a web part on a SharePoint does not come with the option to choose o
 
 If data of ongoing cases and of uploaded files is persisted depends on the environment GUIDO is running in. If its the local workbench, no data storage/retrieval happens. If deployed in a SharePoint it does happen by utilizing *Lists* and *Documents*.
 
-## Power Automate
+## Power Automate Workflow
 
-TODO
+*Microsoft Power Automate* is a tool included in most of the "Microsoft 365" subscriptions. The following flow makes it possible to save files received via email to a newly created folder in SharePoint documents and sent an email back to the sender. The flow looks as follows:
+
+<img src="https://user-images.githubusercontent.com/5141792/96445985-0e624f80-1211-11eb-9b7c-c4554191f208.png" width="250" >
+
+The fully expanded view of the flow can be seen [here](https://user-images.githubusercontent.com/5141792/96445978-0bfff580-1211-11eb-8b99-a85ec92267e6.png). The formula to define the name of the new folder is the following:
+
+```sh
+concat('viaEmail_',formatDateTime(utcNow(),'ddMMyyyyHHmmss'),'_',rand(0,99))
+```
 
 ## Deployment in SharePoint
 
@@ -104,7 +112,7 @@ We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https
 Alongside Tech4Germany, our project partners were **Jemila Kehinde** and **Jens Schüring** from the Federal Foreign Office and **Christian Horn**, **Antje Göldner** and **Christian Wittig** from GovData.
 
 <table><tr><td>
-<img src="https://user-images.githubusercontent.com/5141792/96272478-6cebbb80-0fce-11eb-91d3-d4e02af8fe6b.png"" width="200" ></td>
+<img src="https://user-images.githubusercontent.com/5141792/96272478-6cebbb80-0fce-11eb-91d3-d4e02af8fe6b.png" width="200" ></td>
 <td>
 <img src="https://user-images.githubusercontent.com/5141792/96272475-6bba8e80-0fce-11eb-8d58-0bfc705f30da.png" width="200" ></td>
 <td>
