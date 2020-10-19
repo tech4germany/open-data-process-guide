@@ -1,19 +1,29 @@
 # GUIDO: Open Data Process Guide
 
-GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen further down and the official project page can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
+GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen [further down](#team-and-project-partners) and the official project page can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
+
+## Environment and Frameworks
+
+web part
+lists, documents, user mgmt
+SharePoint & React
 
 ## Software architecture
 
-To satisfy the fundamental requirement of maximum flexibility in designing the open-data-publishing processes, the central piece that all definitions stem from is the `config.json` file. Here, processes are described as an ordered series of modules. These modules are each described as an ordered series of fields that have different types - string renders as textfield, boolean renders as checkbox etc. Some fields are optional wheras others are mandatory. Once a new process of publishing open data is started (instantiated) we call it a case ("Bereitstellung") consisting of instantiated modules called tasks. The users sees always one task at a time, consisting of fields to fill out in the style of a form.
+To satisfy the requirement of maximum flexibility in designing the open-data-publishing processes, the central piece that all definitions stem from is the `config.json` file in `src/webparts/guido/model`. Here, processes are described as an ordered series of module IDs. These modules are each described as an ordered series of fields that have different types - string renders as textfield, boolean renders as checkbox etc. Some fields are optional wheras others are mandatory. Once a new process of publishing open data is started (instantiated) we call it a case ("Bereitstellung") consisting of instantiated modules called tasks.
+
+The users sees always one task at a time, consisting of fields to fill out in the style of a form. Next to each field is an info-icon providing more info, also sourced from the JSON file. Some tasks have roles assigned that are reponsible for them. If a users reaches such a task, it can either be claimed to do now or to notify the responsible role. That triggers an email containing a link that leads to only this task of the overall case. By utilizing [Power Automate](#power-automate), GUIDO supports the workflow of receieving files via email. The sender gets an email back containing a link that lets them start a new case with these files already included.
+
+Since being a web part on a SharePoint does not come with the option to choose own URL routing (e.g. `/dashboard`), we use URL-encoded parameter to signalize specific entry points to the application.f This happens in two cases:
+
+- The `startCaseByEmail`-key signalizes to GUIDO that a new case should be started from the default process and the value is the SharePoint documents folder containing the files already uploaded via email
+- The combination of `caseId` and `step` signalizes that an external responsible role has come to work on only one specific task
+
+If data of ongoing cases and of uploaded files is persisted depends on the environment GUIDO is running in. If its the local workbench, no data storage/retrieval happens. If deployed in a SharePoint it does happen by utilizing *Lists* and *Documents*.
+
+## Power Automate
 
 TODO
-URL params, Start via Email, email notif external, persisting or not
-ProcessDashboard, CasesDashboard, CaseView
-
-## Frameworks used
-
-TODO
-SharePoint & React
 
 ## Deployment in SharePoint
 
@@ -81,7 +91,7 @@ Cool right?! :sunglasses:
 
 </details>
 
-# Team & project partners
+# Team and project partners
 
 We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https://tech.4germany.org/fellowship-2020/) (from left to right):
 - [Tjorven Rohwer](https://www.linkedin.com/in/tjorvenrohwer/)
