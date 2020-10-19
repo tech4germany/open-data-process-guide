@@ -6,7 +6,7 @@ GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 20
 
 As environment for our solution we chose *Microsoft SharePoint*, the reasons are laid out in the project documentation. Within SharePoint there exist a few ways to add own functionality - we chose *Web Part*. They appear as building blocks in the site editor and can thus be added to any SharePoint site. To persist data users are entering into GUIDO, we use *Lists*, a table-based database integrated in SharePoint. To store uploaded files, the *documents* folder of the respective SharePoint site is utilized. This is also connected to *OneDrive* behind the scenes. The user management is only utilized for retrieving the name at this point. [PnPjs](https://pnp.github.io/pnpjs/) was used as library to make the communication with the *SharePoint REST API* more convenient.
 
-Following [this](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part) tutorial, the `yo @microsoft/sharepoint` command was used to create a SharePoint Web Part with *React* as framework and the version "*SharePoint Online only (latest)*". Various *npm*-packages were added to the React app.
+Following [this](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part) tutorial, the `yo @microsoft/sharepoint` command was used to create a SharePoint Web Part skeleton with *React* as framework and the version "*SharePoint Online only (latest)*". More info in the respective [commit message](https://github.com/tech4germany/open-data-process-guide/commit/d3f418f64628d94720e3f6f8749c4c67d72d0eb3). Various *npm*-packages were added to the React app.
 
 ## Software architecture
 
@@ -37,7 +37,7 @@ concat('viaEmail_',formatDateTime(utcNow(),'ddMMyyyyHHmmss'),'_',rand(0,99))
 
 For deploying the web part in a SharePoint environment, we signed up for an online-version offered by Microsoft: "Microsoft 365 Business Standard" (Für Unternehmen) on [this](https://www.microsoft.com/de-de/microsoft-365/business/compare-all-microsoft-365-business-products?tab=2&market=de) site (10,5€ user/month after a 1-month trial).
 
-### Steps taken after setting the above up:
+### Steps taken after setting up a SharePoint environment:
 
 - If multi-factor authentication is on by default, it can be turned off (to make guest-user logins easier) in the "Azure Active Directory admin center" > Dashboard > Properties ([direct link](https://aad.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Properties)) > at the bottom click on "Manage Security defaults" and then move the slider to "No".
 
@@ -49,17 +49,19 @@ For deploying the web part in a SharePoint environment, we signed up for an onli
 
 - To set the permissions for sharing files and folders from SharePoint to "anyone with the link" (= no login required, by default this is not allowed), follow the [instructions here](https://docs.microsoft.com/en-US/sharepoint/change-external-sharing-site).
 
-- To allow emailing users within the organization via *PnPjs*, they need to be members of the SharePoint page in question. For that, add the respective emails at `<SharePoint_Page>/_layouts/15/people.aspx?MembershipGroupId=5`, in our case that is [this link](https://opendataprocess.sharepoint.com/sites/Guido/_layouts/15/people.aspx?MembershipGroupId=5).
+- To allow emailing users within the organization via *PnPjs*, they need to be members of the SharePoint page in question. For that, add the respective emails at `<SharePoint_Page>/_layouts/15/people.aspx?MembershipGroupId=5`.
 
-### Degrees of Deployment
+## Deployment
 
-TODO
+There are a few "degrees of deployment" one can do with a SharePoint Web Part. Running it locally in a workbench is possible and the fastest option for development - however, it is not connected to a SharePoint context and all the features that come with it (from which we use Lists, Documents, Power Automate and Email). 
 
-Add `_layouts/workbench.aspx` to your SharePoint site URL.
+The next level of deployment is run it locally but then going to an online SharePoint site and append `_layouts/workbench.aspx` to the URL. This will run the local web part in an online workbench and thus give access to the entire context there.
 
-## Setup
+The last two levels of deployments require bundling the app locally and adding to an App catalog in SharePoint. The steps are described [above](#steps-taken-after-setting-up-a-sharepoint-environment).
 
-The skeleton for the web part was created using `yo @microsoft/sharepoint`, following the tutorial [here](point/dev/spfx/web-parts/get-started/build-a-hello-world-web-part). More info in the respective [commit message](https://github.com/tech4germany/open-data-process-guide/commit/d3f418f64628d94720e3f6f8749c4c67d72d0eb3).
+### Prerequisites
+
+To run the web part locally, a specific *Node* version is required as well as a globally installed *gulp*:
 
 ```sh
 # node v10.13.0
@@ -69,19 +71,24 @@ nvm install 10.13.0
 nvm use v10.13.0
 
 npm install gulp --global
+# install the dependencies
 npm install
 ```
 
-## Run
+### Run
+
+To run the web part in the local or the online SharePoint workbench: 
 
 ```sh
 gulp serve
 ```
 
-## Build
+### Build
+
+To prepare the `.sppkg` file needed for deployment in the SharePoint app catalog, run these commands:
 
 ```sh
-gulp bundle --ship # ignore the "build failed" message at the end, that's a bug and not true
+gulp bundle --ship # ignore the "build failed" message at the end
 gulp package-solution --ship 
 ```
 
