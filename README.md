@@ -1,6 +1,25 @@
 # GUIDO: Open Data Process Guide
 
-GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen [further down](#team-and-project-partners) and the official project page with the project documentation and other artifacts like the click-dummy can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
+GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The official project page with the project documentation and other artifacts like the click-dummy can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
+
+## Team and project partners
+
+We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https://tech.4germany.org/fellowship-2020/) (from left to right):
+- [Tjorven Rohwer](https://www.linkedin.com/in/tjorvenrohwer/)
+- [Nele Lüpkes](https://www.linkedin.com/in/nelel%C3%BCpkes/), [@SplitSeconds](https://github.com/SplitSeconds)
+- [Daniela Vogel](https://www.linkedin.com/in/daniela-vogel/), [@Dangerousdani](https://github.com/Dangerousdani)
+- [Benjamin Degenhart](https://www.linkedin.com/in/bdegenhart/), [@benjaminaaron](https://github.com/benjaminaaron)
+
+<img src="https://user-images.githubusercontent.com/5141792/93686296-98ee4c80-fab5-11ea-877d-9ecf9dfbb2f7.jpg">
+
+Alongside Tech4Germany, our project partners were **Jemila Kehinde** and **Jens Schüring** from the Federal Foreign Office and **Christian Horn**, **Antje Göldner** and **Christian Wittig** from GovData.
+
+<table><tr><td>
+<img src="https://user-images.githubusercontent.com/5141792/96272478-6cebbb80-0fce-11eb-91d3-d4e02af8fe6b.png" width="200" ></td>
+<td>
+<img src="https://user-images.githubusercontent.com/5141792/96272475-6bba8e80-0fce-11eb-8d58-0bfc705f30da.png" width="200" ></td>
+<td>
+<img src="https://user-images.githubusercontent.com/5141792/96272480-6cebbb80-0fce-11eb-9924-fdb45ecd9a8f.png" width="200" ></td></tr></table>
 
 ## Environment and Frameworks
 
@@ -91,23 +110,3 @@ To prepare the `.sppkg` file needed for deployment in the SharePoint app catalog
 gulp bundle --ship # ignore the "build failed" message at the end
 gulp package-solution --ship 
 ```
-
-# Team and project partners
-
-We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https://tech.4germany.org/fellowship-2020/) (from left to right):
-- [Tjorven Rohwer](https://www.linkedin.com/in/tjorvenrohwer/)
-- [Nele Lüpkes](https://www.linkedin.com/in/nelel%C3%BCpkes/), [@SplitSeconds](https://github.com/SplitSeconds)
-- [Daniela Vogel](https://www.linkedin.com/in/daniela-vogel/), [@Dangerousdani](https://github.com/Dangerousdani)
-- [Benjamin Degenhart](https://www.linkedin.com/in/bdegenhart/), [@benjaminaaron](https://github.com/benjaminaaron)
-
-<img src="https://user-images.githubusercontent.com/5141792/93686296-98ee4c80-fab5-11ea-877d-9ecf9dfbb2f7.jpg">
-
-Alongside Tech4Germany, our project partners were **Jemila Kehinde** and **Jens Schüring** from the Federal Foreign Office and **Christian Horn**, **Antje Göldner** and **Christian Wittig** from GovData.
-
-<table><tr><td>
-<img src="https://user-images.githubusercontent.com/5141792/96272478-6cebbb80-0fce-11eb-91d3-d4e02af8fe6b.png" width="200" ></td>
-<td>
-<img src="https://user-images.githubusercontent.com/5141792/96272475-6bba8e80-0fce-11eb-8d58-0bfc705f30da.png" width="200" ></td>
-<td>
-<img src="https://user-images.githubusercontent.com/5141792/96272480-6cebbb80-0fce-11eb-9924-fdb45ecd9a8f.png" width="200" ></td></tr></table>
-
