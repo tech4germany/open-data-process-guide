@@ -7,7 +7,7 @@ The tool helps to define the process of publishing open data in a ministry and t
 ## Team and project partners
 
 We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https://tech.4germany.org/fellowship-2020/) (from left to right):
-- [Tjorven Rohwer](https://www.linkedin.com/in/tjorvenrohwer/)
+- [Tjorven Rohwer](https://www.linkedin.com/in/tjorvenrohwer/), [@TjorvenRohwer](https://github.com/TjorvenRohwer)
 - [Nele Lüpkes](https://www.linkedin.com/in/nelel%C3%BCpkes/), [@SplitSeconds](https://github.com/SplitSeconds)
 - [Daniela Vogel](https://www.linkedin.com/in/daniela-vogel/), [@Dangerousdani](https://github.com/Dangerousdani)
 - [Benjamin Degenhart](https://www.linkedin.com/in/bdegenhart/), [@benjaminaaron](https://github.com/benjaminaaron)
