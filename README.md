@@ -92,16 +92,6 @@ gulp bundle --ship # ignore the "build failed" message at the end
 gulp package-solution --ship 
 ```
 
----
-
-<details>
-
-<summary>fold out example</summary>
-
-Cool right?! :sunglasses:
-
-</details>
-
 # Team and project partners
 
 We are the Team **Open Data Portal** of the [2020 Tech4Germany fellowship](https://tech.4germany.org/fellowship-2020/) (from left to right):
