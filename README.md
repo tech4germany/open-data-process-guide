@@ -1,12 +1,12 @@
 # GUIDO: Open Data Process Guide
 
-GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen [further down](#team-and-project-partners) and the official project page can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
+GUIDO is a MVP that was created within a 12-week fellowship with Tech4Germany 2020. The team can be seen [further down](#team-and-project-partners) and the official project page with the project documentation and other artifacts like the click-dummy can be found here: [tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/). GUIDO is build to first help define the process of publishing open data in a ministry and then guide federal employees through the process of doing so. This Readme will naturally focus on its software architecture and deployment steps. On the project page there are various further documents going in depth regarding its purpose, how it all came about and what steps would have to be taken to deploy GUIDO for actual usage.
 
 ## Environment and Frameworks
 
-web part
-lists, documents, user mgmt
-SharePoint & React
+As environment for our solution we chose *Microsoft SharePoint*, the reasons are laid out in the project documentation. Within SharePoint there exist a few ways to add own functionality - we chose *Web Part*. They appear as building blocks in the site editor and can thus be added to any SharePoint site. To persist data users are entering into GUIDO, we use *Lists*, a table-based database integrated in SharePoint. To store uploaded files, the *documents* folder of the respective SharePoint site is utilized. This is also connected to *OneDrive* behind the scenes. The user management is only utilized for retrieving the name at this point. [PnPjs](https://pnp.github.io/pnpjs/) was used as library to make the communication with the *SharePoint REST API* more convenient.
+
+Following [this](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part) tutorial, the `yo @microsoft/sharepoint` command was used to create a SharePoint Web Part with *React* as framework and the version "*SharePoint Online only (latest)*". Various *npm*-packages were added to the React app.
 
 ## Software architecture
 
@@ -34,10 +34,6 @@ concat('viaEmail_',formatDateTime(utcNow(),'ddMMyyyyHHmmss'),'_',rand(0,99))
 ```
 
 ## Deployment in SharePoint
-
-yo @microsoft/sharepoint
-
-SharePoint Online only (latest)
 
 For deploying the web part in a SharePoint environment, we signed up for an online-version offered by Microsoft: "Microsoft 365 Business Standard" (Für Unternehmen) on [this](https://www.microsoft.com/de-de/microsoft-365/business/compare-all-microsoft-365-business-products?tab=2&market=de) site (10,5€ user/month after a 1-month trial).
 
