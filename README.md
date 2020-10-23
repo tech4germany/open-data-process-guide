@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/5141792/96492122-716cda00-1243-11eb-9be8-c0bd7955561f.jpg" width="360" >
+<img src="https://user-images.githubusercontent.com/5141792/97000141-9ceb0f80-1536-11eb-92a3-bb437025a9f9.png" width="360" >
 
 GUIDO is a minimum viable product (MVP) that was created within a 12-week fellowship with Tech4Germany 2020. The official project page with the project documentation and other artifacts can be found here: **[tech.4germany.org/project/open-data-portal](https://tech.4germany.org/project/open-data-portal/)**.
 
